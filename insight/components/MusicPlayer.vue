@@ -17,7 +17,7 @@
 
 <script>
 export default {
-  name: 'MusicPlayer',
+  
   data () {
     return {
       current: {},
@@ -25,7 +25,7 @@ export default {
       isPlaying: false,
       songs: [
         {
-          src: require('./assets/rockstar.mp3')
+          src: require('@/assets/rockstar.mp3')
         },
       ],
       player: new Audio()

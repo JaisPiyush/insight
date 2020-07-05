@@ -7,9 +7,11 @@
 </template>
 
 <script>
-import MusicPlayer from "./components/MusicPlayer.vue"
+import MusicPlayer from "@/components/MusicPlayer.vue";
 export default {
-  component:'MusicPlayer',
+  components: {
+    MusicPlayer
+  }
 }
 </script>
 
