@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <header>
+   <!-- <header>
       <h1>My Music</h1>
     </header>
     <main>
@@ -11,7 +11,7 @@
           <button class="pause" v-else @click="pause">Pause</button>
         </div>
       </section>
-    </main>
+    </main> -->
   </div>
 </template>
 
@@ -32,6 +32,16 @@ export default {
     }
   },
   methods: {
+    tooglePlayState: function(){
+      // Will revert the current state of isPlaying and
+      // trigger is play if isPlaying is true and pause if isPlaying is false
+      this.isPlaying = ! this.isPlaying;
+      if(this.isPlaying){
+      this.play(this.songs);
+      }else{
+      this.pause();
+      }
+    },
     play (song) {
       if (typeof song.src != "undefined") {
         this.current = song;
