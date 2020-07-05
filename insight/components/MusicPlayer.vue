@@ -25,7 +25,7 @@ export default {
       isPlaying: false,
       songs: [
         {
-          src: require('@/assets/rockstar.mp3')
+          src: '@/assets/rockstar.mp3'
         },
       ],
       player: new Audio()
