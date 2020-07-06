@@ -1,0 +1,19 @@
+button {
+    color: black;
+    background: transparent;
+    outline: none;
+    border: none;
+    font-size: 1.2rem;
+    display: inline-block;
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+button:active, button:focus{
+    outline: none;
+    color: blue;
+}
+
+.toolbar-container{
+    text-align: center;
+}

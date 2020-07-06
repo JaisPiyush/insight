@@ -15,7 +15,15 @@
     "@nuxtjs/device": "^1.2.7",
     "@nuxtjs/dotenv": "^1.4.0",
     "@nuxtjs/pwa": "^3.0.0-0",
-    "nuxt": "^2.0.0"
+    "@nuxtjs/svg": "^0.1.11",
+    "cropperjs": "^1.5.7",
+    "hammerjs": "^2.0.8",
+    "konva": "^7.0.2",
+    "nuxt": "^2.0.0",
+    "quill": "^1.3.7",
+    "vue-cropperjs": "^4.1.0",
+    "vue-quill-editor": "^3.0.6",
+    "vue2-hammer": "^2.1.2"
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^1.0.0",
