@@ -13,6 +13,7 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      {rel:"stylesheet", href:"https://fonts.googleapis.com/icon?family=Material+Icons"},
       { rel: 'stylesheet', href: "https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Muli:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Roboto:wght@300;400;500&display=swap" },
       { rel: 'stylesheet', href: '/global.css'},
 
@@ -31,8 +32,7 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '~/plugins/cropper.js',
-    {src:'~/plugins/vquill.js',ssr:false}
+    {src:'~/plugins/AppPlugin.js',ssr:false},
   ],
   /*
   ** Nuxt.js dev-modules
@@ -67,7 +67,18 @@ export default {
     ** You can extend webpack config here
     */
     extend (config, ctx) {
-      
+      // config.module.rules.push(
+      //   {
+      //     test: /hammerjs/,
+      //     loader: 'bundle-loader',
+      //     options: {
+      //       lazy: true
+      //     }
+      //   }
+      // )
+      // // Sets webpack's mode to development if `isDev` is true.
+      // if (ctx.isDev) { config.mode = 'development' }
+          
     }
   }
 }

@@ -1,0 +1,42 @@
+<template>
+    <div class="w-20 h-16 mx-2 relative" @click="activateCard()">
+        <!-- Supported Media Type -->
+        <slot></slot>
+    </div>
+</template>
+
+<script>
+// Suported Media Type value image,color,video,song,svg
+export default {
+    props:['mediaType','index','currentIndex','src'],
+    mounted(){
+        if(this.currentIndex === this.index){
+            this.activated = true;
+        }else{
+            this.activated = false;
+        }
+        // console.log(this.src)
+        this.$el.innerHTML = this.src.innerHTML;
+        if (this.mediaType === 'image'){
+        let img = this.$el.querySelector('img');
+        this.dataSrc = img.src;
+        }
+    },
+    data(){
+        return {
+            activated:false,
+            classList: ["w-6","h-12"],
+            dataSrc:undefined
+        }
+    },
+    methods:{
+        activateCard: function(){
+            this.$emit('activation',{index:this.index,mediaType:this.mediaType,src:this.dataSrc});
+        },
+        deactivateCard: function(){
+            // this.$el.classList = this.classList.join(" ");
+        },
+    }
+
+}
+</script>
