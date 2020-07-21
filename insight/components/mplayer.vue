@@ -1,8 +1,8 @@
 <template >
 
-<div class="player">
+<div class="player bg-transparent">
  
-  <audio id="myplayer"  ref="myplayer" v-on:click="show = !show ,playpause()">
+  <audio id="myplayer" ref="myplayer" v-on:click="show = !show ,playpause()">
     <source src="@/assets/attention.mp3" type="audio/mpeg">
   </audio>
   <div @click="show = !show ,playpause()" id="btns">
@@ -36,48 +36,7 @@ export default {
              this.$refs.myplayer.pause();
            }
          },
-        //  scrollpause: function(){
-        //     for(var i = 0; i < videos.length; i++) {
-        //     var video = videos[i];
-
-        //     var x = 0,
-        //         y = 0,
-        //         w = video.width,
-        //         h = video.height,
-        //         r, //right
-        //         b, //bottom 
-        //         visibleX, visibleY, visible,
-        //         parent;
-
-            
-        //     parent = video;
-        //     while (parent && parent !== document.body) {
-        //       x += parent.offsetLeft;
-        //       y += parent.offsetTop;
-        //       parent = parent.offsetParent;
-        //     }
-
-        //     r = x + parseInt(w);
-        //     b = y + parseInt(h);
-          
-
-        //     visibleX = Math.max(0, Math.min(w, window.pageXOffset + window.innerWidth - x, r - window.pageXOffset));
-        //     visibleY = Math.max(0, Math.min(h, window.pageYOffset + window.innerHeight - y, b - window.pageYOffset));
-            
-
-        //     visible = visibleX * visibleY / (w * h);
-
-
-        //     if (visible > fraction) {
-        //       this.$refs.myplayer.play();
-        //     } else {
-        //       this.$refs.myplayer.pause();
-
-        //     }
-        //   }
-
-        //  }
-      udated(){
+      updated(){
         if(this.active === false){
           this.$refs.myplayer.pause();
         }

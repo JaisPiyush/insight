@@ -1,17 +1,17 @@
 <template>
-<div class="flex justify-center">
-    <footer class="footer fixed-bottom sticky-bottom">              
+<div class="flex justify-center top-0 my-2">
+    <footer class="w-full h-auto">              
             <div class="container  box-shadow-2xl: rbga(0,0,0,.05)">
                 <ul class="flex justify-around">
                 
                  
-                      <a class="inline-block px-1 py-1" href="#">
+                      <nuxt-link class="inline-block px-1 py-1" to="/home">
                           <img src="@/assets/svg/home.svg" width="24px" height="24px" />
-                      </a>                  
+                      </nuxt-link>                  
                   
-                      <a class="inline-block px-1 py-1" href="#">
+                      <nuxt-link class="inline-block px-1 py-1" to="/discover">
                           <img src="@/assets/svg/compass.svg" width="24px" height="24px" />
-                      </a>
+                      </nuxt-link>
                  
                       <a class="inline-block  px-1 py-1" href="#">
                           <img src="@/assets/svg/plus.svg" width="24px" height="24px"/>

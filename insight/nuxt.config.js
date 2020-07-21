@@ -60,7 +60,7 @@ export default {
   axios: {
   },
   router:{
-    middleware: ["mobile"]
+
   },
   /*
   ** Build configuration

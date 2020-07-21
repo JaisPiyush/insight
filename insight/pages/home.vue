@@ -20,10 +20,6 @@ import bottomNavbar from '@/components/bottomNavbar.vue';
 import postContainer from '@/components/postContainer.vue';
 
 export default {
-    layout: ({
-        isMobile
-    })=>isMobile ?"mobile":"default",
-  
     components: {
         bottomNavbar,
         postContainer,
