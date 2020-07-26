@@ -3,17 +3,22 @@ import '@/node_modules/cropperjs/dist/cropper.css'
 
 export default function CropImage(elem){
     this.elem = elem;
-    
+    this.width = window.innerWidth;
     this.$init = function(){
         let maxAllowedHeightImage = (60 * window.innerHeight)/100;
         let marginTop = maxAllowedHeightImage - this.elem.clientHeight;
         this.cropper = new Cropper(this.elem,{
             aspectRatio : 16/9,
+            width: this.elem.clientWidth,
             height:this.elem.clientHeight,
             top:marginTop,
+            background:false,
             left:0,
-            crop(event){}
+            responsive:true,
         });
+        let data = this.cropper.getCroppedCanvas();
+        console.log(data);
+
     }
 
     this.rotate = function(){
@@ -23,13 +28,10 @@ export default function CropImage(elem){
     this.cropImage = function(){
         let width = window.screen.width;
         let height = window.innerHeight * 30/100;
-        let data = this.cropper.getCropBoxData({
-            width:width,
-            height:height,
-        });
+        let data = this.cropper.getCanvasData();
         let imageData = this.cropper.getCroppedCanvas({
-            height:height,
-            width: width,
+            height:data.height,
+            width: data.width,
             imageSmoothingEnabled: true,
             imageSmoothingQuality: "medium"
         });

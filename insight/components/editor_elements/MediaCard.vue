@@ -1,7 +1,10 @@
 <template>
     <div class="w-20 h-16 mx-2 relative" @click="activateCard()">
         <!-- Supported Media Type -->
-        <slot></slot>
+        <div class="center-screen-front w-full h-full absolute z-0"></div>
+        <div class="w-full h-full absolute z-10 bg-transparent">
+
+        </div>
     </div>
 </template>
 
@@ -16,7 +19,8 @@ export default {
             this.activated = false;
         }
         // console.log(this.src)
-        this.$el.innerHTML = this.src.innerHTML;
+        let elem = this.$el.getElementsByClassName('center-screen-front')[0];
+        elem.outerHTML = this.src.innerHTML;
         if (this.mediaType === 'image'){
         let img = this.$el.querySelector('img');
         this.dataSrc = img.src;

@@ -24,24 +24,11 @@
       </div>
       <div class="ql-container shadow-lg">
         <!-- Toolbar of Editor -->
-        <div class="toolbar-container bg-white">
-          <!-- Font Face -->
-          <select class="ql-font">
-            <option selected>Lato</option>
-            <option value="muli">Muli</option>
-            <option value="montserrat">Montserrat</option>
-            <option value="roboto">Roboto</option>
-          </select>
-          <select class="ql-color"></select>
-          <button class="ql-italic font-muli font-semibold italic">I</button>
-          <button class="ql-bold font-muli font-semibold italic">B</button>
-
-          <select class="ql-size"></select>
+        <div class="toolbar-container bg-white h-0 display-none">
         </div>
 
         <!--  editor-box -->
-        <div class="ql-editor bg-white shadow-lg" style="height:80vh;">{{text}}</div>
-        <!-- <quill-editor ref="editor" v-model="content" /> -->
+        <div id="quill-editor" class="ql-editor bg-white shadow-lg" style="height:80vh;"></div>
       </div>
     </client-only>
   </div>
@@ -54,22 +41,18 @@ export default {
   updated: function() {
     this.$nextTick(function() {
       if (process.client && this.visible) {
-        // Importing Quill
         var Quill = require('@/node_modules/quill/dist/quill.js')
-        // Importin font formats
-        let Font = Quill.import('formats/font')
-        Font.whitelist = ['lato', 'muli']
-
-        // Quill Registrations
-        Quill.register(Font, true)
-
-        // Setting Quill
         this.quill = new Quill('.ql-editor', {
           modules: {
             toolbar: '.toolbar-container'
           },
-          theme:'snow'
+          
         })
+        if(this.text != undefined){
+          let formedDelta = this.quill.clipboard.convert(this.text);
+          console.log(formedDelta);
+          this.quill.setContents(formedDelta)
+        }
 
         // Arranging Quill Position
         let containers = document.getElementsByClassName('quill-container')
@@ -98,7 +81,10 @@ export default {
       let a = '↵'
       let html = this.quill.root.innerHTML;
       let text = this.quill.getText();
-      let delta = {'html':html,'text':text};
+      let delta = {'html':html,'text':text, 'edited': false};
+      if(this.text != undefined){
+        delta['edited'] = true
+      }
       this.deactivateQuillEditor()
       this.$emit('deltaReceiver', delta)
     },
@@ -144,6 +130,5 @@ export default {
 .ql-font-roboto {
   font-family: 'Roboto';
 }
-
 
 </style>
