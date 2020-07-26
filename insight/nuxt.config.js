@@ -68,17 +68,6 @@ export default {
     ** You can extend webpack config here
     */
     extend (config, ctx) {
-      // config.module.rules.push(
-      //   {
-      //     test: /hammerjs/,
-      //     loader: 'bundle-loader',
-      //     options: {
-      //       lazy: true
-      //     }
-      //   }
-      // )
-      // // Sets webpack's mode to development if `isDev` is true.
-      // if (ctx.isDev) { config.mode = 'development' }
           
     }
   }
