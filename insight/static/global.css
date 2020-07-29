@@ -1,15 +1,49 @@
-.font-lato{
-    font-family: 'Lato', 'Muli', 'Montserrat', sans-serif;
+.font-lato {
+  font-family: 'Lato', 'Muli', 'Montserrat', sans-serif;
 }
 
-.font-muli{
-    font-family: 'Muli', 'Montserrat', sans-serif;
+.font-muli {
+  font-family: 'Muli', 'Montserrat', sans-serif;
 }
 
-.font-montserrat{
-    font-family: 'Montserrat', 'Roboto', sans-serif;
+.font-montserrat {
+  font-family: 'Montserrat', 'Roboto', sans-serif;
 }
 
-.font-roboto{
-    font-family: 'Roboto', sans-serif;
+.font-roboto {
+  font-family: 'Roboto', sans-serif;
+}
+
+.ql-editor {
+  font-family: 'Lato';
+}
+.toolbar-container .ql-font span[data-label='Lato']::before {
+  font-family: 'Lato';
+}
+.toolbar-container .ql-font span[data-label='Muli']::before {
+  font-family: 'Muli';
+}
+.toolbar-container .ql-font span[data-label='Montserrat']::before {
+  font-family: 'Montserrat';
+}
+.toolbar-container .ql-font span[data-label='Roboto']::before {
+  font-family: 'Roboto';
+}
+
+.ql-font-lato {
+  font-family: 'Lato';
+}
+.ql-font-muli {
+  font-family: 'Muli';
+}
+
+.ql-font-montserrat {
+  font-family: 'Montserrat';
+}
+
+.ql-font-roboto {
+  font-family: 'Roboto';
+}
+.ql-size-huge{
+    font-size: 1.25rem;
 }
