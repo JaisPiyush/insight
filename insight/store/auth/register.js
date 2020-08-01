@@ -10,7 +10,10 @@ export const state = () => ({
     username: undefined,
     password: undefined,
     usernameAvailable: undefined,
-    coords:undefined
+    coords:undefined,
+    err:false,
+    errorText:undefined,
+    pageIndex: 1,
 });
 
 export const mutations = {
@@ -35,6 +38,17 @@ export const mutations = {
     updateUsernameAvailability(state, available){
         state.usernameAvailable = available;
     },
+    raiseError(state, text){
+        state.err = true;
+        state.errorText = text;
+    },
+    reduceError(state){
+        state.err = false;
+        state.text = undefined;
+    },
+    updatePageIndex(state, index){
+        state.pageIndex = index;
+    }
 }
 
 export const actions = {
@@ -49,11 +63,10 @@ export const actions = {
         }
     },
 
-    async uploadDatatoServer({state}){
+    uploadDatatoServer({commit,state}){
         if (state.firstName != undefined && state.lastName != undefined, state.username != undefined &&
             state.usernameAvailable === true && (state.email != undefined || state.phoneNumber != undefined) && state.password != undefined
             ){
-                console.log(state);
                 let packet = {"username": state.username, "password": state.password, "first_name": state.firstName,
                               "last_name": state.lastName, "detail": {}};
                 if (state.email != undefined){
@@ -69,21 +82,23 @@ export const actions = {
                 }
                 console.log(packet)
                 const url = `${process.env.SERVER_API}auth/register`;
-                let {data, status} = await this.$axios.post(url, JSON.stringify(packet));
-                console.log(data,status);
-                if (status === 201){
-                    let storage = new FrozenStoreage();
-                    storage.set('token', data.token);
-                    storage.set('first_name', data.first_name);
-                    storage.set('avatar', data.avatar);
-                    this.$router.push('/')
-                }else if(status === 406){
-                    throw new IncompleteDataException();
-                }else if(status === 403){
-                    throw new AccountExistException();
-                }else{
-                    throw new BadRequestException();
-                }
+                this.$axios.post(url, JSON.stringify(packet)).then((response) => {
+                    if(response.status == 201){
+                        let storage = new FrozenStoreage();
+                        storage.set('token', response.data.token);
+                        storage.set('first_name', response.data.first_name);
+                        storage.set('avatar'. response.data.avatar);
+                    }
+                }).catch((err) =>{
+                    if(err.response.status === 403){
+                        commit('raiseError', 'Account already exist try login.');
+                    }else if(err.response.status === 406){
+                        commit('raiseError', 'Form is incomplete.');
+                    }else{
+                        commit('raiseError', 'Something bad is happening');
+                    }
+                    commit('updatePageIndex',1);
+                })
 
             }
     }

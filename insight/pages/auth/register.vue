@@ -1,5 +1,5 @@
 <template>
-  <LoadingContainer :loading="loadingState">
+  <LoadingContainer :loading="loadingState && ! this.err">
     <div
       id="register"
       class="max-w-full px-6 py-0  w-screen h-screen bg-white flex flex-col"
@@ -211,7 +211,7 @@
         <p
           v-if="this.pageIndex > 1"
           class="font-lato font-semibold text-green-400 text-xl"
-          @click="pageIndex = 1"
+          @click="updatePageIndex(1)"
         >
           Back
         </p>
@@ -244,7 +244,6 @@ import {IncompleteDataException, BadRequestExcption, AccountExistException} from
 export default {
   data() {
     return {
-      pageIndex: 1,
       isPasswordMatching: undefined,
       email: undefined,
       phoneNumber: undefined,
@@ -256,8 +255,6 @@ export default {
       loadingState: false,
       otpCode: undefined,
       firebaseInstance: undefined,
-      err: false,
-      errorText: undefined
     }
   },
 
@@ -273,13 +270,17 @@ export default {
       phoneNumberState: state => state.phoneNumber,
       usernameState: state => state.username,
       passwordState: state => state.password,
-      usernameAvailable: state => state.usernameAvailable
+      usernameAvailable: state => state.usernameAvailable,
+      err: state => state.err,
+      pageIndex : state => state.pageIndex,
+      errorText: state => state.errorText
     })
   },
   methods: {
     ...mapMutations('auth/register', [
       'insertFirstPageData',
-      'insesrtSecondPageData'
+      'insesrtSecondPageData',
+      'updatePageIndex'
     ]),
     ...mapActions('auth/register', ['checkUsernameAvailibility','uploadDatatoServer']),
     nextClick: function() {
@@ -304,7 +305,7 @@ export default {
             password: this.password
           });
           
-          this.pageIndex = 2;
+          this.updatePageIndex(2);
         }
         // Verify password is correct
         this.matchPassword(() => {
@@ -370,38 +371,11 @@ export default {
         if(navigator.geolocation){
           navigator.geolocation.getCurrentPosition((position) => {
             data['ccords'] = {'lat': position.coords.latitude, 'long': position.coords.longitude};
-            this.insesrtSecondPageData(data);
+           
           });
-        }else{
-          this.insesrtSecondPageData(data);
         }
-        
-        try{
-          this.uploadDatatoServer();
-          
-        }catch (err){
-          console.log(err)
-          switch(err){
-            case IncompleteDataException:
-              this.loadingState = false;
-              this.pageIndex = 1;
-              this.err = true;
-              this.errorText = 'The Form is incomplete!'
-              break;
-            case BadRequestException:
-              this.loadingState = false;
-              this.pageIndex = 1;
-              this.err = true;
-              this.errorText = 'Something is wrong.'
-              break;
-            case AccountExistException:
-              this.loadingState = true;
-              this.pageIndex = 1;
-              this.err = true;
-              this.errorText = 'Account already exist please login.';
-              break;
-          }
-        }
+        this.insesrtSecondPageData(data);
+        this.uploadDatatoServer();
       }
     },
     verifySecondPageInput: function() {
