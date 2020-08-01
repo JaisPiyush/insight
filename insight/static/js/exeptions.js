@@ -5,9 +5,15 @@ export function IncompleteDataException(){
     return error;
 }
 
-export function BadRequestExcption(){
+export function BadRequestException(){
     const error = new Error('Bad Request');
     error.code = "HTTP_400_BAD_REQUEST";
+    this.prototype = Object.create(Error.prototype);
+    return error;
+}
+export function AccountExistException(){
+    const error = new Error('Account Exist');
+    error.code = "HTTP_403_FORBIDDEN";
     this.prototype = Object.create(Error.prototype);
     return error;
 }

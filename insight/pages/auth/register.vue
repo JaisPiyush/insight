@@ -4,6 +4,7 @@
       id="register"
       class="max-w-full px-6 py-0  w-screen h-screen bg-white flex flex-col"
     >
+     
       <div class="w-full h-12 flex mt-2 mb-2">
         <div
           v-if="this.pageIndex > 1"
@@ -39,7 +40,11 @@
           <span class="text-xl font-muli text-gray-900">2</span>
         </div>
       </div>
-
+       
+      <!-- Error -->
+      <div v-if="this.err"  class="w-full h-10 rounded-md flex mt-2 px-1 py-2 bg-red-500">
+       <p class="font-montserrat text-white font-semibold">{{errorText}}</p>
+     </div>
       <!-- Body -->
       <!-- First Page -->
       <div class="w-full">
@@ -111,7 +116,7 @@
             />
           </div>
         </div>
-        
+
         <!-- Second Body -->
         <!-- <div v-if="this.pageIndex === 2" class="w-full flex flex-col">
           <p class="text-2xl font-muli font-bold text-gray-800 my-4">
@@ -144,14 +149,25 @@
               >Username<span class="text-green-400 font-bold"> *</span></label
             >
             <div class="flex w-full justify-between pr-2">
-            <input
-              v-model="username"
-              autofocus
-              @input="usernameLookup()"
-              class="h-6 px-2 focus:outline-none caret-green font-muli"
-            />
-             <span v-if="this.usernameAvailable != undefined && this.usernameAvailable" class="material-icons stroke-current text-green-400">check</span>
-             <span v-else-if="this.usernameAvailable != undefined && !this.usernameAvailable" class="material-icons stroke-current text-red-400">clear</span>
+              <input
+                v-model="username"
+                @input="usernameLookup()"
+                class="h-6 px-2 focus:outline-none caret-green font-muli"
+              />
+              <span
+                v-if="
+                  this.usernameAvailable != undefined && this.usernameAvailable
+                "
+                class="material-icons stroke-current text-green-400"
+                >check</span
+              >
+              <span
+                v-else-if="
+                  this.usernameAvailable != undefined && !this.usernameAvailable
+                "
+                class="material-icons stroke-current text-red-400"
+                >clear</span
+              >
             </div>
           </div>
 
@@ -220,8 +236,9 @@
 </template>
 
 <script>
-import {mapState, mapMutations, mapActions} from 'vuex';
+import { mapState, mapMutations, mapActions } from 'vuex'
 import LoadingContainer from '@/components/LoadingContainer.vue'
+import {IncompleteDataException, BadRequestExcption, AccountExistException} from "@/static/js/exeptions";
 // import {PhoneAuthentication} from "@/plugins/FirebasePlugin.js";
 
 export default {
@@ -238,7 +255,9 @@ export default {
       lastName: undefined,
       loadingState: false,
       otpCode: undefined,
-      firebaseInstance: undefined
+      firebaseInstance: undefined,
+      err: false,
+      errorText: undefined
     }
   },
 
@@ -246,8 +265,8 @@ export default {
     LoadingContainer
   },
 
-  computed:{
-    ...mapState('auth/register',{
+  computed: {
+    ...mapState('auth/register', {
       firstNameState: state => state.firstName,
       lastNameState: state => state.lastName,
       emailState: state => state.email,
@@ -255,59 +274,80 @@ export default {
       usernameState: state => state.username,
       passwordState: state => state.password,
       usernameAvailable: state => state.usernameAvailable
-    }),
-    
+    })
   },
   methods: {
-    ...mapMutations('auth/register',['insertFirstPageData','insesrtSecondPageData']),
-    ...mapActions('auth/register',['checkUsernameAvailibility']),
+    ...mapMutations('auth/register', [
+      'insertFirstPageData',
+      'insesrtSecondPageData'
+    ]),
+    ...mapActions('auth/register', ['checkUsernameAvailibility','uploadDatatoServer']),
     nextClick: function() {
-      this.verifyFirstPageInput();
+      this.verifyFirstPageInput()
       if (
-        this.email != undefined && this.email != "" &&
-        this.phoneNumber != undefined && this.phoneNumber != "" &&
-        this.password != undefined && this.password != "" &&
-        this.confirmPassword != undefined && this.confirmPassword != ""
+        this.email != undefined &&
+        this.email != '' &&
+        this.phoneNumber != undefined &&
+        this.phoneNumber != '' &&
+        this.password != undefined &&
+        this.password != '' &&
+        this.confirmPassword != undefined &&
+        this.confirmPassword != ''
       ) {
+
+        if (this.password === this.confirmPassword) {
+          console.log(this.password === this.confirmPassword);
+          // Moving on the next page after committing everything to store
+          this.insertFirstPageData({
+            email: this.email,
+            phone: this.phoneNumber,
+            password: this.password
+          });
+          
+          this.pageIndex = 2;
+        }
         // Verify password is correct
         this.matchPassword(() => {
-          this.password = undefined 
+          this.password = undefined
           this.confirmPassword = undefined
-        });
-
-        // Moving on the next page after committing everything to store
-        this.insertFirstPageData({"email": this.email, "phone": this.phoneNumber,
-                                  "password": this.password});
-        this.pageIndex += 1;
-
-        // Firebase setup
-        // this.firebaseInstance = new PhoneAuthentication(this.phoneNumber, 'captcha-elem');
-        // this.firebaseInstance.$captcha();
+        })
+        
       }
     },
 
-    verifyFirstPageInput: function(){
+    verifyFirstPageInput: function() {
       // Verify Email is correct
       let emailElement = document.getElementById('email-field')
-      if (this.email === undefined || this.email.indexOf('@') === -1 || this.email === "") {
+      if (
+        this.email === undefined ||
+        this.email.indexOf('@') === -1 ||
+        this.email === ''
+      ) {
         emailElement.style.setProperty('border-color', '#f56565')
       } else {
         emailElement.style.setProperty('border-color', '#cbd5e0')
       }
 
       // Verify Phone Number is correct
-      let phoneElement = document.getElementById('phone-field');
-      if (this.phoneNumber === undefined || this.phoneNumber.indexOf('+') > -1 || 
-         !(this.phoneNumber.match(/[a-z]/gi) === null) || this.phoneNumber === "") {
+      let phoneElement = document.getElementById('phone-field')
+      if (
+        this.phoneNumber === undefined ||
+        this.phoneNumber.indexOf('+') > -1 ||
+        !(this.phoneNumber.match(/[a-z]/gi) === null) ||
+        this.phoneNumber === ''
+      ) {
         phoneElement.style.setProperty('border-color', '#f56565')
       } else {
         phoneElement.style.setProperty('border-color', '#cbd5e0')
       }
-
     },
     matchPassword: function(func) {
       let passwordField = document.getElementById('password-field')
-      if (this.password != this.confirmPassword || this.password === "" || this.confirmPassword === "") {
+      if (
+        this.password != this.confirmPassword ||
+        this.password === '' ||
+        this.confirmPassword === ''
+      ) {
         passwordField.style.setProperty('border-color', '#f56565')
         if (func != undefined) {
           func()
@@ -317,34 +357,74 @@ export default {
       }
     },
 
-    usernameLookup: function(){
-      this.checkUsernameAvailibility(this.username);
+    usernameLookup: function() {
+      this.checkUsernameAvailibility(this.username)
     },
-    registerClicked: function(){
+    registerClicked: function() {
       // this.loadingState = true;
       this.verifySecondPageInput();
+       console.log(this.username.length, this.firstName.length, this.lastName.length)
+      if(this.username.length >= 6 && this.firstName.length >= 3 && this.lastName.length >= 2){
+        this.loadingState = true;
+        let data = {'firstName':this.firstName, "username": this.username, "lastName": this.lastName};
+        if(navigator.geolocation){
+          navigator.geolocation.getCurrentPosition((position) => {
+            data['ccords'] = {'lat': position.coords.latitude, 'long': position.coords.longitude};
+            this.insesrtSecondPageData(data);
+          });
+        }else{
+          this.insesrtSecondPageData(data);
+        }
+        
+        try{
+          this.uploadDatatoServer();
+          
+        }catch (err){
+          console.log(err)
+          switch(err){
+            case IncompleteDataException:
+              this.loadingState = false;
+              this.pageIndex = 1;
+              this.err = true;
+              this.errorText = 'The Form is incomplete!'
+              break;
+            case BadRequestException:
+              this.loadingState = false;
+              this.pageIndex = 1;
+              this.err = true;
+              this.errorText = 'Something is wrong.'
+              break;
+            case AccountExistException:
+              this.loadingState = true;
+              this.pageIndex = 1;
+              this.err = true;
+              this.errorText = 'Account already exist please login.';
+              break;
+          }
+        }
+      }
     },
-    verifySecondPageInput: function(){
-      let usernameField = document.getElementById('username-field');
-      let first_name = document.getElementById('first-name');
-      let last_name = document.getElementById('last-name');
+    verifySecondPageInput: function() {
+      let usernameField = document.getElementById('username-field')
+      let first_name = document.getElementById('first-name')
+      let last_name = document.getElementById('last-name')
 
-      if(this.username === undefined || !this.usernameAvailable){
-        usernameField.style.setProperty('border-color', '#f56565');
-      }else{
-        usernameField.style.setProperty('border-color', '#cbd5e0');
+      if (this.username === undefined || this.username === '' || !this.usernameAvailable) {
+        usernameField.style.setProperty('border-color', '#f56565')
+      } else {
+        usernameField.style.setProperty('border-color', '#cbd5e0')
       }
 
-      if(this.firstName === undefined || this.firstName === ""){
-        first_name.style.setProperty('border-color', '#f56565');
-      }else{
-        first_name.style.setProperty('border-color', '#cbd5e0');
+      if (this.firstName === undefined || this.firstName === '') {
+        first_name.style.setProperty('border-color', '#f56565')
+      } else {
+        first_name.style.setProperty('border-color', '#cbd5e0')
       }
 
-      if(this.lastName === undefined || this.lastName === ""){
-        last_name.style.setProperty('border-color', '#f56565');
-      }else{
-        last_name.style.setProperty('border-color', '#cbd5e0');
+      if (this.lastName === undefined || this.lastName === '') {
+        last_name.style.setProperty('border-color', '#f56565')
+      } else {
+        last_name.style.setProperty('border-color', '#cbd5e0')
       }
     }
   }
