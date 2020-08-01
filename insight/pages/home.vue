@@ -2,7 +2,7 @@
     <div>
          <bottomNavbar />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <div class="overflow-x-hidden  overflow-y-auto">
+        <div class="overflow-x-hidden  overflow-y-auto mt-0">
             <div class="text-2xl text-center bg-gray-200 m-0">
                 <h1 class="p-2" id="grd">Insight </h1>
             </div>

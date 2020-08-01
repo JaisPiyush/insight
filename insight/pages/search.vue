@@ -25,17 +25,17 @@
 
     <div class="bg-red-100"></div>
     <div>
-      <bottomNavbar class="top-0" />
+      <BottomBar class="top-0" />
     </div>
   </div>
 </template>
 
 <script>
-import bottomNavbar from '@/components/bottomNavbar.vue'
+import BottomBar from '@/components/BottomBar.vue'
 import dropdown from '@/components/dropdown.vue'
 export default {
   components: {
-    bottomNavbar,
+    BottomBar,
     dropdown,
   },
    data(){

@@ -19,17 +19,17 @@
         </div>
     </div>
 
-    <bottomNavbar />
+    <BottomBar />
 </div>
 </template>
 
 
 
 <script>
-import bottomNavbar from '@/components/bottomNavbar.vue';
+import BottomBar from '@/components/BottomBar.vue';
 export default {  
     components: {
-        bottomNavbar,
+        BottomBar,
     },
     data(){
         return{

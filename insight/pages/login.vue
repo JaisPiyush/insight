@@ -1,47 +1,8 @@
 <template>
     <div id="login-page" class="login-page w-full h-auto">
-  <div class="form" style="background-image: url('https://cdn.pixabay.com/photo/2017/08/03/21/51/artist-2578454_960_720.jpg');">
+  <div class="form" style="background-image: url('https://cdn.pixabay.com/photo/2013/01/06/07/14/embroidery-74085_960_720.jpg');">
   <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
-    <form class="login200-form validate-form" v-show="showRegisterForm">
-      <span class="login100-form-title p-b-49 font-bold">
-						INSIGHT
-					</span>
-					<div class="wrap-input100 validate-input m-b-23" data-validate = "Username is reauired">
-						
-						<input class="input200 " type="text" name="username" placeholder="Username">
-					</div>
-                    <div class="wrap-input100 validate-input m-b-23" data-validate = "Username is reauired">
-						
-						<input class="input200 " type="Email" name="Email" placeholder="Email address">
-					</div>
-					<div class="wrap-input100 validate-input" data-validate="Password is required">
-						<input class="input200" type="password" name="pass" placeholder="Password">
-					</div>
-                    <div class="wrap-input100 validate-input" data-validate="Password is required">
-						<input class="input200" type="password" name="pass" placeholder="Confirm password">
-					</div>	
-					<div class="container-login100-form-btn">
-						<div class="wrap-login100-form-btn">
-							<div class="login100-form-bgbtn"></div>
-							<button class="login100-form-btn">
-								Sign Up
-							</button>
-						</div>
-					</div>
-      <div class="flex-col-c text-center p-t-155 p-l-155">
-						<div class="wraptxt4">
-              <span class="p-b-17 text-gray-500">
-							Already have an account Sign In here,
-						</span>
-            </div>
-						<div class="wraptxt3 text-center">
-              <a href="#" class="txt2 " @click.prevent="toggleForm('login')">
-							Sign In
-						</a>
-            </div>
-					</div>
-    </form>
-    <form class="login100-form validate-form" v-show="showLoginForm">
+    <form class="login100-form validate-form">
       <span class="login100-form-title p-b-49 font-bold">
 						INSIGHT
 					</span>
@@ -77,9 +38,9 @@
 						</span>
             </div>
 						<div class="wraptxt3 text-center">
-              <a href="#" class="txt2 " @click.prevent="toggleForm('register')">
+              <button @click="$router.push('/auth/register')" class="txt2">
 							Sign Up
-						</a>
+              </button>
             </div>
 					</div>
     </form>
@@ -91,26 +52,7 @@
 
 <script>
 export default {
-  data() {
-      return {
-        login_message: 'Please enter your credentials to login.',
-        loginStage: 'login100-form',
-        currentForm: 'login',
-      }
-    },
-  computed: {
-        showRegisterForm() {
-        return this.currentForm === 'register';
-    },
-    showLoginForm() {
-        return this.currentForm === 'login';
-    }
-  },
-    methods : {
-        toggleForm() {
-            this.currentForm = this.currentForm === 'login' ? 'register' : 'login';
-        }
-  }
+
 }
 </script>
 
@@ -209,20 +151,7 @@ iframe {
 
 /*//////////////////////////////////////////////////////////////////
 [ Utility ]*/
-.txt1 {
-  font-family: Poppins-Regular;
-  font-size: 0.875rem;
-  line-height: 1.5;
-  background-color: #f3ec78;
-  background-image: linear-gradient(45deg, #75f7ba,rgb(105, 245, 221), #71a0f7, #4577d3);
-  background-size: 100%;
-  background-clip: text;
-  -webkit-background-clip: text;
-  -moz-background-clip: text;
-  -webkit-text-fill-color: transparent; 
-  -moz-text-fill-color: transparent;
-  text-align: center;
-}
+
 
 .txt2 {
   font-family: Poppins-Regular;
@@ -240,12 +169,12 @@ iframe {
 }
 
 .wraptxt1 {
-  padding-top: 0.3125rem;
+  padding-top: 0.5rem;
   
 }
 
 .wraptxt2 {
-  padding-top: 3.75rem;
+  padding-top: 2rem;
 }
 
 .wraptxt3 {
@@ -253,9 +182,6 @@ iframe {
   padding-top: 1rem;
 }
 
-.wraptxt4 {
-  padding-top: 2rem;
-}
 
 /*//////////////////////////////////////////////////////////////////
 [ login ]*/
@@ -286,7 +212,7 @@ iframe {
 
 .wrap-login100 {
 
-  width: 350px;
+  width: 99%;
   background: rgba(0,0,0,.7);
   border-radius: 0.625rem;
   overflow: hidden;
@@ -301,14 +227,6 @@ iframe {
   padding-left: 1.875rem;
   padding-right: 1.875rem;
   padding-top: 1rem;
-}
-
-.login200-form {
-  width: 100%;
-  padding-left: 1.875rem;
-  padding-right: 1.875rem;
-  padding-top: 1rem;
-  
 }
 
 
@@ -348,14 +266,7 @@ iframe {
 .label-input100 {
   font-family: sans-serif;
   font-size: 0.875rem;
-  background-color: #f3ec78;
-  background-image: linear-gradient(45deg, #85f1bf, #6f9df3);
-  background-size: 100%;
-  background-clip: text;
-  -webkit-background-clip: text;
-  -moz-background-clip: text;
-  -webkit-text-fill-color: transparent; 
-  -moz-text-fill-color: transparent;
+  color: rgb(211, 208, 208);
   line-height: 1.5;
   padding-left: 0.4375rem;
 }
@@ -370,22 +281,10 @@ iframe {
   width: 100%;
   height: 3.4375rem;
   background: transparent;
-  padding: 0 0.4375rem 0 2.6875rem;
+  padding: 0 0.4375rem 0 1rem;
   
 }
 
-.input200 {
-  font-family: sans-serif;
-  font-size: 0.875rem;
-  color: #f3ebeb;
-  line-height: 1.2;
-  display: block;
-  width: 100%;
-  height: 2rem;
-  background: transparent;
-  padding: 0 0 0 1rem;
-  
-}
 
 
 /*---------------------------------------------*/
@@ -463,7 +362,7 @@ iframe {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  padding-top: 1.25rem;
+  padding-top: 2rem;
 }
 
 .wrap-login100-form-btn {
