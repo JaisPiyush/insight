@@ -189,13 +189,13 @@
 
       <!-- Bottom -->
       <div class="w-full flex justify-between px-2 py-2 mt-4">
-        <a @click="$router.push('/login')"
+        <p @click="$router.push('/login')"
           v-if="this.pageIndex === 1"
           class="font-lato font-semibold text-green-400 text-xl"
           
         >
           Login
-        </a>
+        </p>
         <p
           v-if="this.pageIndex > 1"
           class="font-lato font-semibold text-green-400 text-xl"

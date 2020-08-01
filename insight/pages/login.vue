@@ -19,7 +19,7 @@
 					</div>
 					
 					<div class="wraptxt1 text-right p-t-8 p-b-31">
-						<a href="#" class="label-input100">
+						<a @click="$router.push('/forgetpass')" class="label-input100">
 							Forgot password?
 						</a>
 					</div>	
