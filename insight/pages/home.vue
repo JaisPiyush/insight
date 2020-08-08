@@ -8,7 +8,7 @@
             </div>
 
             
-        <postContainer />
+        <!-- <postContainer /> -->
         </div>
        
     </div>
@@ -17,12 +17,12 @@
 
 <script>
 import bottomNavbar from '@/components/bottomNavbar.vue';
-import postContainer from '@/components/postContainer.vue';
+// import postContainer from '@/components/postContainer.vue';
 
 export default {
     components: {
         bottomNavbar,
-        postContainer,
+        // postContainer,
     }
 }
 </script>

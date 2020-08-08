@@ -9,7 +9,7 @@
 </template>
 
 <script>
-// Suported Media Type value image,color,video,song,svg
+// Suported Media Type value image,color,video,audio,svg
 export default {
     props:['mediaType','index','currentIndex','src'],
     mounted(){

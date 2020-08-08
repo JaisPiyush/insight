@@ -2,60 +2,23 @@
     <div id="login-page" class="login-page w-full h-auto">
   <div class="form" style="background-image: url('https://cdn.pixabay.com/photo/2017/08/03/21/51/artist-2578454_960_720.jpg');">
   <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
-    <form class="login200-form validate-form" v-show="showRegisterForm">
-      <span class="login100-form-title p-b-49 font-bold">
-						INSIGHT
-					</span>
-					<div class="wrap-input100 validate-input m-b-23" data-validate = "Username is reauired">
-						
-						<input class="input200 " type="text" name="username" placeholder="Username">
-					</div>
-                    <div class="wrap-input100 validate-input m-b-23" data-validate = "Username is reauired">
-						
-						<input class="input200 " type="Email" name="Email" placeholder="Email address">
-					</div>
-					<div class="wrap-input100 validate-input" data-validate="Password is required">
-						<input class="input200" type="password" name="pass" placeholder="Password">
-					</div>
-                    <div class="wrap-input100 validate-input" data-validate="Password is required">
-						<input class="input200" type="password" name="pass" placeholder="Confirm password">
-					</div>	
-					<div class="container-login100-form-btn">
-						<div class="wrap-login100-form-btn">
-							<div class="login100-form-bgbtn"></div>
-							<button class="login100-form-btn">
-								Sign Up
-							</button>
-						</div>
-					</div>
-      <div class="flex-col-c text-center p-t-155 p-l-155">
-						<div class="wraptxt4">
-              <span class="p-b-17 text-gray-500">
-							Already have an account Sign In here,
-						</span>
-            </div>
-						<div class="wraptxt3 text-center">
-              <a href="#" class="txt2 " @click.prevent="toggleForm('login')">
-							Sign In
-						</a>
-            </div>
-					</div>
-    </form>
     <form class="login100-form validate-form" v-show="showLoginForm">
       <span class="login100-form-title p-b-49 font-bold">
-						INSIGHT
+						FREAQUISH
 					</span>
-					<div class="wrap-input100 validate-input m-b-20" data-validate = "Username is reauired">
+					<!-- <div class="wrap-input100 validate-input m-b-20" data-validate = "Username is required">
 					
-						<input class="input100 " type="text" name="username" placeholder="Username">
+						<input class="w-full h-auto border border-white font-muli text-md  py-2 px-4" v-model="username" type="text" name="username" placeholder="Username">
 						
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate="Password is required">
 				
-						<input class="input100" type="password" name="pass" placeholder="Password">
+						<input class="input100" v-model="password" type="password" name="pass" placeholder="Password">
 						
-					</div>
+					</div> -->
+          <input class="w-full h-10 border border-white font-muli corp-black outline-none placeholder  caret-white" placeholder="Email/Phone" v-model="username" type="text" />
+          <input class="w-full h-10 my-2 border border-white font-muli corp-black outline-none placeholder  caret-white" placeholder="Password" v-model="password" type="password" />
 					
 					<div class="wraptxt1 text-right p-t-8 p-b-31">
 						<a href="#" class="label-input100">
@@ -77,8 +40,8 @@
 						</span>
             </div>
 						<div class="wraptxt3 text-center">
-              <a href="#" class="txt2 " @click.prevent="toggleForm('register')">
-							Sign Up
+              <a href="#" class="txt2 " @click="$router.push('/auth/register')">
+							Register
 						</a>
             </div>
 					</div>
@@ -96,6 +59,8 @@ export default {
         login_message: 'Please enter your credentials to login.',
         loginStage: 'login100-form',
         currentForm: 'login',
+        username:undefined,
+        password: undefined
       }
     },
   computed: {
@@ -120,75 +85,18 @@ export default {
 
 <style scoped>
 
-
-
-
-* {
-	margin: 0rem; 
-	padding: 0rem; 
-	box-sizing: border-box;
+.corp-black{
+  background-color: rgba(0,0,0,.03);
 }
 
-body, html {
-	height: 100%;
-	font-family: Poppins-Regular, sans-serif;
+.caret-white{
+  caret-color: white;
 }
 
-/*---------------------------------------------*/
-a {
-	font-family: Poppins-Regular;
-	font-size: 0.875rem;
-	line-height: 1.7;
-	color: #666666;
-	margin: 0px;
-	transition: all 0.4s;
-	-webkit-transition: all 0.4s;
-  -o-transition: all 0.4s;
-  -moz-transition: all 0.4s;
-}
-
-a:focus {
-	outline: none !important;
-}
-
-a:hover {
-	text-decoration: none;
-  color: #a64bf4;
-}
 
 input {
 	outline: none;
-	border: none;
 }
-
-textarea {
-  outline: none;
-  border: none;
-}
-
-textarea:focus, input:focus {
-  border-color: transparent !important;
-}
-
-input:focus::-webkit-input-placeholder { color:transparent; }
-input:focus:-moz-placeholder { color:transparent; }
-input:focus::-moz-placeholder { color:transparent; }
-input:focus:-ms-input-placeholder { color:transparent; }
-
-textarea:focus::-webkit-input-placeholder { color:transparent; }
-textarea:focus:-moz-placeholder { color:transparent; }
-textarea:focus::-moz-placeholder { color:transparent; }
-textarea:focus:-ms-input-placeholder { color:transparent; }
-
-input::-webkit-input-placeholder { color: #a09999;}
-input:-moz-placeholder { color: #a09999;}
-input::-moz-placeholder { color: #a09999;}
-input:-ms-input-placeholder { color: #a09999;}
-
-textarea::-webkit-input-placeholder { color: #a09999;}
-textarea:-moz-placeholder { color: #a09999;}
-textarea::-moz-placeholder { color: #a09999;}
-textarea:-ms-input-placeholder { color: #a09999;}
 
 /*---------------------------------------------*/
 button {

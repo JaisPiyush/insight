@@ -3,9 +3,9 @@
 <div class="player bg-transparent">
  
   <audio id="myplayer" ref="myplayer" v-on:click="show = !show ,playpause()">
-    <source src="@/assets/attention.mp3" type="audio/mpeg">
+    <source src="" type="audio/mpeg">
   </audio>
-  <div @click="show = !show ,playpause()" id="btns">
+  <div @click="show = !show;playpause()" id="btns">
     <p v-if="show"> 
             <img src="@/assets/svg/play-button.svg" width="24px" height="24px"  />
         </p>
@@ -17,6 +17,7 @@
 </template>
 
 <script>
+// Redesign
 export default {
     props: [
       "active",

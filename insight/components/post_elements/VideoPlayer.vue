@@ -5,14 +5,14 @@
   <video id="myplayer" @timeupdate="videoTimeUpdated" :emit="['timeupdate']" ref="myplayer" v-on:click="show = !show ,playpause()">
     <source src="" type="video/mp4" >
   </video>
-  <div class="play-btn" @click="show = !show ,playpause()">
+  <div class="play-btn" @click="show = !show;playpause()">
     <p v-if="show"> 
             <img src="">
         </p>
         <p v-else>       
     </p> 
   </div>
-  <div class="vol-btn" @click="volm = !volm ,muteunmute()">
+  <div class="vol-btn" @click="volm = !volm;muteunmute()">
     <p v-if="volm"> 
             <img src="">
         </p>

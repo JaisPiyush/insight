@@ -17,6 +17,7 @@ export default {
       { rel: 'stylesheet', href: "https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Muli:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Roboto:wght@300;400;500&display=swap" },
       { rel: 'stylesheet', href: '/global.css'},
       {rel: 'stylesheet', href: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"},
+      {rel: 'stylesheet', href: "https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Caveat:wght@700&family=Courgette&family=Dancing+Script:wght@500;700&family=Indie+Flower&family=Lobster&family=Pacifico&family=Permanent+Marker&family=Roboto+Mono:ital,wght@0,300;0,400;1,300;1,400&family=Satisfy&family=Shadows+Into+Light&display=swap"},
 
 
     ]
@@ -55,8 +56,23 @@ export default {
     // Doc: https://github.com/nuxt-community/dotenv-module
     '@nuxtjs/dotenv',
     '@nuxtjs/device',
-    '@nuxtjs/svg'
+    '@nuxtjs/svg',
   ],
+ 
+/*
+ // Auth Module 
+ auth:{
+  token: {
+      prefix: '_ins.'
+  },
+  localStorage: false,
+  cookie: {
+      options : {
+          path: '/'
+        }
+  }
+ },
+*/
 
   vue: {
     config: {

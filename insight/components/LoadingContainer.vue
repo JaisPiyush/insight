@@ -2,7 +2,9 @@
   <div class="w-screen h-full bg-transparent">
     <div v-if="this.loading" class="loader-parent flex flex-col">
         <div class="loader"></div>
-        <p class="mt-6 font-lato text-gray-500 text-xl font-semibold mx-auto">Hold on we are loading!</p>
+        <p class="mt-6 font-lato text-gray-500 text-xl font-semibold mx-auto">
+          {{text == undefined ? 'Hold on we are loading!' : text}}
+        </p>
     </div>
     <div v-else>
       <slot></slot>
@@ -12,7 +14,7 @@
 
 <script>
 export default {
-  props: ['loading']
+  props: ['loading' ,'text']
 }
 </script>
 
@@ -40,7 +42,7 @@ export default {
   width: 7.5rem;
   border-radius: 50%;
   border-style: solid;
-  border-width: 0.125rem;
+  border-width: 0.525rem;
   box-sizing: border-box;
   content: '';
   left: 0;

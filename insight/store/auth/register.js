@@ -85,7 +85,10 @@ export const actions = {
                 this.$axios.post(url, JSON.stringify(packet)).then((response) => {
                     if(response.status == 201){
                         let storage = new FrozenStoreage();
-                        storage.set('token', response.data.token);
+                        //this.$auth.setToken('local','Token '+response.data.token);
+                        storage.set('token', `Token ${response.data.token}`);
+                        this.$axios.setHeader('Authorization',`Token ${response.data.token}`);
+                       // this.$auth.ctx.app.$axios.setHeader('Authorization' `Token ${response.data.token}`);
                         storage.set('first_name', response.data.first_name);
                         storage.set('avatar'. response.data.avatar);
                     }

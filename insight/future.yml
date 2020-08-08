@@ -1,3 +1,6 @@
 deprecation:
   - vue-cropperjs
   - vue2-hammerjs
+
+refraction:
+  - Token Storage from local Storage to safe storage
