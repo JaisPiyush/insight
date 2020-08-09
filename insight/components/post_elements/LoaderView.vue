@@ -20,29 +20,29 @@ export default {
 
 <style scoped>
 .loader-parent{
-    padding-top:65%;
+    padding-top: 45%;
 }
 .loader {
   margin: auto auto;
-  height: 7.5rem;
-  width: 7.5rem;
+  height: 4.5rem;
+  width: 4.5rem;
   box-sizing: border-box;
   display: flex;
   position: relative;
   justify-content: center;
-  perspective-origin: 3.8rem 3.8rem;
-  transform-origin: 3.8rem 3.8rem;
+  perspective-origin: 1.8rem 1.8rem;
+  transform-origin: 1.8rem 1.8rem;
   border: 0px solid rgb(0, 0, 0);
   flex: 0 0 auto;
   flex-flow: column nowrap;
 }
 .loader:after,
 .loader:before {
-  height: 7.5rem;
-  width: 7.5rem;
+  height:5.5rem;
+  width:5.5rem;
   border-radius: 50%;
   border-style: solid;
-  border-width: 0.525rem;
+  border-width: 0.225rem;
   box-sizing: border-box;
   content: '';
   left: 0;

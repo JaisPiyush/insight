@@ -3,6 +3,7 @@ import 'firebase/storage'
 var randomstring = require('randomstring')
 import axios from '@nuxtjs/axios'
 
+// TODO: Transfer every key to .env
 var firebaseConfig = {
   apiKey: 'AIzaSyBAEkJI3NqBpXMh4ZdhG4oLj6Ar-Tz_b0o',
   authDomain: 'social-express-103904.firebaseapp.com',
