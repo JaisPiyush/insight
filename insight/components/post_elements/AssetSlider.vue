@@ -1,32 +1,8 @@
 <template>
   <client-only>
-    <div class="w-full h-full">
-      <div v-show="!this.loading" class="w-full h-auto overflow-hidden">
-        <img class="w-full h-full" style="height:49vh;" v-if="this.isActive('image')" :src="getSrc()" @load="changestate({loading:false,error:false})" @error="changestate({loading:false,error:true})" />
-        <video class="w-full h-full" style="height:49vh" v-if="this.isActive('video')" :src="getSrc()" @load="changestate({loading:false,error:false})" @error="changestate({loading:false,error:true})" />
-        <!-- <video-box v-if="this.isActive('video')" :active="isActive('video')" :src="getSrc()" @state="changestate" /> -->
-        <audio-box v-if="this.isActive('audio')" :active="isActive('audio')" :audio="getSrc()" @state="changestate" />
-      </div>
-      <loader-view
-        v-show="this.loading"
-        :loading="loading"
-        text=""
-      ></loader-view>
-      <div
-        v-if="this.assets.length > 1"
-        class="w-full h-auto flex justify-center"
-      >
-        <div class="w-auto h-full flex overflow-x-scroll overflow-y-hidden">
-          <peripheral-dot
-            v-for="asset in assets"
-            :key="assets.indexOf(asset)"
-            :active="assets.indexOf(asset) === index"
-          />
-        </div>
-      </div>
-    </div>
+    <div class="w-full h-full bg-blue-600"></div>
   </client-only>
-</template>
+</template>hhjh
 
 <script>
 import LoaderView from '@/components/post_elements/LoaderView.vue'
@@ -52,7 +28,7 @@ export default {
     if (this.data.text != undefined && this.data.text != {}) {
       this.assets.push({ type: 'text', src: this.data.text })
     }
-    // console.log(this.data)
+
     this.$nextTick().then(() => {
       if (process.client) {
         this.hammer = new Hammer.Manager(this.$el)
@@ -102,19 +78,18 @@ export default {
     slideNext: function() {
       if (this.index < this.assets.length - 1) {
         if(this.assets[this.index].type != "video"){
-          this.loading = true
+          this.loading = true;
+           
         }
-        this.index += 1
-        console.log(this.getSrc())
-        // this.getAsset()
+        this.index += 1;
       }
     },
     slidePrevious: function() {
       if (this.index > 0) {
          if(this.assets[this.index].type != "video"){
           this.loading = true
+          console.log(this.assets[this.index])
         }
-        this.loading = true
         this.index -= 1
         // this.getAsset()
       }

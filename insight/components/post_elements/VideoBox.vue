@@ -1,6 +1,6 @@
 <template>
-  <div v-if="this.active" class="w-full h-full">
-    <video controls src="" class="w-full h-full" style="height:49vh;" />
+  <div v-if="this.active" class="w-full h-auto">
+    <video controls :src="src" @load="$emit('state',{loading:false, error:false})" @error="$emit('state',{loading:false, error:true})" class="w-full h-auto m-auto" style="height:49vh;" />
   </div>
 </template>
 
@@ -8,13 +8,14 @@
 export default {
   props: ['active', 'src'],
   mounted() {
+    let self = this;
     this.$nextTick().then(() => {
-        let videoPlayer = this.$el.querySelector('video');
-        this.fetchAsset({type:'video', src:this.src},videoPlayer).then(() => {
-            this.$emit('state',{loading:false, error:false});
-        }).catch(err=>{
-            this.$emit('state',{loading:false, error:true});
-        });
+        let videoPlayer = self.$el.querySelector('video');
+        // self.fetchAsset({type:'video', src:self.src},videoPlayer).then(() => {
+        //     self.$emit('state',{loading:false, error:false});
+        // }).catch(err=>{
+        //     self.$emit('state',{loading:false, error:true});
+        // });
     })
   },
   methods: {
