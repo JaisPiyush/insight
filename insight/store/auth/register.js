@@ -70,12 +70,11 @@ export const actions = {
                 let packet = {"username": state.username, "password": state.password, "first_name": state.firstName,
                               "last_name": state.lastName, "detail": {}};
                 if (state.email != undefined){
-                    packet['account_id'] = state.email;
                     packet['detail']['email'] = state.email;
                 }
                 if (state.phoneNumber != undefined){
                     packet['account_id'] = state.phoneNumber;
-                    packket['detail']['phone_number'] = state.phoneNumber;
+                    packet['detail']['phone_number'] = state.phoneNumber;
                 }
                 if(state.coords != undefined){
                     packet['coords'] = state.coords;

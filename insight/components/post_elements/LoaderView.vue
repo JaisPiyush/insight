@@ -1,12 +1,12 @@
 <template>
-  <div class="w-full h-full bg-transparent">
-    <div v-if="this.loading" class="loader-parent flex flex-col">
+  <div class="w-full h-full bg-transparent relative">
+    <div v-if="this.loading" class="loader-parent flex flex-col absolute z-10">
         <div class="loader"></div>
         <p class="mt-6 font-lato text-gray-500 text-xl font-semibold mx-auto">
           {{text == undefined ? 'Hold on we are loading!' : text}}
         </p>
     </div>
-    <div v-else>
+    <div class="w-full h-full absolute z-0">
       <slot></slot>
     </div>
   </div>
@@ -14,7 +14,10 @@
 
 <script>
 export default {
-  props: ['loading' ,'text']
+  props: ['loading' ,'text'],
+  mounted(){
+    console.log(this.loading)
+  }
 }
 </script>
 

@@ -1,6 +1,6 @@
 export default function FrozenStorage() {
   this.storage = window.localStorage
-  this.prefix = 'ins_';
+  this.prefix = 'freq__';
   this.set = function(key, value) {
     window.localStorage.setItem(`${this.prefix}${key}`, JSON.stringify(value))
   }

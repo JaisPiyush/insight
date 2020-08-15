@@ -1,8 +1,15 @@
-export const errorSvg = "https://firebasestorage.googleapis.com/v0/b/social-express-103904.appspot.com/o/assets%2Fundraw_access_denied_6w73.svg?alt=media&token=09a64622-38a6-4626-aefd-aa276f69683d";
+export const errorSvg =
+  'https://firebasestorage.googleapis.com/v0/b/social-express-103904.appspot.com/o/assets%2Fundraw_access_denied_6w73.svg?alt=media&token=09a64622-38a6-4626-aefd-aa276f69683d'
+
+export const gifs = [
+  'https://media.giphy.com/media/XMaB779YCmP9m/giphy.gif',
+  'https://media.giphy.com/media/l4XfgLyXAnyzCh7vfY/giphy.gif',
+  'https://media.giphy.com/media/7uBNVxDNBMqaY/giphy.gif'
+]
 
 export const colors = [
   '#FFFFFF',
-  '#000000',  
+  '#000000',
   '#E27D60',
   '#f56565',
   '#e53e3e',
@@ -51,22 +58,21 @@ export const colors = [
   '#FBE8A6',
   '#D2FDFF',
   '#B4DFE5'
-];
-
+]
 
 export const fonts = [
-    'Lato',
-    'Roboto Mono',
-    'Lobster',
-    'Dancing Script',
-    'Muli',
-    'Bebas Neue',
-    'Indie Flower',
-    'Montserrat',
-    'Pacifico',
-    'Shadow Into Light',
-    'Caveat',
-    'Permanent Marker',
-    'Satisfy',
-    'Courgette'
-];
+  'Lato',
+  'Roboto Mono',
+  'Lobster',
+  'Dancing Script',
+  'Muli',
+  'Bebas Neue',
+  'Indie Flower',
+  'Montserrat',
+  'Pacifico',
+  'Shadow Into Light',
+  'Caveat',
+  'Permanent Marker',
+  'Satisfy',
+  'Courgette'
+]

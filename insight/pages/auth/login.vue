@@ -1,22 +1,14 @@
 <template>
     <div id="login-page" class="login-page w-full h-auto">
-  <div class="form" style="background-image: url('https://cdn.pixabay.com/photo/2017/08/03/21/51/artist-2578454_960_720.jpg');">
-  <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
+  <div class="form w-full h-full relative" >
+    <div class="absolute z-10 w-full h-full">
+      <img src="@/assets/img/bg.png" class="w-full h-full" />
+    </div>
+  <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54 absolute z-10">
     <form class="login100-form validate-form" v-show="showLoginForm">
       <span class="login100-form-title p-b-49 font-bold">
 						FREAQUISH
 					</span>
-					<!-- <div class="wrap-input100 validate-input m-b-20" data-validate = "Username is required">
-					
-						<input class="w-full h-auto border border-white font-muli text-md  py-2 px-4" v-model="username" type="text" name="username" placeholder="Username">
-						
-					</div>
-
-					<div class="wrap-input100 validate-input" data-validate="Password is required">
-				
-						<input class="input100" v-model="password" type="password" name="pass" placeholder="Password">
-						
-					</div> -->
           <input class="w-full h-10 border border-white font-muli corp-black outline-none placeholder  caret-white" placeholder="Email/Phone" v-model="username" type="text" />
           <input class="w-full h-10 my-2 border border-white font-muli corp-black outline-none placeholder  caret-white" placeholder="Password" v-model="password" type="password" />
 					

@@ -1,6 +1,7 @@
 <template>
   <client-only>
-    <div v-if="this.active" class="w-full h-full relative" style="height:48.3vh;">
+    <div class="w-full" >
+    <div v-if="this.active" class="w-full relative" style="height:50vh;">
       <div class="w-full h-full absolute z-10">
         <!-- <audio type="audio/*" controls @pause="pauseListener()" @play="playListener()" /> -->
         <audio type="audio/*" :src="audio" />
@@ -23,11 +24,11 @@
         </div>
       </div>
     </div>
+    </div>
   </client-only>
 </template>
 
 <script>
-// import Hammer from 'hammerjs';
 export default {
   props: ['audio','active'],
   mounted() {

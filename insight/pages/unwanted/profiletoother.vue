@@ -2,7 +2,7 @@
   <div class="profmain">
     <bottomNavbar />
     <div class="box1">
-      <div class="sett">Settings ></div>
+
       <div class="profile-box1">
         <img src="@/assets/svg/user.svg" class="profile-img">
       </div>
@@ -21,8 +21,8 @@
       </div>
       <div class="foll-msg flex">
         <hr>
-        <div class="follow rounded-lg "> <a href="#" class="font-bold">Edit Profile</a></div>
-        <div class="follow rounded-lg"><a href="#" class="font-bold">Add Friend</a></div>
+        <div class="follow rounded-lg"> <a href="#" class="font-bold">Follow</a></div>
+        <div class="follow rounded-lg"><a href="#" class="font-bold">Message</a></div>
       </div>
       <div class="hobbies flex flex-wrap ">
         <div class="hob-item"> Photography</div>
@@ -41,11 +41,10 @@
 </template>
 
 <script>
-import bottomNavbar from '@/components/bottomNavbar.vue'
-export default {
-components:{
-  bottomNavbar,
-}
+export default {  
+    components: {
+        
+    }
 }
 </script>
 
@@ -54,7 +53,7 @@ components:{
   width: 100%;
   height: 100vh;
   position: relative;
-  
+
 }
 
 .box1 {
@@ -67,16 +66,6 @@ components:{
   box-shadow: 0px 3px 8px #888888;
 }
 
-.sett {
-  position: absolute;
-  right: 0px;
-  top: 0px;
-  margin: auto;
-  margin-right:.5rem ;
-  margin-top:.5rem ;
-  color: green;
-}
-
 .profile-box1 {
     width: 7rem;
     height: 7rem;
@@ -86,7 +75,7 @@ components:{
     top: 0px;
     bottom: 0px;
     margin: auto;
-    margin-top: 3rem;
+    margin-top: 2rem;
     position: absolute;
 }
 
@@ -107,7 +96,7 @@ components:{
   top: 0px;
   bottom: 0px;
   margin: auto;
-  margin-top:11rem;
+  margin-top:10rem;
   position: relative;
 }
 
@@ -147,7 +136,7 @@ components:{
     top: 0px;
     bottom: 0px;
     margin: auto;
-    margin-top:4rem;
+    margin-top:3rem;
     margin-left: .8rem;
     position: absolute;
     background: white;
@@ -163,7 +152,7 @@ components:{
     top: 0px;
     bottom: 0px;
     margin: auto;
-    margin-top: 4rem;
+    margin-top: 3rem;
     margin-right: .8rem;
     position: absolute;
     background: white;
@@ -187,7 +176,7 @@ components:{
   top: 0px;
   bottom: 0px;
   margin: auto;
-  margin-top:20rem;
+  margin-top:19rem;
   position: absolute;
 }
 

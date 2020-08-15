@@ -2,6 +2,7 @@ import { StorageVault } from '@/plugins/FirebasePlugin.js'
 import FrozenStorage from '@/static/js/local_storage'
 export const state = () => ({
   hobby_list: [],
+  hobbyText:'',
   hobby: {},
   assets: {},
   editor: undefined,
@@ -82,7 +83,10 @@ export const mutations = {
     state.nextUrl = '/'
   },
   setHobbies: function(state, data) {
-    state.hobby_list = data
+    state.hobby_list = data;
+    for(let index=0; index < data.length; index++){
+      state.hobbyText = `${state.hobbyText} ${data[index].name}`;
+    }
   },
   setCompleted: function(state) {
     state.assets.images = state.assetsUrl.images
@@ -90,6 +94,9 @@ export const mutations = {
     state.assets.audio = state.assetsUrl.audio
     state.completed = true;
     this.dispatch("post/create/sendDataToServer");
+  },
+  setHobby: function(state, payload){
+    state.hobby = {...payload};
   },
   reset: function(state) {
     state.assets = {}
@@ -121,7 +128,7 @@ export const mutations = {
 }
 
 export const actions = {
-  fetchHobbis: function({ commit }) {
+  fetchHobbies: function({ commit }) {
     let url = `${process.env.SERVER_API}fetch_hobby`
     this.$axios
       .get(url)
@@ -220,7 +227,6 @@ export const actions = {
     let storage = new StorageVault(state.assets)
     storage.uploadAssets(
       (url, type) => {
-        console.log(url, type)
         commit('insertAssetUrl', { url: url, type: type });
         let assetlength = state.assets.images.length + (state.assets.video === undefined ? 0 : 1) + (state.assets.video === undefined ? 0 : 1); 
         let assetsUrllength = state.assetsUrl.images.length + (state.assetsUrl.video === undefined ? 0 : 1) + (state.assetsUrl.video === undefined ? 0 : 1);

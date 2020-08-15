@@ -282,7 +282,6 @@ export default {
     },
 
     pickerClicked: function(elemId) {
-      console.log('picker clicked')
       let elem = document.getElementById(elemId)
       elem.click()
       this.pickedType = elemId

@@ -297,11 +297,11 @@ export default {
       ) {
 
         if (this.password === this.confirmPassword) {
-          console.log(this.password === this.confirmPassword);
           // Moving on the next page after committing everything to store
           this.insertFirstPageData({
             email: this.email,
-            phone: this.phoneNumber,
+            phoneNumber: this.phoneNumber,
+            countryCode: '+91',
             password: this.password
           });
           

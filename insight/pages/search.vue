@@ -1,56 +1,72 @@
 <template>
-  <div class="w-full h-screen overflow-hidden" id="search">
-    <div class="flex flex-col w-full h-full py-2 px-4">
-      <div class="h-10 w-full py-1 px-2 bg-gray-200 focus:outline-none rounded-full flex">
+  <div
+    class="w-full h-screen overflow-hidden flex flex-col"
+    id="search"
+    style="min-height:100vh;"
+  >
+    <div class="block w-full h-auto py-2 px-4">
+      <div
+        class="h-10 w-full py-1 px-2 bg-purple-700 focus:outline-none rounded-md flex shadow-lg"
+      >
         <input
-          class="py-2 w-full h-8 px-2 focus:outline-none bg-gray-200 font-muli text-sm"
+          class="py-2 w-full h-8 px-2 focus:outline-none bg-purple-700 font-muli text-sm text-white placeholder-white"
+          style="caret-color:white;"
+          v-model="searchText"
           placeholder="Search"
         />
-        <img src="@/assets/svg/search.svg" class="w-4 h-4 my-2 mx-4" />
-      </div>
-      <div class="flex pr-3 pl-4 justify-between ">
-         <div v-for="tab in tabs" :key="tab.click" class="flex justify-around w-full h-full ">
-            <div v-if="activeIndex === tabs.indexOf(tab)" class="mx-2 px-2 pt-2 font-muli font-bold text-xl border border-l-0 border-t-0 border-r-0 border-purple-600 border-b-4">
-            {{tab.name}}
-            </div>
-             <div v-else @click="activeIndex = tabs.indexOf(tab) " class="px-2 py-2 font-muli text-xl ">
-            {{tab.name}}
-            </div>
-
-            </div>
-             <img @click="dropActive = !dropActive" src="@/assets/svg/more.svg" class="w-5 h-5 mt-3">
-             <dropdown :active="dropActive"/>        
+        <span class="material-icons stroke-current text-white mr-2 mt-1">
+          search
+        </span>
       </div>
     </div>
+    <div
+      class="bg-gray-200 w-full h-full overflow-x-auto overflow-y-scroll px-4"
+    >
+      <div v-for="tag in tags" :key="tag">
+        <tag-bar :name="tag" />
+      </div>
+      <div v-for="hobby in hobbies" :key="hobby.code_name">
+        <hobby-bar :name="hobby.name" :codeName="hobby.code_name" />
+      </div>
 
-    <div class="bg-red-100"></div>
-    <div>
-      <bottomNavbar class="top-0" />
+      <div v-for="account in accounts" :key="account.account_id">
+        <account-bar :account="account" />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import bottomNavbar from '@/components/bottomNavbar.vue'
-import dropdown from '@/components/dropdown.vue'
+import TagBar from '@/components/search_elements/TagBar.vue'
+import HobbyBar from '@/components/search_elements/HobbyBar.vue'
+import AccountBar from '@/components/search_elements/AccountBar.vue'
+import {mapState, mapActions} from "vuex";
 export default {
   components: {
-    bottomNavbar,
-    dropdown,
+    TagBar,
+    HobbyBar,
+    AccountBar
   },
-   data(){
-        return{
-            tabs:[{'name':'People','click':'people'},{'name':'Post','click':'post'}],
-            activeIndex:0,
-            dropActive:false
-        }
+  data() {
+    return {
+      tabs: [
+        { name: 'People', click: 'people' },
+        { name: 'Post', click: 'post' }
+      ],
+      activeIndex: 0,
+      dropActive: false,
+      searchText: undefined
     }
+  },
+  computed:{
+    ...mapState("search",["tag","hobbies","accounts"])
+  }
 }
 </script>
 
 <style scoped>
-#search {
+/* #search {
   display: grid;
   grid-template-rows: 15% 75% 9%;
-}
+} */
 </style>

@@ -1,19 +1,50 @@
 <template>
-    <div v-if="this.active" class="w-full h-full relative">
-        <div class="w-full absolute bg-green-600" style="height:90%;"></div>
-        <div class="w-full absolute bg-red-600 flex" style="height:10%;">
-            <input type="text" class="py-2 px-2 rounded-full text-white" />
-            <button class="bg-purple-600">send</button>
-        </div>
-    </div>
+  <div v-if="this.active" class="w-full h-auto">
+      <div v-for="comment in comments" :key="comments.indexOf(comment)">
+          <comment-text :data="comment" />
+      </div>
+  </div>
 </template>
 
 <script>
+import CommentText from "@/components/post_elements/CommentText.vue";
 export default {
-    props:['active']
+  props: ['active'],
+  components:{
+      CommentText
+  },
+  data(){
+      return {
+         comments:[
+             {
+                 avatar: "https://www.screengeek.net/wp-content/uploads/2018/11/avatar-movie.jpg",
+                 data: "Hey this is wrong.",
+                 username: "jarden@103"
+             },
+             {
+                 avatar: "https://www.screengeek.net/wp-content/uploads/2018/11/avatar-movie.jpg",
+                 data: "Hey this is wrong. I would like to work better",
+                 username: "jarden@103"
+             },
+             {
+                 avatar: "https://www.screengeek.net/wp-content/uploads/2018/11/avatar-movie.jpg",
+                 data: "Hey this is wrong. but insane working thesis of workflow my hinder th e jablle effects of psion",
+                 username: "jarden@103"
+             },
+             {
+                 avatar: "https://www.screengeek.net/wp-content/uploads/2018/11/avatar-movie.jpg",
+                 data: "Hey this is wrong.",
+                 username: "jarden@103"
+             },
+             {
+                 avatar: "https://www.screengeek.net/wp-content/uploads/2018/11/avatar-movie.jpg",
+                 data: "Hey this is wrong.",
+                 username: "jarden@103"
+             }
+         ]
+      }
+  }
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
