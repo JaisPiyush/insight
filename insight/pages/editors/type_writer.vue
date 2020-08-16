@@ -20,7 +20,7 @@
                 <delete-svg class="w-10 h-10 stroke-current stroke-4 text-white" />
             </button>
         </div>
-        
+
         <div v-if="!this.infocus && (this.colorRequired || this.fontRequired)" class="absolute bottom-0 mb-20 w-full h-48 py-4 px-4 ">
             <div v-if="this.colorRequired" class="flex w-full h-auto overflow-x-scroll overflow-y-hidden py-2">
                 <div v-for="color in assetColors" :key="assetColors.indexOf(color)" >
@@ -51,8 +51,7 @@
             class="display-none"
             @change="videoPicked()"
           />
-           <!-- <a href="javascript:void(0)" @click="format('bold')" ><i class="fa fa-bold stroke-current text-white fa-lg px-2 py-2" aria-hidden="true"></i></a>
-            <a href="javascript:void(0)" @click="format('italic')"><i  class="fa fa-italic stroke-current text-white fa-lg px-2 py-2" aria-hidden="true"></i></a> -->
+
             <i @click="fontTrigger()" class="fa fa-text-width stroke-current text-white fa-lg px-2 py-2" aria-hidden="true"></i>
             <i @click="paintText()" class="fa fa-font stroke-current text-white fa-lg px-2 py-2" aria-hidden="true"></i>
             <i @click="paintBackground()"  class="fa fa-paint-brush stroke-current text-white fa-lg px-2 py-2" aria-hidden="true"></i>
@@ -74,10 +73,6 @@ export default {
         editor.style.setProperty('color', this.currentTextColor);
         editor.style.setProperty('font-family', this.currentFont);
         this.editor = editor;
-        // this.currentBgColor = this.text.bgColor || colors[0];
-        // this.currentFont = this.text.fontColor  || fonts[0];
-        // this.currentTextColor = this.text.fontColor || colors[1];
-        // this. data = this.text.data || '';
     },
     components:{
         ColorBox,
@@ -112,7 +107,7 @@ export default {
         },
         insertDataInState: function(){
             this.data = this.editor.innerText;
-            this.insertTextData({data:this.data,fontName: this.currentFont, fontColor: this.currentTextColor, bgColor: this.currentBgColor});
+            this.insertTextData({data:this.data,fontName: this.currentFont, fontColor: this.currentTextColor, bgColor: this.currentBgColor,editor:'type_writer'});
         },
         deactivateFocus: function(){
             this.editor.blur();
@@ -125,7 +120,7 @@ export default {
         },
         pickerClicked: function (name) {
             let elem = document.getElementById(name);
-            elem.click();            
+            elem.click();
         },
        paintText: function(){
            this.deactivateFocus();

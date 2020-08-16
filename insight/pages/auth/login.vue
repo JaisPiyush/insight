@@ -9,14 +9,9 @@
       <span class="login100-form-title p-b-49 font-bold">
 						FREAQUISH
 					</span>
-          <input class="w-full h-10 border border-white font-muli corp-black outline-none placeholder  caret-white" placeholder="Email/Phone" v-model="username" type="text" />
+          <input class="w-full h-10 border border-white font-muli corp-black outline-none placeholder  caret-white" placeholder="Phone" v-model="username" type="text" />
           <input class="w-full h-10 my-2 border border-white font-muli corp-black outline-none placeholder  caret-white" placeholder="Password" v-model="password" type="password" />
-					
-					<div class="wraptxt1 text-right p-t-8 p-b-31">
-						<a href="#" class="label-input100">
-							Forgot password?
-						</a>
-					</div>	
+
 					<div class="container-login100-form-btn">
 						<div class="wrap-login100-form-btn">
 							<div class="login100-form-bgbtn"></div>
@@ -45,6 +40,7 @@
 
 
 <script>
+import {mapActions} from "vuex";
 export default {
   data() {
       return {
@@ -64,8 +60,14 @@ export default {
     }
   },
     methods : {
+      ...mapActions("auth/login",['loginAction']),
         toggleForm() {
             this.currentForm = this.currentForm === 'login' ? 'register' : 'login';
+        },
+        login: function(){
+          if(this.username != undefined && this.password != undefined && this.username.length > 0 && this.password.length > 0){
+            this.loginAction({account_id:this.username, password: this.password});
+          }
         }
   }
 }
@@ -119,7 +121,7 @@ iframe {
   background-clip: text;
   -webkit-background-clip: text;
   -moz-background-clip: text;
-  -webkit-text-fill-color: transparent; 
+  -webkit-text-fill-color: transparent;
   -moz-text-fill-color: transparent;
   text-align: center;
 }
@@ -134,14 +136,14 @@ iframe {
   background-clip: text;
   -webkit-background-clip: text;
   -moz-background-clip: text;
-  -webkit-text-fill-color: transparent; 
+  -webkit-text-fill-color: transparent;
   -moz-text-fill-color: transparent;
   text-transform: uppercase;
 }
 
 .wraptxt1 {
   padding-top: 0.3125rem;
-  
+
 }
 
 .wraptxt2 {
@@ -165,7 +167,7 @@ iframe {
   margin: auto;
 }
 .form {
-  width: 100%;  
+  width: 100%;
   min-height: 100vh;
   display: -webkit-box;
   display: -webkit-flex;
@@ -208,7 +210,7 @@ iframe {
   padding-left: 1.875rem;
   padding-right: 1.875rem;
   padding-top: 1rem;
-  
+
 }
 
 
@@ -223,7 +225,7 @@ iframe {
   background-clip: text;
   -webkit-background-clip: text;
   -moz-background-clip: text;
-  -webkit-text-fill-color: transparent; 
+  -webkit-text-fill-color: transparent;
   -moz-text-fill-color: transparent;
   line-height: 1.2;
   text-align: center;
@@ -254,7 +256,7 @@ iframe {
   background-clip: text;
   -webkit-background-clip: text;
   -moz-background-clip: text;
-  -webkit-text-fill-color: transparent; 
+  -webkit-text-fill-color: transparent;
   -moz-text-fill-color: transparent;
   line-height: 1.5;
   padding-left: 0.4375rem;
@@ -271,7 +273,7 @@ iframe {
   height: 3.4375rem;
   background: transparent;
   padding: 0 0.4375rem 0 2.6875rem;
-  
+
 }
 
 .input200 {
@@ -284,7 +286,7 @@ iframe {
   height: 2rem;
   background: transparent;
   padding: 0 0 0 1rem;
-  
+
 }
 
 
@@ -497,5 +499,5 @@ iframe {
     padding-left: 15px;
     padding-right: 15px;
   }
-} 
+}
 </style>

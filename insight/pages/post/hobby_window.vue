@@ -8,7 +8,7 @@
         type="text"
         v-model="searchHobby"
         placeholder="Type Hobby"
-        @change="searchText"
+        @input="searchText"
         class="px-2 py-1 font-lato ml-8 w-64 rounded-md  h-8 focus:outline-none border "
       />
     </div>
@@ -35,7 +35,7 @@ export default {
     HobbyChip
   },
   mounted() {
-    this.fetchHobbies()
+    this.fetchHobbies();
   },
   data() {
     return {
@@ -49,11 +49,11 @@ export default {
   methods: {
     ...mapActions('post/create', ['fetchHobbies']),
     searchText: function() {
-      if (this.searchHobby != undefined) {
-        let match = this.hobbyText.match(this.searchHobby) || []
-        this.searched = this.hobby_list.filter(h => {
-          return match.includes(h.name)
-        })
+      if (this.searchHobby != undefined && this.searchHobby.length > 0) {
+        this.searched = this.hobby_list.filter(h=>{
+          return h.code_name.indexOf(this.searchHobby.toLowerCase())== 0
+        });
+        console.log(this.searched);
       }
     }
   }

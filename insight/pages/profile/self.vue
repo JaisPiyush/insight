@@ -148,6 +148,7 @@ import { mapState, mapActions, mapMutations } from 'vuex'
 import ImageViewer from "@/components/profile/ImageViewer.vue";
 import LoadingContainer from "@/components/LoadingContainer.vue"
 import AssetBox from "@/components/profile/AssetBox.vue"
+import {avatarDefault} from '~/static/js/assets'
 export default {
   mounted() {
     let self = this
@@ -168,6 +169,7 @@ export default {
       imageEditable: false,
       loadingText:'Updating Data',
       imageView:false,
+      defaultAvatar:avatarDefault
     }
   },
   components: {
@@ -275,7 +277,7 @@ export default {
         }
         this.updateProfileData({first_name: firstName, last_name:lastName});
         this.setNameText(`${firstName} ${lastName}`);
-        
+
 
     },
     toggleImageView: function(val){

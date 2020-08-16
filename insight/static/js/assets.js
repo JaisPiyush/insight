@@ -1,6 +1,12 @@
 export const errorSvg =
   'https://firebasestorage.googleapis.com/v0/b/social-express-103904.appspot.com/o/assets%2Fundraw_access_denied_6w73.svg?alt=media&token=09a64622-38a6-4626-aefd-aa276f69683d'
 
+export const avatarDefault = `https://firebasestorage.googleapis.com/v0/b/social-express-103904.appspot.com/o/assets%2FROwx0qV4he2kDSd6lSHl39h8dpPLe5Iz.svg%2Bxml?alt=media&token=69df7f57-6247-455a-9b20-8e53c0cb8530`;
+
+export const songPoster = `https://firebasestorage.googleapis.com/v0/b/social-express-103904.appspot.com/o/assets%2Flogo.jpeg?alt=media&token=ac16b5c8-42aa-45a2-ae29-05809fba116f`;
+
+
+
 export const gifs = [
   'https://media.giphy.com/media/XMaB779YCmP9m/giphy.gif',
   'https://media.giphy.com/media/l4XfgLyXAnyzCh7vfY/giphy.gif',

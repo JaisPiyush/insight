@@ -87,7 +87,8 @@
 import { mapState, mapActions } from 'vuex'
 import ImageViewer from "@/components/profile/ImageViewer.vue";
 import LoadingContainer from "@/components/LoadingContainer.vue"
-import AssetBox from "@/components/profile/AssetBox.vue"
+import AssetBox from "@/components/profile/AssetBox.vue";
+import {avatarDefault} from '~/static/js/assets'
 export default {
   asyncData({ params }) {
     return { aid: params.aid }
@@ -110,7 +111,8 @@ export default {
         loadingText: 'Loading data.',
         placeBox:false,
         nameText:'',
-        descriptionText:''
+        descriptionText:'',
+        defaultAvatar: avatarDefault
     }
   },
    computed: {

@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { mapMutations, mapActions, mapState } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 import FrozenStorage from "@/static/js/local_storage.js";
 export default {
   components: {},
@@ -66,10 +66,9 @@ export default {
     });
   },
   methods: {
-    ...mapActions('post/create', ['uploadFilesToFirebase']),
     ...mapMutations('post/create',['insertCaption']),
     nextClick: function() {
-      this.insertCaption(this.editor.innetText);
+      this.insertCaption(this.editor.innerText);
       this.$router.push('/post/uploading_data');
     },
     applyAsset: function() {

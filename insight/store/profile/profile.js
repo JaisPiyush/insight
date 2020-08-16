@@ -1,10 +1,9 @@
 import FrozenStorage from '~/static/js/local_storage'
 import { StorageVault } from '~/plugins/FirebasePlugin'
-
+import {avatarDefault} from '~/static/js/assets'
 export const state = () => ({
   aid: undefined,
-  avatar:
-    'https://firebasestorage.googleapis.com/v0/b/social-express-103904.appspot.com/o/assets%2FROwx0qV4he2kDSd6lSHl39h8dpPLe5Iz.svg%2Bxml?alt=media&token=69df7f57-6247-455a-9b20-8e53c0cb8530',
+  avatar:avatarDefault,
   places: [],
   description: undefined,
   following: 0,

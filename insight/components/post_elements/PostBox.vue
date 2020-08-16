@@ -6,11 +6,11 @@
     <div
       class="header w-full h-16 px-2 flex flex-row flex-no-wrap py-2 border border-gray-300 border-l-0 border-t-0 border-r-0"
     >
-      <img :src="avatar" class="w-12 h-12 rounded-lg" />
+      <img @click="$router.push(`/profile/${username}`)" :src="avatar" class="w-12 h-12 rounded-lg" />
 
       <div class="w-auto h-full flex flex-col  ml-4">
         <p
-          @click="$router.push(userurl)"
+          @click="$router.push(`/profile/${username}`)"
           class="block font-lato font-bold text-black text-base"
         >
           {{ username }}
@@ -195,7 +195,6 @@ export default {
   data() {
     return {
       intersecting: false,
-      userurl: '',
       shareable: true,
       avatar:
         'https://www.screengeek.net/wp-content/uploads/2018/11/avatar-movie.jpg',
@@ -228,19 +227,19 @@ export default {
   methods: {
     ...mapActions('post/post_actions', ['microActionPost']),
     bindDataWithPropsAsset: function() {
-      // this.pid = this.propsAsset.post_id;
-      // this.username = this.propsAsset.header.username;
-      // this.avatar = this.propsAsset.header.avatar;
-      // this.actions = this.propsAsset.meta.actions;
-      // this.created = this.propsAsset.meta.created;
-      // this.assets = this.propsAsset.body;
-      // this.caption = this.propsAsset.caption;
-      // this.loves = this.propsAsset.footer.love;
-      // this.shares = this.propsAsset.footer.share;
-      // this.comments = this.propsAsset.footer.comment;
-      // this.saves = this.propsAsset.footer.save;
-      // this.view = this.propsAsset.footer.view;
-      // this.userurl = `/post/${this.propsAsset.meta.account_id}`;
+      this.pid = this.propsAsset.post_id;
+      this.username = this.propsAsset.header.username;
+      this.avatar = this.propsAsset.header.avatar;
+      this.actions = this.propsAsset.meta.actions;
+      this.created = this.propsAsset.meta.created;
+      this.assets = this.propsAsset.body;
+      this.caption = this.propsAsset.caption;
+      this.loves = this.propsAsset.footer.love;
+      this.shares = this.propsAsset.footer.share;
+      this.comments = this.propsAsset.footer.comment;
+      this.saves = this.propsAsset.footer.save;
+      this.view = this.propsAsset.footer.view;
+      this.userurl = `/post/${this.username}`;
     },
     retroText: function(text) {
       if (text >= 1000) {

@@ -17,12 +17,7 @@ export const state = () => ({
   nextUrl: '',
   sentData: false,
   caption: undefined,
-  text: {
-    bgColor: undefined,
-    fontName: undefined,
-    fontColor: undefined,
-    data: undefined
-  },
+  text: {},
   meta: {},
   error: false,
   errorMessage: undefined
@@ -47,6 +42,7 @@ export const mutations = {
       state.assets.audio = payload.audio
     }
     state.editor = payload.editor;
+    console.log(payload)
   },
   insertCaption: function(state, payload) {
     state.caption = payload
@@ -83,10 +79,9 @@ export const mutations = {
     state.nextUrl = '/'
   },
   setHobbies: function(state, data) {
-    state.hobby_list = data;
-    for(let index=0; index < data.length; index++){
-      state.hobbyText = `${state.hobbyText} ${data[index].name}`;
-    }
+    state.hobby_list = data.filter(h=>{
+      return h.name.length > 0 && h.code_name.length > 0 && h.editors.length >0;
+    } );
   },
   setCompleted: function(state) {
     state.assets.images = state.assetsUrl.images
@@ -129,7 +124,7 @@ export const mutations = {
 
 export const actions = {
   fetchHobbies: function({ commit }) {
-    let url = `${process.env.SERVER_API}fetch_hobby`
+    let url = `${process.env.SERVER_API}fetch_hobby`;
     this.$axios
       .get(url)
       .then(res => {
@@ -150,9 +145,11 @@ export const actions = {
       assets: {},
       hobby: state.hobby.code_name,
       hobby_name: state.hobby.name,
-      editor: state.editor
+      editor: state.editor,
+      hastags: [],
+      atags: []
     }
-    if (state.assets.images.length > 0) {
+    if (state.assets.images != undefined && state.assets.images.length > 0) {
       data['assets']['images'] = state.assets.images
     }
     if (state.assets.video != undefined) {
@@ -161,7 +158,7 @@ export const actions = {
     if (state.assets.audio != undefined) {
       data['assets']['audio'] = state.assets.audio
     }
-    if (state.assets.text != undefined) {
+    if (JSON.stringify(state.assets.text) != JSON.stringify({})) {
       data['assets']['text'] = { ...state.text }
       data['hastags'] = state.text.data.match(/#[a-z0-9_?]+/gi) || []
       data['atags'] = state.text.data.match(/@[a-z0-9_?]+/gi) || []
@@ -183,7 +180,7 @@ export const actions = {
         }
       })
     }
-    let url = `${process.env.SERVER_API}create_hobby`
+    let url = `${process.env.SERVER_API}post/create`
     let storage = new FrozenStorage()
     let token = storage.get('token')
     if (token === null) {
@@ -195,7 +192,7 @@ export const actions = {
       commit('setNextUrl', '/auth/login')
     } else {
       //TODO: Token insertion, more security required
-      console.log(data)
+
       this.$axios.setHeader('Authorization', token)
       this.$axios
         .post(url, JSON.stringify(data))
@@ -222,16 +219,17 @@ export const actions = {
         })
     }
   },
-  uploadFilesToFirebase: function({ state, commit }) {
+  uploadFilesToFirebase: function({ state, commit, dispatch},func) {
     if(window.navigator.onLine){
     let storage = new StorageVault(state.assets)
     storage.uploadAssets(
       (url, type) => {
         commit('insertAssetUrl', { url: url, type: type });
-        let assetlength = state.assets.images.length + (state.assets.video === undefined ? 0 : 1) + (state.assets.video === undefined ? 0 : 1); 
+        let assetlength = state.assets.images.length + (state.assets.video === undefined ? 0 : 1) + (state.assets.video === undefined ? 0 : 1);
         let assetsUrllength = state.assetsUrl.images.length + (state.assetsUrl.video === undefined ? 0 : 1) + (state.assetsUrl.video === undefined ? 0 : 1);
         if(assetlength === assetsUrllength){
             commit('setCompleted');
+            func()
         }
       },
       (progress, current) => {
@@ -250,7 +248,18 @@ export const actions = {
     commit('interactError', {
         error: true,
         msg: 'No Internet Connection.'
-      });       
+      });
    }
-  }
+ },
+
+ createPost: function({state, commit, dispatch}){
+   if (JSON.stringify(state.assets) != JSON.stringify({})){
+     dispatch('uploadFilesToFirebase',()=>{
+       dispatch('sendDataToServer');
+     });
+   }else{
+     dispatch('sendDataToServer');
+   }
+
+ }
 }
