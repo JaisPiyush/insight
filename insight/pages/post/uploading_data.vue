@@ -40,7 +40,6 @@ export default {
       if(this.error){
           return false;
       }else if(this.completed){
-        //   this.sentDataToServer();
           return !this.completed && !this.error;
       }else{
           return !this.completed && !this.error;

@@ -2,11 +2,13 @@
   <div
     class="w-full post-box bg-white my-4 overflow-hidden"
     style="border-bottom-right-radius: 1.25rem;border-bottom-left-radius: 1.25rem;"
+    @scroll="monitorAssets"
+    @click="$emit('current-index',index)"
   >
     <div
       class="header w-full h-16 px-2 flex flex-row flex-no-wrap py-2 border border-gray-300 border-l-0 border-t-0 border-r-0"
     >
-      <img @click="$router.push(`/profile/${username}`)" :src="avatar" class="w-12 h-12 rounded-lg" />
+      <img @click="$router.push(`/profile/${username}`)" :src="avatar" class="w-12 h-12 rounded-lg border" />
 
       <div class="w-auto h-full flex flex-col  ml-4">
         <p
@@ -20,7 +22,7 @@
         </p>
       </div>
       <div class="w-full h-full flex flex-row-reverse px-2">
-        <button
+        <button v-if="false"
           @click="followClickListener()"
           class="font-lato font-semibold text-lg text-blue-500 rounded-md h-10 px-4 bg-blue-100"
         >
@@ -120,6 +122,7 @@
           </button>
         </div>
         <button
+        v-if="false"
           @click="$emit('enable-comment')"
           class="w-auto focus:outline-none h-12 pt-2 px-2 outline-none bg-black rounded-lg mt-2 mr-2"
         >
@@ -150,14 +153,13 @@
 <script>
 /* TODO: Add Verified Tick */
 import AssetSlider from '@/components/post_elements/AssetSlider.vue'
-import { mapActions } from 'vuex'
+import { mapActions, mapMutations } from 'vuex'
 export default {
   props: ['commentActive', 'propsAsset','index','cindex'],
   components: {
     AssetSlider
   },
   beforeDestroy(){
-    this.$el.removeEventListener('scroll');
   },
   mounted() {
     this.bindDataWithPropsAsset()
@@ -173,24 +175,22 @@ export default {
       let observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            self.intersecting = true
-            self.$el.addEventListener('scroll', function(e) {
-              self.monitorAssets(e)
-            });
+            if(self.intersecting === false){
+              self.bindAction('view');
+              self.intersecting = true;
+            }
+
             self.$el.addEventListener('click', function(){
               self.$emit('current-index', self.index);
             })
-            observer.unobserve();
+            observer.unobserve(self.$el);
           } else {
             this.intersecting = false
           }
         })
       }, options)
       observer.observe(this.$el)
-    })
-    if (this.intersecting && this.actions.viewed === false) {
-      this.bindAction('view')
-    }
+    });
   },
   data() {
     return {
@@ -226,19 +226,15 @@ export default {
   },
   methods: {
     ...mapActions('post/post_actions', ['microActionPost']),
+    ...mapMutations('main',['updateActions']),
     bindDataWithPropsAsset: function() {
       this.pid = this.propsAsset.post_id;
       this.username = this.propsAsset.header.username;
       this.avatar = this.propsAsset.header.avatar;
-      this.actions = this.propsAsset.meta.actions;
       this.created = this.propsAsset.meta.created;
       this.assets = this.propsAsset.body;
       this.caption = this.propsAsset.caption;
-      this.loves = this.propsAsset.footer.love;
-      this.shares = this.propsAsset.footer.share;
-      this.comments = this.propsAsset.footer.comment;
-      this.saves = this.propsAsset.footer.save;
-      this.view = this.propsAsset.footer.view;
+      this.bindActionAssets();
       this.userurl = `/post/${this.username}`;
     },
     retroText: function(text) {
@@ -247,6 +243,16 @@ export default {
       } else {
         return text
       }
+    },
+    bindActionAssets: function(){
+    for(let [key,value] of Object.entries(this.propsAsset.meta.actions)){
+      this.actions[key] = (value === 1)? true: false;
+    }
+      this.loves = this.propsAsset.footer.action_map.love;
+      this.shares = this.propsAsset.footer.action_map.share;
+      this.comments = this.propsAsset.footer.action_map.comment;
+      this.saves = this.propsAsset.footer.action_map.save;
+      this.views = this.propsAsset.footer.action_map.view;
     },
     inView: function() {
       // Check post in view other wise stop video or song if exist. and if images.length ==0 && audio != undefined, then
@@ -281,20 +287,23 @@ export default {
 
     bindAction: function(type) {
       if (type === 'love') {
-        this.actions.loved = !this.actions.loved
-        if (this.actions.loved) {
-          this.loves += 1
-        } else {
-          this.loves -= 1
-        }
         this.microActionPost({
-          action: this.actions.loved ? 'love' : 'un_love',
-          pid: this.pid
+          action: (this.actions.loved) ? 'un_love' : 'love',
+          pid: this.pid,
+          action_complete: (payload) => {
+            this.updateActions(payload);
+            this.bindActionAssets();
+          }
         })
       } else if (type === 'view') {
-        this.actions.viewed = true
-        this.views += 1
-        this.microActionPost({ action: 'view', pid: this.pid })
+        this.microActionPost({ action: 'view',
+           pid: this.pid,
+           action_complete: (payload) => {
+             this.updateActions(payload);
+             this.bindActionAssets();
+           }
+           },
+         );
       } else if (type === 'share') {
         const shareurl = `https://www.freaquish.com/post/${this.pid}`
         if (navigator.share) {
@@ -305,27 +314,33 @@ export default {
               url: shareurl
             })
             .then(() => {
-              this.actions.shared = true
-              this.shares += 1
-              this.microActionPost({ action: 'share', pid: this.pid })
+              this.microActionPost({ action: 'share',
+                pid: this.pid,
+                action_complete: (payload) => {
+                  this.updateActions(payload);
+                  this.bindActionAssets();
+                }
+               });
             })
         }
         // this.microActionPost({action:'view',pid:this.pid});
       } else if (type === 'save') {
-        if (this.actions.loved) {
+        if (this.actions.saved) {
           this.microActionPost({
             action: 'un_save',
             pid: this.pid,
-            action_complete: () => {
-              this.actions.saved = false
+            action_complete: (payload) => {
+              this.updateActions(payload);
+              this.bindActionAssets();
             }
           })
         } else {
           this.microActionPost({
             action: 'save',
             pid: this.pid,
-            action_complete: () => {
-              this.actions.saved = true
+            action_complete: (payload) => {
+              this.updateActions(payload);
+              this.bindActionAssets();
             }
           })
         }

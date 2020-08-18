@@ -53,18 +53,19 @@ import AudioBox from '@/components/post_elements/AudioBox.vue'
 import PeripheralDot from '@/components/post_elements/PeripheralDot.vue'
 import TextBox from '@/components/post_elements/TextBox.vue'
 export default {
-  props: ['propAsset', 'play', 'index'],
+  props: ['propAsset', 'play'],
   mounted() {
     this.data = {...this.propAsset};
     this.assets = []
 
-    if (this.data.text != undefined && this.data.text != {}) {
+    if (this.data.text != undefined) {
       this.assets.push({ type: 'text', src: this.data.text })
     }
 
+    if (this.data.images != undefined){
     this.data.images.forEach(image => {
       this.assets.push({ type: 'image', src: image })
-    })
+    });}
 
     if (this.data.video != undefined) {
       this.assets.push({ type: 'video', src: this.data.video })
@@ -77,7 +78,7 @@ export default {
     this.$nextTick().then(() => {
       if (process.client) {
 
-        
+
         this.hammer = new Hammer.Manager(this.$el)
 
         let swipe = new Hammer.Swipe()
@@ -106,7 +107,7 @@ export default {
         images: [],
         video: undefined,
         audio: undefined,
-        
+
       },
       assets: [],
       index: 0,
@@ -193,7 +194,7 @@ export default {
         }
       }
     }
-    
+
   }
 }
 </script>

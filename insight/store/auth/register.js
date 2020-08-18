@@ -68,20 +68,21 @@ export const actions = {
             state.usernameAvailable === true && (state.email != undefined || state.phoneNumber != undefined) && state.password != undefined
             ){
                 let packet = {"username": state.username, "password": state.password, "first_name": state.firstName,
-                              "last_name": state.lastName, "detail": {}};
+                              "last_name": state.lastName, "details": {}};
                 if (state.email != undefined){
-                    packet['detail']['email'] = state.email;
+                    packet['details']['email'] = state.email;
                 }
                 if (state.phoneNumber != undefined){
                     packet['account_id'] = state.phoneNumber;
-                    packet['detail']['phone_number'] = state.phoneNumber;
+                    packet['details']['phone_number'] = state.phoneNumber;
                 }
                 if(state.coords != undefined){
                     packet['coords'] = state.coords;
                 }
-                console.log(packet)
                 const url = `${process.env.SERVER_API}auth/register`;
+                delete this.$axios.defaults.headers.common["Authorization"];
                 this.$axios.post(url, JSON.stringify(packet)).then((response) => {
+                  console.log(response);
                     if(response.status == 201){
                         let storage = new FrozenStoreage();
                         //this.$auth.setToken('local','Token '+response.data.token);
@@ -89,16 +90,19 @@ export const actions = {
                         this.$axios.setHeader('Authorization',`Token ${response.data.token}`);
                        // this.$auth.ctx.app.$axios.setHeader('Authorization' `Token ${response.data.token}`);
                         storage.set('first_name', response.data.first_name);
-                        storage.set('avatar'. response.data.avatar);
+                        storage.set('avatar', response.data.avatar);
+                        storage.set('vintro','1');
+                        this.$router.push('/')
                     }
                 }).catch((err) =>{
-                    if(err.response.status === 403){
-                        commit('raiseError', 'Account already exist try login.');
-                    }else if(err.response.status === 406){
-                        commit('raiseError', 'Form is incomplete.');
-                    }else{
+                  console.log(err);
+                    // if(err.response.status === 403){
+                    //     commit('raiseError', 'Account already exist try login.');
+                    // }else if(err.response.status === 406){
+                    //     commit('raiseError', 'Form is incomplete.');
+                    // }else{
                         commit('raiseError', 'Something bad is happening');
-                    }
+                    // }
                     commit('updatePageIndex',1);
                 })
 

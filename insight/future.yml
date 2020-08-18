@@ -1,6 +1,13 @@
-deprecation:
-  - vue-cropperjs
-  - vue2-hammerjs
+introduction:
+  - follow
+  - comment
+  - search
+  - discover
+  - forgot password
+  - leaderboard
+  - notifications
+  - add friend
+  - add places
 
 refraction:
   - Token Storage from local Storage to safe storage

@@ -88,7 +88,6 @@ export const mutations = {
     state.assets.video = state.assetsUrl.video
     state.assets.audio = state.assetsUrl.audio
     state.completed = true;
-    this.dispatch("post/create/sendDataToServer");
   },
   setHobby: function(state, payload){
     state.hobby = {...payload};
@@ -158,7 +157,7 @@ export const actions = {
     if (state.assets.audio != undefined) {
       data['assets']['audio'] = state.assets.audio
     }
-    if (JSON.stringify(state.assets.text) != JSON.stringify({})) {
+    if (JSON.stringify(state.text) != JSON.stringify({})) {
       data['assets']['text'] = { ...state.text }
       data['hastags'] = state.text.data.match(/#[a-z0-9_?]+/gi) || []
       data['atags'] = state.text.data.match(/@[a-z0-9_?]+/gi) || []
@@ -171,6 +170,8 @@ export const actions = {
       data['atags'] = data['atags'].concat(
         state.caption.match(/#[a-z0-9_?]+/gi) || []
       )
+    }else{
+      data['caption'] = ''
     }
     if (window.navigator.geolocation) {
       window.navigator.geolocation.getCurrentPosition(position => {
@@ -180,6 +181,7 @@ export const actions = {
         }
       })
     }
+    console.log(data);
     let url = `${process.env.SERVER_API}post/create`
     let storage = new FrozenStorage()
     let token = storage.get('token')
@@ -225,11 +227,11 @@ export const actions = {
     storage.uploadAssets(
       (url, type) => {
         commit('insertAssetUrl', { url: url, type: type });
-        let assetlength = state.assets.images.length + (state.assets.video === undefined ? 0 : 1) + (state.assets.video === undefined ? 0 : 1);
-        let assetsUrllength = state.assetsUrl.images.length + (state.assetsUrl.video === undefined ? 0 : 1) + (state.assetsUrl.video === undefined ? 0 : 1);
+        let assetlength = (state.assets.images === undefined)? 0 : (state.assets.images.length + (state.assets.video === undefined ? 0 : 1) + (state.assets.video === undefined ? 0 : 1));
+        let assetsUrllength = (state.assetsUrl.images === undefined)? 0 : (state.assetsUrl.images.length + (state.assetsUrl.video === undefined ? 0 : 1) + (state.assetsUrl.video === undefined ? 0 : 1));
         if(assetlength === assetsUrllength){
             commit('setCompleted');
-            func()
+            func();
         }
       },
       (progress, current) => {
@@ -254,12 +256,11 @@ export const actions = {
 
  createPost: function({state, commit, dispatch}){
    if (JSON.stringify(state.assets) != JSON.stringify({})){
-     dispatch('uploadFilesToFirebase',()=>{
+     dispatch('uploadFilesToFirebase', () =>{
        dispatch('sendDataToServer');
      });
    }else{
      dispatch('sendDataToServer');
    }
-
  }
 }

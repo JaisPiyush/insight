@@ -16,7 +16,7 @@ export default {
   },
   mounted(){
       let self = this;
-      
+
       this.getText();
       // this.spltiContent();
       this.$nextTick().then(() => {
@@ -48,18 +48,18 @@ export default {
      }
    },
     getText: function(){
-      this.text = this.data.text;
+      this.text = this.data.data;
       let regex = /@[0-9a-z_?]+|#[0-9a-z_?]+/gi
-      let matches = this.data.text.match(regex) || []
+      let matches = this.data.data.match(regex) || []
       if (matches.length > 0) {
         for (let index = 0; index < matches.length; index++) {
           if (matches[index].includes('#')) {
-            this.text = this.data.text.replace(
+            this.text = this.data.data.replace(
               matches[index],
               `<span class="font-montserrat italic text-blue-500">${matches[index]}</span>`
             )
           } else if (matches[index].includes('@')) {
-            this.text =this.data.text.replace(
+            this.text =this.data.data.replace(
               matches[index],
               `<span class="font-montserrat text-blue-700">${matches[index]}</span>`
             )

@@ -1,15 +1,17 @@
 import FrozenStorage from '@/static/js/local_storage.js'
 
 export const state = () => ({
-    
+
 });
 
 export const mutations = {
-  
+
+
+
 };
 
 export const actions ={
-  microActionPost: async function({ state }, payload) {
+  microActionPost: async function({ state,commit }, payload) {
     let storage = new FrozenStorage()
     let token = storage.get('token')
     let url = process.env.SERVER_API + "post/micro_action"
@@ -25,15 +27,18 @@ export const actions ={
       }
       if(payload.action === 'comment'){
         let data = {"action":payload.action, "pid": payload.pid, "comment": payload.comment}
-        this.$axios.post(url,JSON.stringify(data));
+        this.$axios.post(url,JSON.stringify(data)).then(res => {
+          if(payload.action_complete != undefined){
+            payload.action_complete(payload);
+          }
+        });
       }else{
         url = `${url}?action=${payload.action}&pid=${payload.pid}`;
         this.$axios.get(url).then((res) =>{
-          if(status === 200){
             if(payload.action_complete != undefined){
-              payload.action_complete();
+              payload.action_complete(payload);
             }
-          }
+
         });
       }
     }

@@ -16,7 +16,7 @@
       </div>
       <div class="body flex flex-col">
         <div v-for="post in posts" :key="post.post_id">
-            <post-box :propsAsset="post" :index="posts.indexOf(post)" :cindex="cindex" :commentActive="true" @current-index="updateIndex" />
+            <post-box :propsAsset="post" :index="posts.indexOf(post)" :cindex="cindex" :commentActive="true" @current-index="updateIndex" @enable-comment="$router.push(`/post/${post.post_id}`)" />
         </div>
       </div>
     </div>

@@ -94,7 +94,7 @@ export default {
     return { aid: params.aid }
   },
   mounted() {
-      let self = this;
+    let self = this;
     this.fetchThirdProfile({aid:this.aid,func:()=>{
         self.renderDescription(self.description);
     }})
