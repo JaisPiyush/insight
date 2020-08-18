@@ -60,7 +60,13 @@ export default {
       if(viewed === null || viewed != '1'){
         this.$router.push('/intro');
       }else{
-        func();
+        let token = storage.get('token')
+        if(token === null){
+          this.$router.push('/auth/login')
+        }else{
+          func();
+        }
+
       }
     },
     navigateToSelf: function(){

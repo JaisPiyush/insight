@@ -25,7 +25,11 @@
 
 <script>
 import {mapActions} from "vuex";
+import FrozenStorage from "@/static/js/local_storage"
 export default {
+  mounted(){
+    this.checkVintroViewed();
+  },
   data() {
       return {
         login_message: 'Please enter your credentials to login.',
@@ -56,6 +60,18 @@ export default {
               this.account_id = this.account_id.replace("+91","")
             }
             this.loginAction({account_id:this.account_id, password: this.password});
+          }
+        },
+        checkVintroViewed: function(){
+          let storage = new FrozenStorage();
+          let vintro = storage.get('vintro');
+          if(vintro === null || vintro != '1'){
+            this.$router.push('/intro')
+          }else{
+            let token = storage.get('token');
+            if(token != null){
+              this.$router.push('/')
+            }
           }
         }
   }
