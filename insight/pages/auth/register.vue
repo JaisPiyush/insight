@@ -4,7 +4,7 @@
       id="register"
       class="max-w-full px-6 py-0  w-screen h-screen bg-white flex flex-col"
     >
-     
+
       <div class="w-full h-12 flex mt-2 mb-2">
         <div
           v-if="this.pageIndex > 1"
@@ -40,7 +40,7 @@
           <span class="text-xl font-muli text-gray-900">2</span>
         </div>
       </div>
-       
+
       <!-- Error -->
       <div v-if="this.err"  class="w-full h-10 rounded-md flex mt-2 px-1 py-2 bg-red-500">
        <p class="font-montserrat text-white font-semibold">{{errorText}}</p>
@@ -203,6 +203,7 @@
       <!-- Bottom -->
       <div class="w-full flex justify-between px-2 py-2 mt-4">
         <p
+        @click="$router.push('/auth/login')"
           v-if="this.pageIndex === 1"
           class="font-lato font-semibold text-green-400 text-xl"
         >
@@ -304,7 +305,7 @@ export default {
             countryCode: '+91',
             password: this.password
           });
-          
+
           this.updatePageIndex(2);
         }
         // Verify password is correct
@@ -312,7 +313,7 @@ export default {
           this.password = undefined
           this.confirmPassword = undefined
         })
-        
+
       }
     },
 
@@ -371,7 +372,7 @@ export default {
         if(navigator.geolocation){
           navigator.geolocation.getCurrentPosition((position) => {
             data['ccords'] = {'lat': position.coords.latitude, 'long': position.coords.longitude};
-           
+
           });
         }
         this.insesrtSecondPageData(data);

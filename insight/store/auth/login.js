@@ -11,7 +11,8 @@ export const actions = {
     let storage = new FrozenStorage();
     storage.set('vintro','1');
     this.$axios.post(url, JSON.stringify(data)).then(res => {
-      if(satus === 202){
+      if(res.status === 202){
+        console.log(res.data);
         storage.set('token',res.data.token);
         storage.set('first_name', res.data.first_name);
         storage.set('avatar', res.data.avatar);
@@ -19,7 +20,6 @@ export const actions = {
       }
     }).catch(err => {
       console.log(err);
-      this.$router.push('/auth/register')
     });
   }
 }
