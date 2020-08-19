@@ -14,7 +14,7 @@ export const actions ={
   microActionPost: async function({ state,commit }, payload) {
     let storage = new FrozenStorage()
     let token = storage.get('token')
-    let url = "http://condom.freaquish.com/api/v1/" + "post/micro_action"
+    let url = "https://condom.freaquish.com/api/v1/" + "post/micro_action"
     // Comment and Save feature will only be enabled for known users.
     // If a non-registered user comments or save, the router shall navigate him to login
     // @payload contains {action: 'love/share/un_love/view/comment/save/un_save' , data:'comment-text'}

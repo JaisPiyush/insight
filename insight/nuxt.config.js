@@ -84,7 +84,7 @@ export default {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
-    baseURl: "http://condom.freaquish.com/api/v1/"
+    baseURl: "https://condom.freaquish.com/api/v1/"
   },
   router:{
 

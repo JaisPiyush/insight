@@ -1,6 +1,9 @@
 <template>
   <div class="w-full h-screen overflow-hidden bck">
     <div class="formpnl login100-form" v-show="showLoginForm">
+      <div v-if="this.error" class="h-12 rounded-lg w-full px-4 py-2 bg-red-600">
+         <p class="font-lato font-bold text-white">Invalid Credentials, try again</p>
+      </div>
       <div class="title font-bold font-muli mt-4 text-green-400">freaquish</div>
       <div class="w-auto h-12 mt-8 border rounded-md border-green-400">
         <i class="fa fa-user-circle mt-4 text-white ml-2" aria-hidden="true"></i>
@@ -24,7 +27,7 @@
 </template>
 
 <script>
-import {mapActions} from "vuex";
+import {mapActions,mapState} from "vuex";
 import FrozenStorage from "@/static/js/local_storage"
 export default {
   mounted(){
@@ -37,11 +40,10 @@ export default {
         currentForm: 'login',
         account_id:undefined,
         password: undefined,
-        error: false,
-        error_text: undefined
       }
     },
   computed: {
+    ...mapState("auth/login",['error']),
         showRegisterForm() {
         return this.currentForm === 'register';
     },

@@ -74,7 +74,7 @@ export const actions = {
     commit('setErrorState',false);
     let storage = new FrozenStorage();
     let token = storage.get('token');
-    const url = `${"http://condom.freaquish.com/api/v1/"}feed`
+    const url = `${"https://condom.freaquish.com/api/v1/"}feed`
     if(token != null){
       this.$axios.setHeader('Authorization',token);
     }
@@ -95,7 +95,7 @@ export const actions = {
     commit('setPostData', {});
     let storage = new FrozenStorage();
     let token = storage.get('token');
-    const url = `${"http://condom.freaquish.com/api/v1/"}post/${payload.pid}`;
+    const url = `${"https://condom.freaquish.com/api/v1/"}post/${payload.pid}`;
     if(token != null){
       this.$axios.setHeader('Authorization',token);
     }

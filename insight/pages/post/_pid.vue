@@ -19,7 +19,7 @@ import CommentInputBox from '@/components/post_elements/CommentInputBox.vue';
 import {mapState, mapActions} from "vuex";
 export default {
   asyncData({params, app}){
-    const url = `${"http://condom.freaquish.com/api/v1/"}post/${params.pid}`;
+    const url = `${"https://condom.freaquish.com/api/v1/"}post/${params.pid}`;
     return app.$axios.get(url).then(res=>{
       return {post:res.data,pid:params.pid};
     });
@@ -49,7 +49,7 @@ export default {
       this.fetchPost({pid:this.pid, func: () => {}})
     },
     updateComment: function(){
-      const url = `${"http://condom.freaquish.com/api/v1/"}post_comment?pid=${this.pid}`;
+      const url = `${"https://condom.freaquish.com/api/v1/"}post_comment?pid=${this.pid}`;
       this.$axios.get(url).then(res => {
         this.post.footer.comments = res.data.comments;
         console.log(this.post)
