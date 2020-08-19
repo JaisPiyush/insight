@@ -14,6 +14,7 @@ export const state = () => ({
     err:false,
     errorText:undefined,
     pageIndex: 1,
+    accountAvailable: undefined
 });
 
 export const mutations = {
@@ -38,6 +39,9 @@ export const mutations = {
     updateUsernameAvailability(state, available){
         state.usernameAvailable = available;
     },
+    updateAccountAvailability(state, available){
+        state.accountAvailable = available;
+    },
     raiseError(state, text){
         state.err = true;
         state.errorText = text;
@@ -60,6 +64,17 @@ export const actions = {
             // state.usernameAvailable = true;
         }else{
             commit('updateUsernameAvailability', false);
+        }
+    },
+
+    async checkAccountAvailibility({commit, state}, account){
+        const url = `${"https://condom.freaquish.com/api/v1/"}auth/account_check?uaccount_id=${username}`;
+        let {data, status}= await this.$axios.get(url);
+        if(status === 200 && data['available'] === 1){
+            commit('updateAccountAvailability', true);
+            // state.usernameAvailable = true;
+        }else{
+            commit('updateAccountAvailability', false);
         }
     },
 

@@ -81,8 +81,23 @@
               <input
                 v-model="phoneNumber"
                 type="tel"
+                @input="accountCheck"
                 class="h-6 px-1 focus:outline-none caret-green font-muli"
               />
+              <span
+                v-if="
+                  this.accountAvailable != undefined && this.accountAvailable
+                "
+                class="material-icons stroke-current text-green-400"
+                >check</span
+              >
+              <span
+                v-else-if="
+                  this.accountAvailable != undefined && !this.accountAvailable
+                "
+                class="material-icons stroke-current text-red-400"
+                >clear</span
+              >
             </div>
           </div>
           <!-- Phone Ends -->
@@ -274,7 +289,8 @@ export default {
       usernameAvailable: state => state.usernameAvailable,
       err: state => state.err,
       pageIndex : state => state.pageIndex,
-      errorText: state => state.errorText
+      errorText: state => state.errorText,
+      accountAvailable: state => state.accountAvailable
     })
   },
   methods: {
@@ -283,7 +299,7 @@ export default {
       'insesrtSecondPageData',
       'updatePageIndex'
     ]),
-    ...mapActions('auth/register', ['checkUsernameAvailibility','uploadDatatoServer']),
+    ...mapActions('auth/register', ['checkUsernameAvailibility','uploadDatatoServer','checkAccountAvailibility']),
     nextClick: function() {
       this.verifyFirstPageInput()
       if (
@@ -400,6 +416,11 @@ export default {
         last_name.style.setProperty('border-color', '#f56565')
       } else {
         last_name.style.setProperty('border-color', '#cbd5e0')
+      }
+    },
+    accountCheck: function(){
+      if(this.phoneNumber != undefined && this.phoneNumber.length > 9){
+        this.checkAccountAvailibility(this.phoneNumber);
       }
     }
   }
