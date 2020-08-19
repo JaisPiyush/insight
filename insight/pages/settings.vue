@@ -4,13 +4,13 @@
         <div class="setpannel" v-show="showSettingPage">
             <div class="flex flex-column">
             <div class=" w-12 h-6 mt-4 ml-3">
-                <ArrowBack />
+                <ArrowBack @click="$router.go(-1)" />
             </div>
-            <div class=" font-lato  text-xl mt-4 ml-1"> Settings</div>
+            <div @click="$router.push('/settings')" class=" font-lato  text-xl mt-4 ml-1"> Settings</div>
             </div>
             <!-- <div class="border-b-2 border-gray-400 mt-2"></div> -->
             <div class="px-4 pt-4">
-                <div @click="$router.push('/profile.self')" class="h-8 rounded-lg pt-1  font-roboto text-gray-800  mt-1 ">Edit Profile</div>
+                <div @click="$router.push('/profile/self')" class="h-8 rounded-lg pt-1  font-roboto text-gray-800  mt-1 ">Edit Profile</div>
                 <!-- <div class="h-8 rounded-lg pt-1  font-roboto text-gray-800  mt-1 ">Change Password</div> -->
                 <div class="h-8 rounded-lg pt-1  font-roboto text-gray-800  mt-1 " @click.prevent="togglePage('about')">About</div>
                 <div @click="logout" class="h-8 rounded-lg font-roboto text-blue-400 mt-1 ">Log out</div>

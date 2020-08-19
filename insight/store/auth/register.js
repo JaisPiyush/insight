@@ -89,20 +89,13 @@ export const actions = {
                         storage.set('token', `Token ${response.data.token}`);
                         this.$axios.setHeader('Authorization',`Token ${response.data.token}`);
                        // this.$auth.ctx.app.$axios.setHeader('Authorization' `Token ${response.data.token}`);
-                        storage.set('first_name',`Token ${response.data.first_name}`);
+                        storage.set('first_name',`${response.data.first_name}`);
                         storage.set('avatar', response.data.avatar);
                         storage.set('vintro','1');
                         this.$router.push('/')
                     }
                 }).catch((err) =>{
-                  console.log(err);
-                    // if(err.response.status === 403){
-                    //     commit('raiseError', 'Account already exist try login.');
-                    // }else if(err.response.status === 406){
-                    //     commit('raiseError', 'Form is incomplete.');
-                    // }else{
-                        commit('raiseError', 'Something bad is happening');
-                    // }
+                    commit('raiseError', 'Something bad is happening');
                     commit('updatePageIndex',1);
                 })
 

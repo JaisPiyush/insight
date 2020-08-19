@@ -1,7 +1,7 @@
 <template>
   <div class="w-full h-full flex flex-col">
     <div class="header flex w-full h-16 px-2 pt-4">
-      <span class="material-icons">
+      <span @click="$router.go(-1)" class="material-icons">
         keyboard_backspace
       </span>
       <input
