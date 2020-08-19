@@ -20,7 +20,7 @@ export const actions = {
     this.$axios.post(url, JSON.stringify(data)).then(res => {
       if(res.status === 202){
         commit('setErrorState',false)
-        storage.set('token',res.data.token);
+        storage.set('token',`Token ${res.data.token}`);
         storage.set('first_name', res.data.first_name);
         storage.set('avatar', res.data.avatar);
         this.$router.push('/')

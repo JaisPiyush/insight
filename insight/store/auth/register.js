@@ -89,7 +89,7 @@ export const actions = {
                         storage.set('token', `Token ${response.data.token}`);
                         this.$axios.setHeader('Authorization',`Token ${response.data.token}`);
                        // this.$auth.ctx.app.$axios.setHeader('Authorization' `Token ${response.data.token}`);
-                        storage.set('first_name', response.data.first_name);
+                        storage.set('first_name',`Token ${response.data.first_name}`);
                         storage.set('avatar', response.data.avatar);
                         storage.set('vintro','1');
                         this.$router.push('/')
