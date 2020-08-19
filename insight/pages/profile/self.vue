@@ -6,7 +6,7 @@
     <div v-if="!this.imageView && !this.placeBox" class="flex flex-col">
       <div  class="flex px-4 justify-between py-4">
         <span @click="$router.go(-1)" class="material-icons">keyboard_backspace</span>
-        <p  class="font-muli text-green-400 font-bold">Settings ></p>
+        <p @click="$router.push('/settings')" class="font-muli text-green-400 font-bold">Settings ></p>
       </div>
 
       <div class="flex justify-between px-10">
