@@ -1,6 +1,6 @@
 <template>
   <client-only>
-    <div class="w-full body flex flex-col" style="">
+    <div class="w-full body flex flex-col slider" style="">
       <div v-if="this.play" class="w-full" style="height:98%; max-height:100;">
         <div styles="width:100%;height:50vh;" v-if="this.isActive('text')">
           <text-box :data="getSrc()" />
@@ -9,7 +9,7 @@
           <img
             :src="getSrc()"
             class="w-full"
-            style="height:98%;"
+            style="height:98%;max-height:50vh;"
             @load="changestate({ loading: false, error: false })"
             @error="changestate({ loading: false, error: true })"
           />
@@ -19,7 +19,7 @@
             controls
             :src="getSrc()"
             class="w-full"
-            style="height:100%;"
+            style="max-height:50vh;height:100%;"
             @load="changestate({ loading: false, error: false })"
             @error="changestate({ loading: false, error: true })"
           />
@@ -203,6 +203,10 @@ export default {
 .body {
   min-width: 100%;
   /* min-height: ; */
+}
+
+.slider{
+  max-height:55vh;
 }
 
 </style>

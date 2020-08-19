@@ -154,6 +154,7 @@
 /* TODO: Add Verified Tick */
 import AssetSlider from '@/components/post_elements/AssetSlider.vue'
 import { mapActions, mapMutations } from 'vuex'
+import {avatarDefault} from "@/static/js/assets";
 export default {
   props: ['commentActive', 'propsAsset','index','cindex'],
   components: {
@@ -231,6 +232,7 @@ export default {
       this.pid = this.propsAsset.post_id;
       this.username = this.propsAsset.header.username;
       this.avatar = this.propsAsset.header.avatar;
+      this.avatar = (this.avatar != undefined && this.avatar.length > 0)? this.avatar : avatarDefault;
       this.created = this.propsAsset.meta.created;
       this.assets = this.propsAsset.body;
       this.caption = this.propsAsset.caption;

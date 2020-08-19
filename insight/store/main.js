@@ -15,7 +15,7 @@ export const mutations = {
     state.firstName = payload.meta.first_name || 'Welcome';
     state.posts = payload.posts;
     if(payload.meta.avatar != undefined && payload.meta.avatar.length > 0){
-      state.avatar = [payload.meta.avatar];
+      state.avatar = payload.meta.avatar;
     }else{
       state.avatar = avatarDefault;
     }
@@ -80,6 +80,7 @@ export const actions = {
     }
     this.$axios.get(url).then(res=>{
       commit('setAccountData', res.data);
+      storage.set('avatar',(res.data.header.avatar != undefined && res.data.header.avatar.length > 0)?res.data.header.avatar : avatarDefault )
       commit('setLoadingState',false);
 
     }).catch(err => {
