@@ -65,22 +65,6 @@
 
          </div>
        </div>
-
-       <!-- Fifth Page -->
-       <div class="w-full h-screen py-6 px-4 bg-pink-600">
-         <div class="w-full h-auto mt-40 text-white font-montserrat ">
-           <p class="text-3xl">पक्षियों को अपना लक्ष्य मिलेगा</p>
-           <p class="text-3xl">पक्षियों को अपना लक्ष्य मिलेगा</p>
-           <p class="text-3xl">उनके पंख बोलता है</p>
-           <p class="text-3xl">अक्सर वो लोग खामोश रहते हैं</p>
-           <p class="text-3xl"><span class="px-4 py-1 bg-white text-pink-600">जिन्क पास प्रतिभा होता हैै</span></p>
-           <div class="w-full h-16 flex flex-row-reverse py-2 mt-10 mr-6">
-             <p @click="$router.push('/auth/login')" class="px-4 bg-white text-pink-600 rounded-full shadow-xl text-3xl font-muli">Start</p>
-           </div>
-         </div>
-       </div>
-
-
     </div>
 </template>
 

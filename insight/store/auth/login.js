@@ -7,7 +7,7 @@ export const mutations = {};
 export const actions = {
   loginAction: function({state, commit}, payload){
     let data = {account_id:payload.account_id, password: payload.password};
-    const url = `${process.env.SERVER_API}auth/login`;
+    const url = `${"http://condom.freaquish.com/api/v1/"}auth/login`;
     let storage = new FrozenStorage();
     storage.set('vintro','1');
     this.$axios.post(url, JSON.stringify(data)).then(res => {

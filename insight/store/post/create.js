@@ -123,7 +123,7 @@ export const mutations = {
 
 export const actions = {
   fetchHobbies: function({ commit }) {
-    let url = `${process.env.SERVER_API}fetch_hobby`;
+    let url = `${"http://condom.freaquish.com/api/v1/"}fetch_hobby`;
     this.$axios
       .get(url)
       .then(res => {
@@ -182,7 +182,7 @@ export const actions = {
       })
     }
     console.log(data);
-    let url = `${process.env.SERVER_API}post/create`
+    let url = `${"http://condom.freaquish.com/api/v1/"}post/create`
     let storage = new FrozenStorage()
     let token = storage.get('token')
     if (token === null) {

@@ -12,7 +12,7 @@ export default {
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/*', href: '/favicon.webp' },
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       {rel:"stylesheet", href:"https://fonts.googleapis.com/icon?family=Material+Icons"},
       { rel: 'stylesheet', href: "https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Muli:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Roboto:wght@300;400;500&display=swap" },
       { rel: 'stylesheet', href: '/global.css'},
@@ -84,7 +84,7 @@ export default {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
-    baseURl: process.env.SERVER_API
+    baseURl: "http://condom.freaquish.com/api/v1/"
   },
   router:{
 

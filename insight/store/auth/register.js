@@ -53,7 +53,7 @@ export const mutations = {
 
 export const actions = {
     async checkUsernameAvailibility({commit, state}, username){
-        const url = `${process.env.SERVER_API}auth/username_check?username=${username}`;
+        const url = `${"http://condom.freaquish.com/api/v1/"}auth/username_check?username=${username}`;
         let {data, status}= await this.$axios.get(url);
         if(status === 200 && data['available'] === 1){
             commit('updateUsernameAvailability', true);
@@ -79,7 +79,7 @@ export const actions = {
                 if(state.coords != undefined){
                     packet['coords'] = state.coords;
                 }
-                const url = `${process.env.SERVER_API}auth/register`;
+                const url = `${"http://condom.freaquish.com/api/v1/"}auth/register`;
                 delete this.$axios.defaults.headers.common["Authorization"];
                 this.$axios.post(url, JSON.stringify(packet)).then((response) => {
                   console.log(response);

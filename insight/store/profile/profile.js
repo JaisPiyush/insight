@@ -81,7 +81,7 @@ export const actions = {
     commit('setLoadingState', true)
     let storage = new FrozenStorage()
     let token = storage.get('token')
-    const url = `${process.env.SERVER_API}profile`
+    const url = `${"http://condom.freaquish.com/api/v1/"}profile`
     // console.log(token)
     if (token != null) {
       this.$axios.setHeader('Authorization', token)
@@ -108,7 +108,7 @@ export const actions = {
     commit('setLoadingState', true)
     let storage = new FrozenStorage()
     let token = storage.get('token')
-    const url = `${process.env.SERVER_API}profile`
+    const url = `${"http://condom.freaquish.com/api/v1/"}profile`
     if (token === null) {
       this.$router.push('/auth/login')
     } else {
@@ -152,7 +152,7 @@ export const actions = {
     commit('setLoadingState', true)
     let storage = new FrozenStorage()
     let token = storage.get('token')
-    const url = `${process.env.SERVER_API}profile/third/${load.aid}`
+    const url = `${"http://condom.freaquish.com/api/v1/"}profile/third/${load.aid}`
     // console.log(token)
     if (token != null) {
       this.$axios.setHeader('Authorization', token)
