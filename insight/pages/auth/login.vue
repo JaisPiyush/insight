@@ -19,12 +19,12 @@
       </div>
       <!-- <div class="text-right mt-4 mr-6 text-gray-600">Forget Password ?</div> -->
       <div class="w-full h-16 py-2 px-2 mt-10 flex">
-         
+
          <button @click="login" class="w-full py-2 mx-5 font-muli font-bold focus:outline-none text-center text-white bg-green-400 rounded-full">Login</button>
       </div>
       <div class="ml-8 mr-8 text-center text-gray-200 mt-12 mb-8">
         <div class="text-md">Don't have any account, join us <br></div>
-        <h1><a class="mt-4 text-green-500 text-lg">REGISTER</a><span class="text-md text-gray-200">, here</span></h1>
+        <h1><a @click="$router.push('/auth/register')" class="mt-4 text-green-500 text-lg">REGISTER</a></h1>
       </div>
     </div>
   </div>
