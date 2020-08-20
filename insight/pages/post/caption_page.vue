@@ -11,7 +11,7 @@
       >
         keyboard_backspace
       </span>
-      <button @click="nextClick" class="px-4 py-2 bg-pink-500 rounded-md font-lato font-semibold text-white">Next</button>
+
     </div>
     <!-- Body -->
     <div class="w-full h-auto flex flex-col justify-between px-4 my-6">
@@ -29,6 +29,9 @@
           </div>
         </div>
       </div>
+    </div>
+    <div class="w-full h-12 px-4 mt-6">
+        <button @click="nextClick" class="w-full py-2 bg-pink-500 rounded-md font-lato font-semibold text-white">Next</button>
     </div>
   </div>
 </template>

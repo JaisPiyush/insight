@@ -1,7 +1,7 @@
 <template>
   <div
     class="w-full post-box bg-white my-4 overflow-hidden"
-    style="border-bottom-right-radius: 1.25rem;border-bottom-left-radius: 1.25rem;"
+    style="border-bottom-right-radius: 1.25rem;border-bottom-left-radius: 1.25rem;touch-action: pan-y !important;"
     @scroll="monitorAssets"
     @click="$emit('current-index',index)"
   >
@@ -33,7 +33,7 @@
 
     <!-- Body -->
     <div v-if="this.intersecting" class="body w-full">
-      <AssetSlider :play="play && (cindex === index)" :propAsset="assets" :index="index" />
+      <AssetSlider :propAsset="assets"  />
     </div>
 
     <!-- Footer -->
@@ -163,7 +163,8 @@ export default {
   beforeDestroy(){
   },
   mounted() {
-    this.bindDataWithPropsAsset()
+    this.bindDataWithPropsAsset();
+    this.intersecting = true;
     this.getCaption()
     this.$nextTick().then(() => {
       let height = (window.innerHeight * 10) / 100
@@ -172,25 +173,6 @@ export default {
         rootMargin: `${height}px`,
         threshold: 0.75
       }
-      let self = this;
-      let observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            if(self.intersecting === false){
-              self.bindAction('view');
-              self.intersecting = true;
-            }
-
-            self.$el.addEventListener('click', function(){
-              self.$emit('current-index', self.index);
-            })
-            observer.unobserve(self.$el);
-          } else {
-            this.intersecting = false
-          }
-        })
-      }, options)
-      observer.observe(this.$el)
     });
   },
   data() {
@@ -233,11 +215,13 @@ export default {
       this.username = this.propsAsset.header.username;
       this.avatar = this.propsAsset.header.avatar;
       this.avatar = (this.avatar != undefined && this.avatar.length > 0)? this.avatar : avatarDefault;
+      this.hobbyName = this.propsAsset.header.hobby_name;
       this.created = this.propsAsset.meta.created;
       this.assets = this.propsAsset.body;
       this.caption = this.propsAsset.caption;
       this.bindActionAssets();
       this.userurl = `/post/${this.username}`;
+      // console.log(this.assets);
     },
     retroText: function(text) {
       if (text >= 1000) {

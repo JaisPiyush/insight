@@ -132,7 +132,7 @@
         <div class="w-full h-16 flex px-6 py-2">
           <p class="font-muli text-gray-500 font-bold">Collections</p>
         </div>
-        <div class="w-full h-auto" style="display:grid;gird-template-columns:1fr 1fr 1fr;">
+        <div class="w-full h-auto flex flex-wrap">
           <div v-for="post in collections" :key="post.post_id">
             <asset-box :post="post" />
           </div>

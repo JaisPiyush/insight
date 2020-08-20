@@ -14,7 +14,7 @@ export const actions = {
   loginAction: function({state, commit}, payload){
     commit('setErrorState',false)
     let data = {account_id:payload.account_id, password: payload.password};
-    const url = `${"https://condom.freaquish.com/api/v1/"}auth/login`;
+    const url = `auth/login`;
     let storage = new FrozenStorage();
     storage.set('vintro','1');
     this.$axios.post(url, JSON.stringify(data)).then(res => {

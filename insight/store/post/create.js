@@ -1,4 +1,4 @@
-import { StorageVault } from '@/plugins/FirebasePlugin.js'
+import { StorageVaultBeta } from '@/plugins/FirebasePlugin.js'
 import FrozenStorage from '@/static/js/local_storage'
 export const state = () => ({
   hobby_list: [],
@@ -83,10 +83,16 @@ export const mutations = {
       return h.name.length > 0 && h.code_name.length > 0 && h.editors.length >0;
     } );
   },
-  setCompleted: function(state) {
-    state.assets.images = state.assetsUrl.images
-    state.assets.video = state.assetsUrl.video
-    state.assets.audio = state.assetsUrl.audio
+  setCompleted: function(state,payload) {
+    if(payload.images != undefined){
+        state.assets.images = payload.images
+    }
+    if(payload.video != undefined){
+      tate.assets.video = payload.video
+    }
+   if(payload.audio != undefined){
+       state.assets.audio = payload.audio
+   }
     state.completed = true;
   },
   setHobby: function(state, payload){
@@ -123,7 +129,7 @@ export const mutations = {
 
 export const actions = {
   fetchHobbies: function({ commit }) {
-    let url = `${"https://condom.freaquish.com/api/v1/"}fetch_hobby`;
+    let url = `fetch_hobby`;
     this.$axios
       .get(url)
       .then(res => {
@@ -143,8 +149,6 @@ export const actions = {
     let data = {
       assets: {},
       hobby: state.hobby.code_name,
-      hobby_name: state.hobby.name,
-      editor: state.editor,
       hastags: [],
       atags: []
     }
@@ -181,20 +185,19 @@ export const actions = {
         }
       })
     }
-    console.log(data);
-    let url = `${"https://condom.freaquish.com/api/v1/"}post/create`
+    let url = `post/create`
     let storage = new FrozenStorage()
     let token = storage.get('token')
     if (token === null) {
       commit('interactError', {
         error: true,
         msg: "Couldn't find account details."
-      })
+      });
       commit('reset')
       commit('setNextUrl', '/auth/login')
     } else {
       //TODO: Token insertion, more security required
-
+      // console.log(data);
       this.$axios.setHeader('Authorization', token)
       this.$axios
         .post(url, JSON.stringify(data))
@@ -206,46 +209,22 @@ export const actions = {
           }
         })
         .catch(err => {
-          if(err.status === 401 || err.status === 403){
-            commit('interactError', {
-              error: true,
-              msg: 'You should login, or register if you are new.'
-            });
-          }else{
-            commit('interactError', {
-              error: true,
-              msg: 'Media transfer failed due to bad network.'
-            });
-          }
-          console.log(err)
+          commit('interactError', {
+            error: true,
+            msg: 'You should login, or register if you are new.'
+          });
+          commit('reset');
+          commit('setNextUrl', '/auth/login');
         })
     }
   },
   uploadFilesToFirebase: function({ state, commit, dispatch},func) {
     if(window.navigator.onLine){
-    let storage = new StorageVault(state.assets)
-    storage.uploadAssets(
-      (url, type) => {
-        commit('insertAssetUrl', { url: url, type: type });
-        let assetlength = (state.assets.images === undefined)? 0 : (state.assets.images.length + (state.assets.video === undefined ? 0 : 1) + (state.assets.video === undefined ? 0 : 1));
-        let assetsUrllength = (state.assetsUrl.images === undefined)? 0 : (state.assetsUrl.images.length + (state.assetsUrl.video === undefined ? 0 : 1) + (state.assetsUrl.video === undefined ? 0 : 1));
-        if(assetlength === assetsUrllength){
-            commit('setCompleted');
-            func();
-        }
-      },
-      (progress, current) => {
-        commit('updateProgress', progress)
-        // commit('setCurrent', current);
-      },
-      (err) => {
-          console.log('wrritte',err);
-        commit('interactError', {
-          error: true,
-          msg: 'Media transfer failed due to bad network.'
-        });
-      }
-    );
+      let storage = new StorageVaultBeta(state.assets);
+      storage.bulk_upload((assets) => {
+        commit('setCompleted',assets);
+        func();
+      });
    }else{
     commit('interactError', {
         error: true,

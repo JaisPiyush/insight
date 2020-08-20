@@ -74,13 +74,13 @@ export const actions = {
     commit('setErrorState',false);
     let storage = new FrozenStorage();
     let token = storage.get('token');
-    const url = `${"https://condom.freaquish.com/api/v1/"}feed`
+    const url = `feed`
     if(token != null){
       this.$axios.setHeader('Authorization',token);
     }
     this.$axios.get(url).then(res=>{
       commit('setAccountData', res.data);
-      storage.set('avatar',(res.data.header.avatar != undefined && res.data.header.avatar.length > 0)?res.data.header.avatar : avatarDefault )
+      storage.set('avatar',(res.data.meta.avatar != undefined && res.data.meta.avatar.length > 0)?res.data.meta.avatar : avatarDefault )
       commit('setLoadingState',false);
 
     }).catch(err => {
@@ -96,7 +96,7 @@ export const actions = {
     commit('setPostData', {});
     let storage = new FrozenStorage();
     let token = storage.get('token');
-    const url = `${"https://condom.freaquish.com/api/v1/"}post/${payload.pid}`;
+    const url = `post/${payload.pid}`;
     if(token != null){
       this.$axios.setHeader('Authorization',token);
     }

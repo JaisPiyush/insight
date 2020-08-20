@@ -1,5 +1,5 @@
 <template>
-    <div @click="clicked" class="w-32 h-32 mx-2">
+    <div @click="clicked" class="w-24 h-24 mx-2">
         <img v-if="this.type === 'image'" :src="src" class="w-full h-full"  />
         <img v-if="this.type === 'audio'" :src="audImg" class="w-full h-full" />
         <video preload="auto" :src="src" v-if="this.type === 'video'" class="w-full h-full" />

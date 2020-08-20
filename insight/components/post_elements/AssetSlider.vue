@@ -1,15 +1,15 @@
 <template>
   <client-only>
-    <div class="w-full body flex flex-col slider" style="">
-      <div v-if="this.play" class="w-full" style="height:98%; max-height:100;">
+    <div class="w-full body flex flex-col slider" style="touch-action: pan-y !important;">
+      <div class="w-full" style="height:98%; max-height:100;">
         <div styles="width:100%;height:50vh;" v-if="this.isActive('text')">
-          <text-box :data="getSrc()" />
+          <text-box :data="getSrc()" :media="getTextMedia()" />
         </div>
         <div class="w-full h-full" v-if="!this.isTextAvailable() && this.isActive('image')">
           <img
             :src="getSrc()"
             class="w-full"
-            style="height:98%;max-height:50vh;"
+            style="height:98%;max-height:50vh;touch-action: pan-y !important;"
             @load="changestate({ loading: false, error: false })"
             @error="changestate({ loading: false, error: true })"
           />
@@ -19,7 +19,7 @@
             controls
             :src="getSrc()"
             class="w-full"
-            style="max-height:50vh;height:100%;"
+            style="max-height:50vh;height:100%;touch-action: pan-y !important;"
             @load="changestate({ loading: false, error: false })"
             @error="changestate({ loading: false, error: true })"
           />
@@ -28,6 +28,7 @@
           <audio-box
             :audio="getSrc()"
             :active="true"
+            style="touch-action: pan-y !important;"
             @state="changestate"
           />
         </div>
@@ -53,8 +54,9 @@ import AudioBox from '@/components/post_elements/AudioBox.vue'
 import PeripheralDot from '@/components/post_elements/PeripheralDot.vue'
 import TextBox from '@/components/post_elements/TextBox.vue'
 export default {
-  props: ['propAsset', 'play'],
+  props: ['propAsset'],
   mounted() {
+    // console.log('asset_slider',this.propAsset);
     this.data = {...this.propAsset};
     this.assets = []
 
@@ -81,7 +83,7 @@ export default {
 
         this.hammer = new Hammer.Manager(this.$el)
 
-        let swipe = new Hammer.Swipe()
+        let swipe = new Hammer.Swipe();
 
         this.hammer.add(swipe)
 
@@ -128,13 +130,12 @@ export default {
         }
         this.index += 1;
       }
-      console.log('sliding')
     },
     slidePrevious: function() {
       if (this.index > 0) {
         if (this.assets[this.index].type != 'video') {
           this.loading = true
-          console.log(this.assets[this.index])
+          // console.log(this.assets[this.index])
         }
         this.index -= 1
         // this.getAsset()
@@ -167,6 +168,8 @@ export default {
         return {type: "image" , src: this.data.images[0]};
       }else if(this.data.images != undefined && this.data.video != undefined){
         return {type: "video", src: this.data.video};
+      }else {
+        return undefined
       }
     },
     isTextAvailable: function(){
@@ -181,18 +184,18 @@ export default {
       this.error = payload.error
     },
     monitorPlayables: function(){
-      if((this.data.video != undefined || this.data.audio != undefined)){
-        let player = this.$el.querySelector('video');
-        if(player === undefined){
-          player = this.$el.querySelector('audio');
-          if(player === undefined){
-            return null;
-          }
-        }
-        if(this.play === false){
-          player.pause();
-        }
-      }
+      // if((this.data.video != undefined || this.data.audio != undefined)){
+      //   let player = this.$el.querySelector('video');
+      //   if(player === undefined){
+      //     player = this.$el.querySelector('audio');
+      //     if(player === undefined){
+      //       return null;
+      //     }
+      //   }
+      //   if(this.play === false){
+      //     player.pause();
+      //   }
+      // }
     }
 
   }

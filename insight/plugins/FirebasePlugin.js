@@ -23,149 +23,118 @@ if (!firebase.apps.length) {
 let storage = firebase.storage()
 const firestore = storage.ref()
 
-export function StorageVault(data) {
-  this.progressUpload = 0
-  this.imagesUrl = []
-  this.videoUrl = undefined
-  this.audioUrl = undefined
-  this.uploadTask = undefined
-  this.images = data.images || []
-  this.video = data.video || undefined
-  this.audio = data.audio || undefined
-  this.current = {} // storing state of current asset in operation
+export function StorageVaultBeta(data){
+  this.assets = data;
+  this.uploadedAssets = {};
 
-  // Listener for change in state of upload
-  this.snapshotListener = function(snapshot, listener) {
-    let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-    switch (snapshot.state) {
-      case firebase.storage.TaskState.RUNNING:
-        this.progressUpload = progress
-        listener(progress)
-        break
-    }
-    console.log(progress)
+  let self = this;
+
+  this.generate_name = function(blob){
+    let name = randomstring.generate()
+    let extension = blob.type.slice(
+      blob.type.indexOf('/') + 1,
+      blob.type.length
+    )
+    // console.log(extension)
+    name = `${name}.${extension}`
+    return name;
   }
 
-  this.snapshotError = error => {
-    this.error(error);
-  }
-
-  this.imageSnapShotComplete = () => {
-    this.uploadTask.snapshot.ref.getDownloadURL().then(url => {
-      this.imagesUrl.push(url)
-      this.listener(url, 'image')
-      //   this.listener()
-    })
-  }
-
-  this.videoSnapShotComplete = () => {
-    this.uploadTask.snapshot.ref.getDownloadURL().then(url => {
-      this.videoUrl = url
-    })
-  }
-
-  this.audioSnapShotComplete = () => {
-    this.uploadTask.snapshot.ref.getDownloadURL().then(url => {
-      this.audioUrl = url
-    })
-  }
-
-  this.uploadAssetThroughUrl = function(
-    url,
-    type,
-    completeListener,
-    activelistener
-  ) {
-    fetch(url)
-      .then(res => {
-        res.blob().then(blob => {
-          let name = randomstring.generate()
-          let extension = blob.type.slice(
-            blob.type.indexOf('/') + 1,
-            blob.type.length
-          )
-          // console.log(extension)
-          name = `${name}.${extension}`
-          let metadata = { type: type, contentType: blob.type }
-          // console.log(name)
-
-          this.uploadTask = firestore
-            .child(`assets/${name}`)
-            .put(blob, metadata)
-          this.uploadTask.on(
-            firebase.storage.TaskEvent.STATE_CHANGED,
-            snapshot => {
-              this.snapshotListener(snapshot, activelistener)
-            },
-            (err) => {
-              this.error(err);
-            },
-            completeListener
-          )
-        })
-      })
-      .catch(err => {
-        this.error(err)
-      })
-  }
-
-  this.cancelUpload = () => {
-    if (this.uploadTask != undefined) {
-      this.uploadTask.cancel()
-      this.clear();
+  this.is_images_complete = function(){
+    if(self.assets.images != undefined){
+      if(self.uploadedAssets.images != undefined && self.assets.images.length === self.uploadedAssets.images.length){
+        return true
+      }else {
+        return false;
+      }
+    }else{
+      return true;
     }
   }
 
-  this.clear = () => {
-    this.images = []
-    this.video = undefined
-    this.audio = undefined
-    this.current = {}
-    this.uploadTask = undefined
-    this.progressUpload = 0
-    this.imagesUrl = []
-    this.videoUrl = undefined
-    this.audioUrl = undefined
+  this.is_video_complete = function(){
+    if(self.assets.video === undefined){
+      return true;
+    }else{
+      if(self.uploadedAssets.video != undefined){
+        return true;
+      }
+      return false;
+    }
   }
 
-  this.uploadAssets = async (listener, activelistener, err) => {
-    this.error = err;
-    this.listener = listener
-    for (let index = 0; index < this.images.length; index++) {
-      this.current = { type: 'image', index: index }
-      await this.uploadAssetThroughUrl(
-        this.images[index],
-        'image',
-        () => {
-          listener()
-          this.imageSnapShotComplete()
-        },
-        activelistener
-      )
+  this.is_audio_complete = function(){
+    if(self.assets.audio === undefined){
+      return true;
+    }else{
+      if(self.uploadedAssets.audio != undefined){
+        return true;
+      }
+      return false;
     }
-    if (this.video != undefined) {
-      this.current = { type: 'video', index: 0 }
-      await this.uploadAssetThroughUrl(
-        this.video,
-        'video',
-        () => {
-          listener()
-          this.videoSnapShotComplete()
-        },
-        activelistener
-      )
+  }
+
+  this.is_completed = function(){
+    if(self.is_audio_complete && self.is_images_complete && self.is_video_complete){
+      return true;
     }
-    if (this.audio != undefined) {
-      this.current = { type: 'audio', index: 0 }
-      await this.uploadAssetThroughUrl(
-        this.audio,
-        'audio',
-        () => {
-          listener()
-          this.audioSnapShotComplete()
-        },
-        activelistener
-      )
+    return false;
+  }
+
+  this.insert_asset = function(url,type){
+    if(type === "image"){
+      if(self.uploadedAssets.images === undefined){
+        self.uploadedAssets.images = [];
+      }
+      self.uploadedAssets.images.push(url);
+    }else if(type === "video"){
+      self.uploadedAssets.video = url;
+    }else if(type === "audio"){
+      self.uploadedAssets.audio = url;
     }
+  }
+
+
+  this.upload = function(url,type){
+     return fetch(url)
+         .then(res => {
+           res.blob().then(blob => {
+             let name = self.generate_name(blob);
+             let metadata = { type: type, contentType: blob.type }
+             return firestore
+               .child(`assets/${name}`)
+               .put(blob, metadata).then((snapshot) => {
+                 snapshot.ref.getDownloadURL().then(durl => {
+                   URL.revokeObjectURL(url);
+                   self.insert_asset(durl,type);
+                   if(self.is_completed()){
+                     self.complete_listener(self.uploadedAssets)
+                   }
+                 })
+               })
+           });
+         }).catch(err => {
+           // reject(err)
+         });
+  }
+
+
+
+  this.bulk_upload = function(listener){
+    self.complete_listener = listener
+    let asset_list = [];
+    for(let [key,value] of Object.entries(self.assets)){
+      if(key === "images"){
+        for(let i=0; i < value.length; i++){
+          asset_list.push({url:value[i],type:"image"})
+        }
+      }else if(key === "video"){
+        asset_list.push({url:value,type:"video"});
+      }else if(key === "audio"){
+        asset_list.push({url:value, type:"audio"});
+      }
+    }
+   console.log(asset_list);
+   Promise.all(asset_list.map(asset => self.upload(asset.url,asset.type)));
   }
 }

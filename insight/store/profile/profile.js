@@ -1,5 +1,5 @@
 import FrozenStorage from '~/static/js/local_storage'
-import { StorageVault } from '~/plugins/FirebasePlugin'
+import { StorageVaultBeta } from '~/plugins/FirebasePlugin'
 import {avatarDefault} from '~/static/js/assets'
 export const state = () => ({
   aid: undefined,
@@ -81,7 +81,7 @@ export const actions = {
     commit('setLoadingState', true)
     let storage = new FrozenStorage()
     let token = storage.get('token')
-    const url = `${"https://condom.freaquish.com/api/v1/"}profile`
+    const url = `profile`
     // console.log(token)
     if (token != null) {
       this.$axios.setHeader('Authorization', token)
@@ -108,7 +108,7 @@ export const actions = {
     commit('setLoadingState', true)
     let storage = new FrozenStorage()
     let token = storage.get('token')
-    const url = `${"https://condom.freaquish.com/api/v1/"}profile`
+    const url = `profile`
     if (token === null) {
       this.$router.push('/auth/login')
     } else {
@@ -120,7 +120,6 @@ export const actions = {
             commit('insertProfileData', res.data)
             commit('setEditablity', true)
             commit('setLoadingState', false)
-            console.log(res.data)
           }
         })
         .catch(error => {
@@ -131,28 +130,23 @@ export const actions = {
   },
   uploadImageToFirebase: function({ state, commit, dispatch }, payload) {
     if (window.navigator.onLine) {
-      let storage = new StorageVault({ images: [payload.src] })
-      storage.uploadAssets(
-        (url, type) => {
-          console.log('img', url)
-          if (url != undefined) {
-            dispatch('updateProfileData', { avatar: url })
-          }
+      let storage = new StorageVaultBeta({ images: [payload.src] })
+      try{
+        storage.bulk_upload((assets) => {
+          dispatch('updateProfileData', { avatar: assets.images[0] });
+          payload.func();
 
-          payload.func()
-        },
-        (progress, current) => {},
-        err => {
-          console.log('wrritte', err)
-        }
-      )
+        });
+      }catch (e){
+
+      }
     }
   },
   fetchThirdProfile: function({ state, commit }, load) {
     commit('setLoadingState', true)
     let storage = new FrozenStorage()
     let token = storage.get('token')
-    const url = `${"https://condom.freaquish.com/api/v1/"}profile/third/${load.aid}`
+    const url = `profile/third/${load.aid}`
     // console.log(token)
     if (token != null) {
       this.$axios.setHeader('Authorization', token)

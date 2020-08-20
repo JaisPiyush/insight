@@ -2,7 +2,7 @@
   <div
     class="w-full h-full py-2 px-2 overflow-hidden "
   >
-    <p class="wrap-text text-lg" style="height:48vh; width:100%; overflow-y:scroll;touch-action: pan-y !important;" v-html="text"></p>
+    <p class="wrap-text text-lg flex flex-col" style="height:48vh; width:100%; overflow-y:scroll;touch-action: pan-y !important;" v-html="text"></p>
   </div>
 </template>
 
@@ -16,9 +16,7 @@ export default {
   },
   mounted(){
       let self = this;
-
       this.getText();
-      // this.spltiContent();
       this.$nextTick().then(() => {
          let elem = self.$el.querySelector('p');
          if(self.data.bgColor != undefined){
@@ -35,37 +33,21 @@ export default {
   methods:{
    getImage: function(){
      if(this.media != undefined && this.media.type === "image"){
-       return `<div class="w-full mb-2 " style="min-height:30vh; max-height:35vh;">
+       return `<div class="w-full mb-2 " style="min-height:25vh; max-height:30vh;">
                   <img class="w-full h-full rounded-lg" src="${this.media.src}" />
                </div>`;
      }
    },
    getVideo: function(){
      if(this.media != undefined && this.media.type === "video"){
-       return `<div class="w-full mb-2 " style="min-height:30vh; max-height:35vh;">
+       return `<div class="w-full mb-2 " style="min-height:25vh; max-height:30vh;">
                   <video controls class="w-full h-full rounded-lg" src="${this.media.src}" />
                </div>`;
      }
    },
     getText: function(){
       this.text = this.data.data;
-      let regex = /@[0-9a-z_?]+|#[0-9a-z_?]+/gi
-      let matches = this.data.data.match(regex) || []
-      if (matches.length > 0) {
-        for (let index = 0; index < matches.length; index++) {
-          if (matches[index].includes('#')) {
-            this.text = this.data.data.replace(
-              matches[index],
-              `<span class="font-montserrat italic text-blue-500">${matches[index]}</span>`
-            )
-          } else if (matches[index].includes('@')) {
-            this.text =this.data.data.replace(
-              matches[index],
-              `<span class="font-montserrat text-blue-700">${matches[index]}</span>`
-            )
-          }
-        }
-      }
+      // console.log(this.media);
       if(this.media != undefined){
         this.text = `${(this.media.type === 'image')?this.getImage(): this.getVideo()}${this.text}`;
       }
