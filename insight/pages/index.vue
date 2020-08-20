@@ -10,8 +10,8 @@
           <p @click="navigateToSelf" class="font-lato font-semibold text-2xl">{{ firstName }}</p>
         </div>
         <div class="h-full w-full flex flex-row-reverse px-4 py-2">
-        <button @click="$router.push('/post/hobby_window')" class="w-8 h-8 bg-pink-500 pt-1 rounded-full"><span class="material-icons stroke-current text-white">add</span></button>
-        <button @click="$router.push('/settings')" class="mr-4 w-8 h-8 bg-gray-300 pt-1 rounded-full" ><span class="material-icons">settings</span></button>
+        <button @click="$router.push('/post/hobby_window')" class="w-8 h-8 bg-pink-500 pt-1 focus:outline-none rounded-full"><span class=" material-icons stroke-current text-white">add</span></button>
+        <button @click="$router.push('/settings')" class="mr-4 w-8 h-8 bg-gray-300 pt-1 rounded-full focus:outline-none" ><span class="material-icons">settings</span></button>
       </div>
       </div>
       <div class="body flex flex-col">

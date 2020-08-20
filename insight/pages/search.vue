@@ -6,15 +6,15 @@
   >
     <div class="block w-full h-auto py-2 px-4">
       <div
-        class="h-10 w-full py-1 px-2 bg-purple-700 focus:outline-none rounded-md flex shadow-lg"
+        class="h-10 w-full py-1 px-2 focus:outline-none rounded-full flex shadow-lg bg-gray-200"
       >
         <input
-          class="py-2 w-full h-8 px-2 focus:outline-none bg-purple-700 font-muli text-sm text-white placeholder-white"
+          class="py-2 w-full h-8 px-2 focus:outline-none rounded-full font-muli text-sm text-black bg-gray-200"
           style="caret-color:white;"
           v-model="searchText"
           placeholder="Search"
         />
-        <span class="material-icons stroke-current text-white mr-2 mt-1">
+        <span class="material-icons stroke-current text-black mr-2 mt-1">
           search
         </span>
       </div>
