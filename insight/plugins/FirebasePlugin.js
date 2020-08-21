@@ -20,8 +20,8 @@ if (!firebase.apps.length) {
 }
 
 // Initiating storage API of firebase
-let storage = firebase.storage()
-const firestore = storage.ref()
+let storage = firebase.storage();
+const firestore = storage.ref();
 
 export function StorageVaultBeta(data){
   this.assets = data;
@@ -104,6 +104,7 @@ export function StorageVaultBeta(data){
              return firestore
                .child(`assets/${name}`)
                .put(blob, metadata).then((snapshot) => {
+
                  snapshot.ref.getDownloadURL().then(durl => {
                    URL.revokeObjectURL(url);
                    self.insert_asset(durl,type);
@@ -119,9 +120,45 @@ export function StorageVaultBeta(data){
   }
 
 
+  this.uploadPromise = function(assets){
+    const promises = [];
+    assets.forEach(asset =>{
+      let uploadTask;
+      fetch(asset.url).then(res =>{
+         res.blob().then(blob=>{
+             let name = self.generate_name(blob);
+             uploadTask = firestore.child(`assets/${name}`).put(blob);
+             promises.push(uploadTask);
+             uploadTask.on(
+               firebase.storage.TaskEvent.STATE_CHANGED, // State Changes
+               (snapshot) => {
+                 let progress = snapshot.bytesTransferred/snapshot.totalBytes;
+                 if(snapshot.state === firebase.storage.TaskState.RUNNING){
+                    self.progress_listener({progress:progress, src:asset.url, type:asset.type});
+                 }
+               },
+               (error) => {
+                 self.error_listener(error);
+               },
+              async () => {
+                let durl = await uploadTask.snapshot.ref.getDownloadURL();
+                 URL.revokeObjectURL(asset.url);
+                 self.insert_asset(durl,asset.type);
+                 if(self.is_completed()){
+                    self.complete_listener(self.uploadedAssets)
+                  }
+                 }
+             );
+          }).catch(error => {self.error_listener(error)});
+      }).catch(error => {self.error_listener(error)});
+    });
+    return promises;
+  }
 
-  this.bulk_upload = function(listener){
-    self.complete_listener = listener
+  this.bulk_upload = function(listeners){
+    self.complete_listener = listeners.complete || ((assets) => {});
+    self.progress_listener = listeners.progress || ((progress) => {});
+    self.error_listener = listeners.error || ((error) => {});
     let asset_list = [];
     for(let [key,value] of Object.entries(self.assets)){
       if(key === "images"){
@@ -134,7 +171,8 @@ export function StorageVaultBeta(data){
         asset_list.push({url:value, type:"audio"});
       }
     }
-   console.log(asset_list);
-   Promise.all(asset_list.map(asset => self.upload(asset.url,asset.type)));
+  // console.log(asset_list);
+   Promise.all(self.uploadPromise(asset_list)).then(() => {
+   });
   }
 }

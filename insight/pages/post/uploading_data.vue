@@ -4,12 +4,13 @@
       :loading="loadingState"
       text="Your post is going live after the upload."
     >
-      <div class="w-full h-screen bg-white flex flex-col justify-center ">
-        <div class="w-full h-auto px-4 flex flex-col ">
+      <div  class="w-full h-screen bg-white flex flex-col justify-center ">
+        <div v-if="!this.isProgressState()" class="w-full h-auto px-4 flex flex-col ">
          <img src="@/assets/svg/error_svg.svg" class="w-48 m-auto" />
          <p class="m-auto my-4 font-muli text-lg font-bold text-gray-800">{{errorMessage}}</p>
          <button @click="clearStore" class="w-full py-4 shadow-md font-lato font-bold text-lg text-white rounded-lg bg-pink-500">Go Back</button>
         </div>
+        <upload-meter v-else :src="progress.src" :perc="progress.progress * 100" :type="progress.type" />
       </div>
     </loading-container>
   </div>
@@ -19,6 +20,7 @@
 import { mapState, mapActions, mapMutations } from 'vuex';
 import {errorSvg} from "@/static/js/assets.js";
 import LoadingContainer from '@/components/LoadingContainer.vue';
+import UploadMeter from "@/components/post_elements/UploadMeter.vue";
 export default {
   mounted(){
       this.$nextTick().then(() => {
@@ -26,7 +28,8 @@ export default {
       })
   },
   components: {
-    LoadingContainer
+    LoadingContainer,
+    UploadMeter
   },
   computed: {
     ...mapState('post/create', [
@@ -34,9 +37,11 @@ export default {
       'sentData',
       'error',
       'errorMessage',
-      'nextUrl'
+      'nextUrl',
+      'progress'
     ]),
     loadingState: function() {
+      return false; //to be removed
       if(this.error){
           return false;
       }else if(this.completed){
@@ -44,7 +49,8 @@ export default {
       }else{
           return !this.completed && !this.error;
       }
-    }
+    },
+
   },
   data() {
     return {
@@ -57,6 +63,12 @@ export default {
     clearStore: function(){
       this.reset();
       this.$router.push('/');
+    },
+    isProgressState: function(){
+      if(JSON.stringify(this.progress) != JSON.stringify({})){
+        return true;
+      }
+      return false;
     }
   }
 }

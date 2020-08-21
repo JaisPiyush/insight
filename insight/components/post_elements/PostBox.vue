@@ -50,6 +50,7 @@
           ></div>
         </div>
         <button
+        v-if="this.caption != undefined && this.caption.length > 0"
           @click="showFullCaption()"
           class="px-4 bg-transparent outline-none border-0 text-gray-500 text-sm"
         >

@@ -83,7 +83,7 @@ export default {
 
         this.hammer = new Hammer.Manager(this.$el)
 
-        let swipe = new Hammer.Swipe();
+        let swipe = new Hammer.Swipe({direction:Hammer.DIRECTION_HORIZONTAL});
 
         this.hammer.add(swipe)
 
@@ -124,7 +124,7 @@ export default {
       this.loading = value
     },
     slideNext: function() {
-      if (this.index < this.assets.length - 1) {
+      if (!this.isTextAvailable() && this.index < this.assets.length - 1) {
         if (this.assets[this.index].type != 'video') {
           this.loading = true
         }
@@ -132,7 +132,7 @@ export default {
       }
     },
     slidePrevious: function() {
-      if (this.index > 0) {
+      if (!this.isTextAvailable() && this.index > 0) {
         if (this.assets[this.index].type != 'video') {
           this.loading = true
           // console.log(this.assets[this.index])

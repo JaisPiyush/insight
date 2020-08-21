@@ -12,7 +12,7 @@ export const state = () => ({
     audio: undefined
   },
   current: {},
-  progress: 0,
+  progress: {},
   completed: false,
   nextUrl: '',
   sentData: false,
@@ -122,6 +122,9 @@ export const mutations = {
     state.error = false
   },
 
+  updateProgress: function(state, data){
+    state.progress = data;
+  },
   setNextUrl: function(state, data) {
     state.nextUrl = data
   }
@@ -221,10 +224,22 @@ export const actions = {
   uploadFilesToFirebase: function({ state, commit, dispatch},func) {
     if(window.navigator.onLine){
       let storage = new StorageVaultBeta(state.assets);
-      storage.bulk_upload((assets) => {
+      storage.bulk_upload({
+        complete:(assets) => {
         commit('setCompleted',assets);
         func();
-      });
+      },
+      progress:(progress) => {
+        commit('updateProgress',progress)
+        console.log(progress);
+      },
+      error: (error) =>{
+        commit('interactError', {
+          error: true,
+          msg: "Something bad happend"
+        })
+      }
+    });
    }else{
     commit('interactError', {
         error: true,

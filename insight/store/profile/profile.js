@@ -132,13 +132,21 @@ export const actions = {
     if (window.navigator.onLine) {
       let storage = new StorageVaultBeta({ images: [payload.src] })
       try{
-        storage.bulk_upload((assets) => {
+        storage.bulk_upload({
+          complete:(assets) => {
           dispatch('updateProfileData', { avatar: assets.images[0] });
           payload.func();
 
-        });
+        },
+        progress: (progress) => {
+          console.log(progress);
+        },
+        error: (error) => {
+          commit('setErrorState', true)
+        }
+      });
       }catch (e){
-
+        commit('setErrorState', true)
       }
     }
   },

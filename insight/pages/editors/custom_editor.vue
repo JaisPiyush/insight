@@ -398,7 +398,7 @@ export default {
       centerScreen.appendChild(bgScreeDiv)
       // centerScreen.appendChild(fgScreenDiv)
       centerScreen.id = centerScreenId
-     
+
       if(this.assets.audio != undefined){
         this.totalAssets = this.totalAssets.filter(el => el.mediaType != "audio");
       }
@@ -450,7 +450,6 @@ export default {
       //console.log(div);
       let img = div.querySelector('img')
       img.src = imageUrl
-      console.log(div)
       this.assets.images[index] = div
       this.revokableUrls[index] = imageUrl
       let centerScreen = document.getElementById('center-screen')
