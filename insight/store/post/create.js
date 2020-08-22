@@ -188,10 +188,11 @@ export const actions = {
         }
       })
     }
+    console.log(data);
     let url = `post/create`
     let storage = new FrozenStorage()
     let token = storage.get('token')
-    if (token === null) {
+    if (token === null || token === undefined) {
       commit('interactError', {
         error: true,
         msg: "Couldn't find account details."
@@ -231,7 +232,6 @@ export const actions = {
       },
       progress:(progress) => {
         commit('updateProgress',progress)
-        console.log(progress);
       },
       error: (error) =>{
         commit('interactError', {

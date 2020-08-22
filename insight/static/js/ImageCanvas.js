@@ -1,5 +1,5 @@
 import Cropper from '@/node_modules/cropperjs/dist/cropper'
-import '@/node_modules/cropperjs/dist/cropper.css'
+// import '@/node_modules/cropperjs/dist/cropper.css'
 
 export default function CropImage(elem){
     this.elem = elem;
@@ -17,8 +17,6 @@ export default function CropImage(elem){
             responsive:true,
         });
         let data = this.cropper.getCroppedCanvas();
-        console.log(data);
-
     }
 
     this.rotate = function(){

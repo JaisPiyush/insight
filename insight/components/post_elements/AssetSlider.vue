@@ -160,6 +160,7 @@ export default {
     getSrc: function() {
       if (this.assets[this.index] != undefined) {
         this.loading = true
+        console.log(this.assets[this.index]);
         return this.assets[this.index].src
       }
     },
@@ -173,7 +174,7 @@ export default {
       }
     },
     isTextAvailable: function(){
-      if(this.data.text === undefined || this.data.text === {}){
+      if(this.data.text === undefined || JSON.stringify(this.data.text) === JSON.stringify({})){
         return false;
       }else{
         return true;

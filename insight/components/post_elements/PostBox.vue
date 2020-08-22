@@ -22,7 +22,7 @@
         </p>
       </div>
       <div class="w-full h-full flex flex-row-reverse px-2">
-        <button v-if="false"
+        <button v-if="following"
           @click="followClickListener()"
           class="font-lato font-semibold text-lg text-blue-500 rounded-md h-10 px-4 bg-blue-100"
         >
@@ -193,6 +193,8 @@ export default {
         text: {}
       },
       caption:undefined,
+      following: undefined,
+      account_id:undefined,
       loves: 0,
       shares: 0,
       comments: 0,
@@ -209,7 +211,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('post/post_actions', ['microActionPost']),
+    ...mapActions('post/post_actions', ['microActionPost','followUser']),
     ...mapMutations('main',['updateActions']),
     bindDataWithPropsAsset: function() {
       this.pid = this.propsAsset.post_id;
@@ -218,6 +220,7 @@ export default {
       this.avatar = (this.avatar != undefined && this.avatar.length > 0)? this.avatar : avatarDefault;
       this.hobbyName = this.propsAsset.header.hobby_name;
       this.created = this.propsAsset.meta.created;
+      this.account_id = this.propsAsset.meta.account_id;
       this.assets = this.propsAsset.body;
       this.caption = this.propsAsset.caption;
       this.bindActionAssets();
@@ -240,6 +243,7 @@ export default {
       this.comments = this.propsAsset.footer.action_map.comment;
       this.saves = this.propsAsset.footer.action_map.save;
       this.views = this.propsAsset.footer.action_map.view;
+      this.following = (this.propsAsset.header.following != undefined && this.propsAsset.header.following === "1" )? true : false;
     },
     inView: function() {
       // Check post in view other wise stop video or song if exist. and if images.length ==0 && audio != undefined, then
@@ -264,7 +268,9 @@ export default {
         }
       }
     },
-    followClickListener: function() {},
+    followClickListener: function() {
+      this.followUser({fid:this.account_id,action:(this.following)? 'follow':'un_follow',func: () => {this.following = !this.following}})
+    },
     showFullCaption: function() {
       this.fullCaption = true
     },

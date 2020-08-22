@@ -158,6 +158,7 @@ import ImageSvg from '@/assets/svg/ImageSvg.vue'
 import RotateSvg from '@/assets/svg/RotateSvg.vue'
 import audioSvg from '@/assets/svg/audioSvg.vue'
 import CropImage from '@/static/js/ImageCanvas.js'
+import '@/node_modules/cropperjs/dist/cropper.css'
 import { mapMutations } from 'vuex'
 // import Canvasize from "@/static/js/Canvasie.js";
 export default {
@@ -342,11 +343,6 @@ export default {
       }
       let centerScreenId = 'center-screen'
       let videoDiv = document.createElement('video')
-      this.setTextDivStyles(videoDiv, {
-        width: '100%',
-        height: '100%',
-        'max-height': '100%'
-      })
       videoDiv.setAttribute('controls', true)
       this.fileReader(
         videoDiv,
@@ -409,8 +405,7 @@ export default {
       // this.createMediaCard(this.numberMediaCard - 1, centerScreen)
     },
     fileReader: function(elm, file) {
-      let url = window.URL.createObjectURL(file)
-      // //console.log(elm)
+      let url = window.URL.createObjectURL(file);
       elm.src = url
       this.revokableUrls.push(url)
       elm.onload = function() {

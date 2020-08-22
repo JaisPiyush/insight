@@ -1,17 +1,17 @@
 <template>
- <div class="w-full h-auto flex flex-col px-4 py-4">
-      <div class="w-full .padds" style="height:35vh; max-height:40vh;">
-        <img v-if="this.type === 'image'" :src="src" style="width:50%;height:35vh;" />
-        <img v-if="this.type === 'audio'" :src="audImg" style="width:50%;height:35vh;" />
-        <video v-if="this.type === 'video'" :src="src" style="width:50%;height:35vh;" />
+ <div class="w-full h-auto flex flex-col px-2">
+      <div class="w-full flex justify-center mt-12" style="height:35vh; max-height:40vh;">
+        <img v-if="this.type === 'image'" :src="src" style="width:50%;height:25vh;" />
+        <img v-if="this.type === 'audio'" :src="audImg" style="width:50%;height:25vh;" />
+        <video v-if="this.type === 'video'" :src="src" style="width:50%;height:25vh;" />
       </div>
 
       <div class="w-full flex h-10">
-        <div class="mt-6 w-full h-10 rounded-lg border border-gray-300">
-          <div class="bg-pink-600 h-10" :style="`width:${perc}%`"></div>
+        <div class=" w-full h-10 rounded-lg border border-gray-300">
+          <div class="bg-pink-600 h-10 rounded-lg" :style="`width:${percent}%`"></div>
         </div>
-        <div class="flex flex-col justify-center ml-4">
-          <p class="font-muli font-bold text-green-400">{{percent}}</p>
+        <div class="h-full ml-2">
+          <p class="font-muli mt-1 font-bold text-green-400">{{percent}}%</p>
         </div>
       </div>
  </div>
@@ -32,7 +32,7 @@ export default{
       }
       let percentage = this.perc * 100;
       if(percentage < 100){
-        return percentage
+        return percentage.toFixed(0)
       }
       return 100;
     }
@@ -42,6 +42,6 @@ export default{
 
 <style scoped>
 .padds{
-  padding-left: 25%;
+  padding: auto ;
 }
 </style>

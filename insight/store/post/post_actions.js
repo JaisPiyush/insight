@@ -14,7 +14,7 @@ export const actions ={
   microActionPost: async function({ state,commit }, payload) {
     let storage = new FrozenStorage()
     let token = storage.get('token')
-    let url = "" + "post/micro_action"
+    let url = "" + "post/micro_action";
     // Comment and Save feature will only be enabled for known users.
     // If a non-registered user comments or save, the router shall navigate him to login
     // @payload contains {action: 'love/share/un_love/view/comment/save/un_save' , data:'comment-text'}
@@ -23,7 +23,7 @@ export const actions ={
       this.$router.push('/auth/login');
     }else{
       if(token != null){
-        this.$axios.setHeader('Authorization', token);;
+        this.$axios.setHeader('Authorization', token);
       }
       if(payload.action === 'comment'){
         let data = {"action":payload.action, "pid": payload.pid, "comment": payload.comment}
@@ -41,6 +41,19 @@ export const actions ={
 
         });
       }
+    }
+  },
+  followUser: function({state, commit}, payload){
+    let storage = new FrozenStorage()
+    let token = storage.get('token')
+    let url = `profile/associate?fid=${payload.fid}&action=${payload.action}`;
+    if(token === null ){
+      this.$router.push('/auth/login');
+    }else{
+      this.$axios.setHeader('Authorization', token);
+      this.$axios.get(url).then(res => {
+        payload.func();
+      })
     }
   }
 };
