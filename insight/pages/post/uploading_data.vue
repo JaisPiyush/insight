@@ -10,7 +10,7 @@
          <p class="m-auto my-4 font-muli text-lg font-bold text-gray-800">{{errorMessage}}</p>
          <button @click="clearStore" class="w-full py-4 shadow-md font-lato font-bold text-lg text-white rounded-lg bg-pink-500">Go Back</button>
         </div>
-        <upload-meter v-else :src="progress.src" :perc="progress.progress * 100" :type="progress.type" />
+        <upload-meter v-else :src="progress.src" :perc="progress.progress" :type="progress.type" />
       </div>
     </loading-container>
   </div>
