@@ -22,7 +22,7 @@
         </p>
       </div>
       <div class="w-full h-full flex flex-row-reverse px-2">
-        <button v-if="following"
+        <button v-if="this.following"
           @click="followClickListener()"
           class="font-lato font-semibold text-lg text-blue-500 rounded-md h-10 px-4 bg-blue-100"
         >
@@ -243,7 +243,7 @@ export default {
       this.comments = this.propsAsset.footer.action_map.comment;
       this.saves = this.propsAsset.footer.action_map.save;
       this.views = this.propsAsset.footer.action_map.view;
-      this.following = (this.propsAsset.header.following != undefined && this.propsAsset.header.following === "1" )? true : false;
+      this.following = (this.propsAsset.header.following != undefined && this.propsAsset.header.following === 0 )? true : false;
     },
     inView: function() {
       // Check post in view other wise stop video or song if exist. and if images.length ==0 && audio != undefined, then
@@ -284,8 +284,9 @@ export default {
           action: (this.actions.loved) ? 'un_love' : 'love',
           pid: this.pid,
           action_complete: (payload) => {
-            this.updateActions(payload);
-            this.bindActionAssets();
+            // this.updateActions(payload);
+            // this.bindActionAssets();
+            this.loves += (this.actions.loved) ? -1 : 1;
           }
         })
       } else if (type === 'view') {
@@ -294,7 +295,8 @@ export default {
            action_complete: (payload) => {
              this.updateActions(payload);
              this.bindActionAssets();
-           }
+
+            }
            },
          );
       } else if (type === 'share') {
@@ -303,7 +305,7 @@ export default {
           navigator
             .share({
               title: `Post on ${this.hobbyName} by ${this.username}`,
-              text: this.caption,
+              text: '',
               url: shareurl
             })
             .then(() => {
@@ -325,6 +327,8 @@ export default {
             action_complete: (payload) => {
               this.updateActions(payload);
               this.bindActionAssets();
+
+              // this.actions.saved =
             }
           })
         } else {
@@ -332,8 +336,9 @@ export default {
             action: 'save',
             pid: this.pid,
             action_complete: (payload) => {
-              this.updateActions(payload);
-              this.bindActionAssets();
+              // this.updateActions(payload);
+              // this.bindActionAssets();
+              // this.saves =
             }
           })
         }

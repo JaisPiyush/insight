@@ -19,6 +19,8 @@ export default {
       {rel: 'stylesheet', href: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"},
       {rel: 'stylesheet', href: "https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Caveat:wght@700&family=Courgette&family=Dancing+Script:wght@500;700&family=Indie+Flower&family=Lobster&family=Pacifico&family=Permanent+Marker&family=Roboto+Mono:ital,wght@0,300;0,400;1,300;1,400&family=Satisfy&family=Shadows+Into+Light&display=swap"},
 
+    ],
+    script :[
     ]
   },
   /*

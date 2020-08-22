@@ -32,21 +32,27 @@
 export default {
   props: ['audio','active'],
   mounted() {
+    let self = this;
     this.$nextTick().then(() => {
-      this.gif = this.getGif();
-      this.audioPlayer = this.$el.querySelector('audio')
-      // console.log(this.audioPlayer)
-      let self = this
-      this.audioPlayer.onload = () => {
+      self.gif = self.getGif();
+      self.audioPlayer = self.$el.querySelector('audio');
+      self.audioPlayer.onload = () => {
         let manager = new Hammer.Manager(self.player)
         let tap = new Hammer.Tap()
         manager.add(tap)
         manager.on('tap', self.manageAudioState);
-        this.$emit('state',{laoding:false, error:false});
+        self.$emit('state',{laoding:false, error:false});
+      }
+      self.audioPlayer.onpause = () => {
+        self.playing = false;
       }
 
-      this.audioPlayer.onerror = (error) => {
-        this.$emit('state',{laoding:false, error:true});
+      self.audioPlayer.onplay = () => {
+        self.playing = true;
+      }
+
+      self.audioPlayer.onerror = (error) => {
+        self.$emit('state',{laoding:false, error:true});
       }
     })
   },
@@ -70,6 +76,10 @@ export default {
           this.audioPlayer.currentTime = 0;
       }
       if (this.audioPlayer.paused) {
+        let audios = document.querySelectorAll('audio');
+        audios.forEach((audio,i)=>{
+          audio.pause();
+        })
         this.audioPlayer.play()
         this.playing = true
       } else {
@@ -80,7 +90,7 @@ export default {
     randomGif: function() {
       let number = Math.random()
       let sector = 1 / this.gifs.length
-      console.log(number)
+
       if (number <= 0) {
         return 0
       } else if (number === 1) {
@@ -90,7 +100,7 @@ export default {
       if (number - n >= 0.5 && n < this.gifs.length) {
         n = n + 1
       }
-      console.log(number, n, number / sector)
+
       return n
     },
     getGif: function() {

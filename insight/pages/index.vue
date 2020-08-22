@@ -29,7 +29,8 @@ import PostBox from '@/components/post_elements/PostBox.vue'
 import LoadingContainer from '@/components/LoadingContainer.vue'
 import FrozenStorage from '@/static/js/local_storage';
 import {mapState, mapActions} from "vuex";
-import {avatarDefault} from '~/static/js/assets'
+import {avatarDefault} from '~/static/js/assets';
+import IsInViewport from "@/static/js/in-viewport.js";
 export default {
   components: {
     PostBox,
@@ -37,6 +38,10 @@ export default {
   },
   mounted() {
     this.checkIntroViewed(this.fetchFeed);
+    this.$nextTick().then(()=>{
+      let viewMonitor = new IsInViewport(this.$el);
+      viewMonitor.$init();
+    })
   },
   data() {
     return {

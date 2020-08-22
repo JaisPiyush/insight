@@ -228,6 +228,7 @@ export const actions = {
       storage.bulk_upload({
         complete:(assets) => {
         commit('setCompleted',assets);
+        console.log(assets);
         func();
       },
       progress:(progress) => {

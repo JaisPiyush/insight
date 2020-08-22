@@ -16,8 +16,10 @@
         </div>
         <div class="w-full h-full" v-if="!this.isTextAvailable() && this.isActive('video')">
           <video
+            v-if="playVideo"
             controls
             :src="getSrc()"
+            @play="managePlayState"
             class="w-full"
             style="max-height:50vh;height:100%;touch-action: pan-y !important;"
             @load="changestate({ loading: false, error: false })"
@@ -27,7 +29,7 @@
         <div class="w-full" style="height:54vh;" v-if="!this.isTextAvailable() && this.isActive('audio')">
           <audio-box
             :audio="getSrc()"
-            :active="true"
+            :active="playAudio"
             style="touch-action: pan-y !important;"
             @state="changestate"
           />
@@ -53,6 +55,7 @@ import LoaderView from '@/components/post_elements/LoaderView.vue'
 import AudioBox from '@/components/post_elements/AudioBox.vue'
 import PeripheralDot from '@/components/post_elements/PeripheralDot.vue'
 import TextBox from '@/components/post_elements/TextBox.vue'
+
 export default {
   props: ['propAsset'],
   mounted() {
@@ -79,8 +82,6 @@ export default {
 
     this.$nextTick().then(() => {
       if (process.client) {
-
-
         this.hammer = new Hammer.Manager(this.$el)
 
         let swipe = new Hammer.Swipe({direction:Hammer.DIRECTION_HORIZONTAL});
@@ -90,7 +91,6 @@ export default {
         this.hammer.on('swipeleft', this.slideNext)
 
         this.hammer.on('swiperight', this.slidePrevious);
-        this.monitorPlayables();
       }
     })
   },
@@ -109,15 +109,15 @@ export default {
         images: [],
         video: undefined,
         audio: undefined,
-
       },
       assets: [],
       index: 0,
-      hammer: undefined
+      hammer: undefined,
+      playAudio: true,
+      playVideo: true
     }
   },
   updated(){
-    this.monitorPlayables();
   },
   methods: {
     changeloading: function(value) {
@@ -160,7 +160,7 @@ export default {
     getSrc: function() {
       if (this.assets[this.index] != undefined) {
         this.loading = true
-        console.log(this.assets[this.index]);
+        //console.log(this.assets[this.index]);
         return this.assets[this.index].src
       }
     },
@@ -184,21 +184,14 @@ export default {
       this.loading = payload.loading
       this.error = payload.error
     },
-    monitorPlayables: function(){
-      // if((this.data.video != undefined || this.data.audio != undefined)){
-      //   let player = this.$el.querySelector('video');
-      //   if(player === undefined){
-      //     player = this.$el.querySelector('audio');
-      //     if(player === undefined){
-      //       return null;
-      //     }
-      //   }
-      //   if(this.play === false){
-      //     player.pause();
-      //   }
-      // }
+    managePlayState: function(){
+      let video = this.$el.querySelector('video');
+      let videos = document.querySelectorAll('video');
+      videos.forEach((video,i) => {
+        video.pause();
+      })
+      video.play();
     }
-
   }
 }
 </script>
