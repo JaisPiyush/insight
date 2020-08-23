@@ -88,7 +88,7 @@ export const mutations = {
         state.assets.images = payload.images
     }
     if(payload.video != undefined){
-      tate.assets.video = payload.video
+      state.assets.video = payload.video
     }
    if(payload.audio != undefined){
        state.assets.audio = payload.audio

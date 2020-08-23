@@ -5,7 +5,7 @@
       text="Your post is going live after the upload."
     >
       <div  class="w-full h-screen bg-white flex flex-col justify-center ">
-        <div v-if="!this.isProgressState()" class="w-full h-auto px-4 flex flex-col ">
+        <div v-if="this.showError()" class="w-full h-auto px-4 flex flex-col ">
          <img src="@/assets/svg/error_svg.svg" class="w-48 m-auto" />
          <p class="m-auto my-4 font-muli text-lg font-bold text-gray-800">{{errorMessage}}</p>
          <button @click="clearStore" class="w-full py-4 shadow-md font-lato font-bold text-lg text-white rounded-lg bg-pink-500">Go Back</button>
@@ -69,6 +69,9 @@ export default {
         return true;
       }
       return false;
+    },
+    showError: function(){
+      return this.error;
     }
   }
 }
