@@ -32,10 +32,11 @@ export const mutations = {
   },
   insertProfileData: function(state, payload) {
     state.aid = payload.account_id
+    state.avatar = avatarDefault;
     if (payload.avatar.length > 2) {
       state.avatar = payload.avatar
     }
-    state.places = []
+    state.places = [];
     for (let index = 0; index < payload.places.length; index++) {
       let split = payload.places[index].split(',')
       state.places.push(split[0], split[1])
