@@ -32,40 +32,57 @@ export const mutations = {
   },
 
   updateActions: function(state, payload){
-
-    state.posts.forEach((post, i) => {
-
+    // payload pid, action
+    state.posts.forEach((post, index) => {
       if(post.post_id === payload.pid){
+          let action = {...post.footer.action_map};
+          let actionActive = {...post.meta.actions}
         switch (payload.action) {
           case 'love':
-            post.meta.actions.loved = 1;
-            post.footer.love += 1;
+            action['love'] += 1;
+            actionActive['loved'] = 1;
             break;
           case 'un_love':
-            post.meta.actions.loved = 0;
-            if(post.footer.love > 0){
-              post.footer.love -= 1;
-            }
+            action['love'] -= 1;
+            actionActive['loved'] = 0;
             break;
-          case 'view':
-            post.meta.actions.viewed = 1;
-            post.footer.view += 1;
+         case 'share':
+            action['share'] += 1;
+            actionActive['shared'] = 1;
             break;
-          case 'share':
-            post.meta.actions.shared = 1;
-            post.footer.share += 1;
+         case 'save':
+            actionActive['saved'] = 1;
             break;
-          case 'save':
-            post.meta.actions.saved = 1;
-            break;
-          case 'un_save':
-            post.meta.actions.saved = 0;
+         case 'un_save':
+            actionActive['saved'] = 0;
             break;
         }
+        post.footer.action_map = {...action};
+        post.meta.actions = {...actionActive};
+        console.log(payload,action,actionActive);
+        Object.assign(state.posts[index],post);
+      }
+    });
+  },
+
+  updateAssociation: function(state, payload){
+    //payload aid action
+    state.posts.forEach((post, index) => {
+      if(post.meta.account_id === payload.aid){
+        let header = {...post.header};
+        if(payload.action === 'follow'){
+          header.following = 1;
+        }else if(payload.action === 'un_follow'){
+          header.following = 0;
+        }
+        post.header = {...header};
+        Object.assign(state.posts[index],post);
       }
     });
 
   }
+
+// End of mutations
 };
 
 export const actions = {

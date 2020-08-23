@@ -43,7 +43,7 @@
 
         <!-- Body -->
         <div
-          class="w-full h-full flex flex-col justify-center px-2 special-black"
+          class="w-full h-full flex flex-col justify-center px-2 special-black bg-no-repeat"
         >
           <div
             id="center-screen"

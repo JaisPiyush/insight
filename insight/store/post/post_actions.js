@@ -36,7 +36,7 @@ export const actions ={
         url = `${url}?action=${payload.action}&pid=${payload.pid}`;
         this.$axios.get(url).then((res) =>{
             if(payload.action_complete != undefined){
-              payload.action_complete(payload);
+              payload.action_complete();
             }
 
         });
@@ -52,7 +52,9 @@ export const actions ={
     }else{
       this.$axios.setHeader('Authorization', token);
       this.$axios.get(url).then(res => {
-        payload.func();
+        if(payload.action_complete != undefined){
+          payload.action_complete();
+        }
       })
     }
   }

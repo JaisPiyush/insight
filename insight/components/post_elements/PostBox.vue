@@ -84,7 +84,7 @@
           <button
             :class="
               `w-auto ml-1 focus:outline-none h-auto py-0 px-2 ${
-                actions.viewed ? 'bg-purple-100 rounded-md' : ''
+                actions.viewed ? 'bg-purple-200 rounded-md' : ''
               }`
             "
           >
@@ -168,12 +168,7 @@ export default {
     this.intersecting = true;
     this.getCaption()
     this.$nextTick().then(() => {
-      let height = (window.innerHeight * 10) / 100
-      let options = {
-        root: document.querySelector('#home'),
-        rootMargin: `${height}px`,
-        threshold: 0.75
-      }
+      this.bindAction('view');
     });
   },
   data() {
@@ -212,7 +207,7 @@ export default {
   },
   methods: {
     ...mapActions('post/post_actions', ['microActionPost','followUser']),
-    ...mapMutations('main',['updateActions']),
+    ...mapMutations('main',['updateActions','updateAssociation']),
     bindDataWithPropsAsset: function() {
       this.pid = this.propsAsset.post_id;
       this.username = this.propsAsset.header.username;
@@ -269,7 +264,10 @@ export default {
       }
     },
     followClickListener: function() {
-      this.followUser({fid:this.account_id,action:(this.following)? 'follow':'un_follow',func: () => {this.following = !this.following}})
+      this.followUser({fid:this.account_id,action:(this.following)? 'follow':'un_follow',func: () => {
+        this.following = !this.following
+        this.updateAssociation({aid:this.account_id, action:(this.following)? 'follow':'un_follow'});
+      }})
     },
     showFullCaption: function() {
       this.fullCaption = true
@@ -283,19 +281,21 @@ export default {
         this.microActionPost({
           action: (this.actions.loved) ? 'un_love' : 'love',
           pid: this.pid,
-          action_complete: (payload) => {
-            // this.updateActions(payload);
-            // this.bindActionAssets();
-            this.loves += (this.actions.loved) ? -1 : 1;
+          action_complete: () => {
+            // this.loves += (this.actions.loved) ? -1 : 1;
+            console.log(this.actions.loved,(this.actions.loved) ? 'un_love' : 'love')
+            this.updateActions({pid:this.pid, action:(this.actions.loved) ? 'un_love' : 'love'});
+            // this.actions.loved = (this.actions.loved) ? false: true;
+            this.bindActionAssets();
           }
         })
       } else if (type === 'view') {
         this.microActionPost({ action: 'view',
            pid: this.pid,
-           action_complete: (payload) => {
-             this.updateActions(payload);
+           action_complete: () => {
+             this.actions.viewed = true;
+             this.updateActions({pid:this.pid, action:'view'});
              this.bindActionAssets();
-
             }
            },
          );
@@ -311,8 +311,9 @@ export default {
             .then(() => {
               this.microActionPost({ action: 'share',
                 pid: this.pid,
-                action_complete: (payload) => {
-                  this.updateActions(payload);
+                action_complete: () => {
+                  this.actions.shared = true;
+                  this.updateActions({pid:this.pid, action:'share'});
                   this.bindActionAssets();
                 }
                });
@@ -324,10 +325,10 @@ export default {
           this.microActionPost({
             action: 'un_save',
             pid: this.pid,
-            action_complete: (payload) => {
-              this.updateActions(payload);
+            action_complete: () => {
+              this.actions.saved = false;
+              this.updateActions({pid:this.pid, action:'un_save'});
               this.bindActionAssets();
-
               // this.actions.saved =
             }
           })
@@ -335,10 +336,10 @@ export default {
           this.microActionPost({
             action: 'save',
             pid: this.pid,
-            action_complete: (payload) => {
-              // this.updateActions(payload);
-              // this.bindActionAssets();
-              // this.saves =
+            action_complete: () => {
+              this.actions.saved = true;
+              this.updateActions({pid:this.pid, action:'save'});
+              this.bindActionAssets();
             }
           })
         }

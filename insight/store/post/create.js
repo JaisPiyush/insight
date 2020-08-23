@@ -188,7 +188,6 @@ export const actions = {
         }
       })
     }
-    console.log(data);
     let url = `post/create`
     let storage = new FrozenStorage()
     let token = storage.get('token')

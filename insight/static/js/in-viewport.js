@@ -4,39 +4,18 @@
 export default function IsInViewport(el){
   // Binding all videos and elements to stop when they are out of view
   this.el = el;
-  this.videos = [];
-  this.audios = [];
-  this.sliders = [];
-
-
-  this._isInViewport = function(el){
-    const scroll = window.scrollY || window.pageYOffset
-    const boundsTop = el.getBoundingClientRect().top + scroll
-
-    const viewport = {
-      top: scroll,
-      bottom: scroll + window.innerHeight,
-    }
-
-      const bounds = {
-      top: boundsTop,
-      bottom: boundsTop + el.clientHeight,
-    }
-
-    return ( bounds.bottom >= viewport.top && bounds.bottom <= viewport.bottom )
-      || ( bounds.top <= viewport.bottom && bounds.top >= viewport.top );
-
-  }
 
   this.handler = (entries,observers) => {
     entries.forEach((entry, i) => {
-      if(entry.intersectionRatio <= 0.40){
+      // console.log(entry);
+      if(entry.intersectionRatio <= 0.45){
+
         let video = entry.target.querySelector('video');
         let audio = entry.target.querySelector('audio');
-        if(video != undefined){
+        if(video != null){
           video.pause();
         }
-        if(audio != undefined){
+        if(audio != null){
           audio.pause()
         }
       }
@@ -48,7 +27,7 @@ export default function IsInViewport(el){
     let options ={
       root: null,
       rootMargin:'0px',
-      threshold:0.40
+      threshold:0.4
     }
    let sliders = this.el.querySelectorAll('.slider');
    sliders.forEach((slider, i) => {
