@@ -23,6 +23,7 @@
     "material-design-icons": "^3.0.1",
     "nuxt": "^2.14.3",
     "randomstring": "^1.1.5",
+    "vue": "^2.6.12",
     "vue-advanced-cropper": "^0.16.10"
   },
   "devDependencies": {

@@ -301,7 +301,8 @@ export default {
     ]),
     ...mapActions('auth/register', ['checkUsernameAvailibility','uploadDatatoServer','checkAccountAvailibility']),
     nextClick: function() {
-      this.verifyFirstPageInput()
+      if(this.accountAvailable != undefined && this.accountAvailable){
+       this.verifyFirstPageInput()
       if (
         this.email != undefined &&
         this.email != '' &&
@@ -331,6 +332,7 @@ export default {
         })
 
       }
+    }
     },
 
     verifyFirstPageInput: function() {

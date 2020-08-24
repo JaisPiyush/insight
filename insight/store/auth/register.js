@@ -68,7 +68,7 @@ export const actions = {
     },
 
     async checkAccountAvailibility({commit, state}, account){
-        const url = `auth/account_check?aid=${username}`;
+        const url = `auth/account_check?aid=${account}`;
         let {data, status}= await this.$axios.get(url);
         if(status === 200 && data['available'] === 1){
             commit('updateAccountAvailability', true);
