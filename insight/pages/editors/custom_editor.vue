@@ -29,7 +29,7 @@
                 this.mediaCardIndex != null &&
                   this.totalAssets.length > 0 &&
                   this.totalAssets[this.mediaCardIndex].mediaType === 'image' &&
-                  !this.styling
+                  !this.styling && false
               "
             />
 

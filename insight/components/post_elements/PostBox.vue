@@ -113,7 +113,7 @@
             >
           </button>
 
-          <button class="ml-1 px-4 w-auto focus:outline-none h-auto py-2">
+          <button v-if="false" class="ml-1 px-4 w-auto focus:outline-none h-auto py-2">
             <i
               v-if="this.actions.saved"
               class="fa fa-bookmark fa-2x"
@@ -265,9 +265,10 @@ export default {
     },
     followClickListener: function() {
       this.followUser({fid:this.account_id,action:(this.following)? 'follow':'un_follow',func: () => {
-        this.following = !this.following
+        // Need to introduce un-follow
         this.updateAssociation({aid:this.account_id, action:(this.following)? 'follow':'un_follow'});
-      }})
+      }});
+      this.following = true;
     },
     showFullCaption: function() {
       this.fullCaption = true

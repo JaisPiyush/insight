@@ -59,7 +59,7 @@ export const mutations = {
         }
         post.footer.action_map = {...action};
         post.meta.actions = {...actionActive};
-        console.log(payload,action,actionActive);
+        // console.log(payload,action,actionActive);
         Object.assign(state.posts[index],post);
       }
     });

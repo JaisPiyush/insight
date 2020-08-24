@@ -185,12 +185,14 @@ export default {
       this.error = payload.error
     },
     managePlayState: function(){
-      let video = this.$el.querySelector('video');
+      let thisVideo = this.$el.querySelector('video');
       let videos = document.querySelectorAll('video');
       videos.forEach((video,i) => {
-        video.pause();
+        if(video != thisVideo){
+          video.pause();
+        }
       })
-      video.play();
+
     }
   }
 }

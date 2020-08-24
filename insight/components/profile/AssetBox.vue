@@ -1,8 +1,11 @@
 <template>
-    <div @click="clicked" class="w-24 h-24 mx-2">
+    <div @click="clicked" class="w-20 h-24 mx-2">
         <img v-if="this.type === 'image'" :src="src" class="w-full h-full"  />
         <img v-if="this.type === 'audio'" :src="audImg" class="w-full h-full" />
         <video preload="auto" :src="src" v-if="this.type === 'video'" class="w-full h-full" />
+        <div class="w-full h-full overflow-hidden" v-if="this.type === 'text'">
+          <p class="wrap-text text-sm">{{post.assets.text.data}}</p>
+        </div>
     </div>
 </template>
 
@@ -29,6 +32,17 @@ export default {
                 this.type = 'video';
             }else if(this.post.assets.audio != undefined){
                 this.type = 'audio'
+            }else if(this.post.assets.text != undefined){
+              this.type = 'text'
+              if(this.post.assets.text.bgColor != undefined){
+                 this.$el.style.setProperty('background-color',this.post.assets.text.bgColor);
+              }
+              if(this.post.assets.text.fontColor != undefined){
+                this.$el.style.setProperty('color',this.post.assets.text.fontColor);
+              }
+             if(this.post.assets.text.fontName != undefined){
+               this.$el.style.setProperty('font-family',this.post.assets.text.fontName);
+             }
             }
         },
         clicked: function(){
@@ -37,3 +51,11 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.wrap-text {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+}
+</style>

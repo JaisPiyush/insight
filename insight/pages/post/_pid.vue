@@ -1,12 +1,15 @@
 <template>
-  <div  :class="`w-full h-full flex flex-col ${(showComments) ? 'bg-black':'bg-white'}`">
-      <div class="w-full h-auto">
-        <post-box  @enable-comment="commentstate" :commentActive="!showComments" :propsAsset="post" />
-      </div>
-      <div v-if="post.footer != undefined">
+  <div class="w-full h-full flex flex-col">
+     <div class="w-full h-10 px-4 py-2 mt-4">
+       <span @click="$router.go(-1)" class="material-icons">
+         keyboard_backspace
+       </span>
+     </div>
+      <post-box  @enable-comment="commentstate" :commentActive="!showComments" :propsAsset="post" />
+      <div v-if="post.footer != undefined && false">
         <comment-box :active="showComments" :comments="post.footer.comments"/>
       </div>
-      <comment-input-box @new-comment="updateComment" :pid="post.post_id" :active="showComments" />
+      <comment-input-box @new-comment="updateComment" :pid="post.post_id" :active="showComments && false" />
   </div>
 
 </template>
