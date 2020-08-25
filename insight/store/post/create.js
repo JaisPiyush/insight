@@ -33,7 +33,7 @@ export const mutations = {
   },
   insertAssets: function(state, payload) {
     if ('images' in payload) {
-      state.assets.images = payload.images
+      state.assets.images = payload.images;
     }
     if ('video' in payload) {
       state.assets.video = payload.video
@@ -42,7 +42,8 @@ export const mutations = {
       state.assets.audio = payload.audio
     }
     state.editor = payload.editor;
-    console.log(payload)
+    console.log(payload);
+    this.$router.push('/post/caption_page');
   },
   insertCaption: function(state, payload) {
     state.caption = payload
@@ -188,6 +189,7 @@ export const actions = {
         }
       })
     }
+    console.log(data);
     let url = `post/create`
     let storage = new FrozenStorage()
     let token = storage.get('token')
@@ -221,14 +223,18 @@ export const actions = {
         })
     }
   },
-  uploadFilesToFirebase: function({ state, commit, dispatch},func) {
+  uploadFilesToFirebase: function({ state, commit},func) {
     if(window.navigator.onLine){
       let storage = new StorageVaultBeta(state.assets);
       storage.bulk_upload({
         complete:(assets) => {
-        commit('setCompleted',assets);
-        console.log(assets);
-        func();
+          if(state.assets.images != undefined && state.assets.images.length === assets.images.length && 
+            typeof state.assets.video === typeof assets.video && typeof state.assets.audio === typeof assets.audio
+            ){
+              commit('setCompleted',assets);
+              console.log(JSON.stringify(assets) === JSON.stringify(assets),assets,state.assets);
+              func();
+            }
       },
       progress:(progress) => {
         commit('updateProgress',progress)

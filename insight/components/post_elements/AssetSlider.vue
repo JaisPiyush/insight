@@ -125,20 +125,12 @@ export default {
     },
     slideNext: function() {
       if (!this.isTextAvailable() && this.index < this.assets.length - 1) {
-        if (this.assets[this.index].type != 'video') {
-          this.loading = true
-        }
         this.index += 1;
       }
     },
     slidePrevious: function() {
       if (!this.isTextAvailable() && this.index > 0) {
-        if (this.assets[this.index].type != 'video') {
-          this.loading = true
-          // console.log(this.assets[this.index])
-        }
-        this.index -= 1
-        // this.getAsset()
+        this.index -= 1;
       }
     },
     fetchAsset: function(url, payload) {

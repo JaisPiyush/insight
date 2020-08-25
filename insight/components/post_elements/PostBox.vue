@@ -168,7 +168,9 @@ export default {
     this.intersecting = true;
     this.getCaption()
     this.$nextTick().then(() => {
-      this.bindAction('view');
+      if(this.actions.viewed === false){
+        this.bindAction('view');
+      }
     });
   },
   data() {

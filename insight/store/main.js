@@ -104,6 +104,7 @@ export const actions = {
       console.log(err);
       commit('setLoadingState',false);
       commit('setErrorState',true);
+      this.$router.push('/auth/login');
     })
   },
 
