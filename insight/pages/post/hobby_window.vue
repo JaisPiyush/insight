@@ -8,7 +8,7 @@
         type="text"
         v-model="searchHobby"
         placeholder="Type Hobby"
-        @input="searchText"
+        @change="searchText"
         class="px-2 py-1 font-lato ml-8 w-64 rounded-md  h-8 focus:outline-none border "
       />
     </div>
