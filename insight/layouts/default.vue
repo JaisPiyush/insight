@@ -1,10 +1,20 @@
 <template>
-  <div>
-    <nuxt />
+  <div class="">
+      <nuxt />
   </div>
 </template>
 
+<script>
+
+</script>
+
 <style>
+
+.grided{
+  display: grid;
+  grid-template-rows: 95% 5%;
+}
+
 html {
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
     Roboto, 'Helvetica Neue', Arial, sans-serif;

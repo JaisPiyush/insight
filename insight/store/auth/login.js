@@ -17,6 +17,7 @@ export const actions = {
     const url = `auth/login`;
     let storage = new FrozenStorage();
     storage.set('vintro','1');
+    delete this.$axios.defaults.headers.common["Authorization"];
     this.$axios.post(url, JSON.stringify(data)).then(res => {
       if(res.status === 202){
         commit('setErrorState',false)

@@ -10,7 +10,7 @@
       </div>
 
       <div class="flex justify-between px-10">
-        <div class=" mt-10 text-center">
+        <div @click="$router.push('/profile/followers')" class=" mt-10 text-center">
           <h1 class="text-green-400 text-base font-lato font-semibold">
             Followers
           </h1>
@@ -36,7 +36,7 @@
 
         <!-- Profile image -->
 
-        <div class="mt-10 text-center">
+        <div @click="$router.push('/profile/followings')" class="mt-10 text-center">
           <h1 class="text-green-400 text-base font-lato font-semibold">
             Following
           </h1>

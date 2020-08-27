@@ -15,7 +15,7 @@
         </div>
 
         <div class="flex justify-between px-10">
-          <div class=" mt-10 text-center">
+          <div @click="followsClick('followers')" class=" mt-10 text-center">
             <h1 class="text-green-400 text-base font-lato font-semibold">
               Followers
             </h1>
@@ -33,7 +33,7 @@
 
           <!-- Profile image -->
 
-          <div class="mt-10 text-center">
+          <div @click="followsClick('followings')" class="mt-10 text-center">
             <h1 class="text-green-400 text-base font-lato font-semibold">
               Following
             </h1>
@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapMutations } from 'vuex'
 import ImageViewer from "@/components/profile/ImageViewer.vue";
 import LoadingContainer from "@/components/LoadingContainer.vue"
 import AssetBox from "@/components/profile/AssetBox.vue";
@@ -132,6 +132,7 @@ export default {
   },
   methods: {
     ...mapActions('profile/profile', ['fetchThirdProfile']),
+    ...mapMutations('profile/follows',['setAccount']),
     retroText: function(text) {
       if (text >= 1000) {
         return `${(text / 1000).toFixed(2)}K`
@@ -172,6 +173,11 @@ export default {
     },
     toggleImageView: function(val){
         this.imageView = val;
+    },
+
+    followsClick: function(to){
+      this.setAccount(this.aid);
+      this.$router.push(`/profile/${to}`);
     }
   }
 }

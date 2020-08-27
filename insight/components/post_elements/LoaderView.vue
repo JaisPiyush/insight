@@ -6,7 +6,7 @@
           {{text == undefined ? 'Hold on we are loading!' : text}}
         </p>
     </div>
-    <div class="w-full h-full absolute z-0">
+    <div class="w-full h-full absolute z-0" :style="`${this.loading}? 'display:hidden;':''`">
       <slot></slot>
     </div>
   </div>

@@ -1,18 +1,21 @@
 <template>
   <client-only>
     <div class="w-full body flex flex-col slider" style="touch-action: pan-y !important;">
-      <div class="w-full" style="height:98%; max-height:100;">
+      <div class="w-full bg-gray-300" style="height:98%; max-height:100;">
+       <!-- <loader-view :loading="loading" > -->
         <div styles="width:100%;height:50vh;" v-if="this.isActive('text')">
           <text-box :data="getSrc()" :media="getTextMedia()" />
         </div>
         <div class="w-full h-full" v-if="!this.isTextAvailable() && this.isActive('image')">
           <img
             :src="getSrc()"
+            v-show="!this.infinite"
             class="w-full"
             style="height:98%;max-height:50vh;touch-action: pan-y !important;"
-            @load="changestate({ loading: false, error: false })"
+            @load="loadingComplete"
             @error="changestate({ loading: false, error: true })"
           />
+          <infinity-loading :active="infinite" />
         </div>
         <div class="w-full h-full" v-if="!this.isTextAvailable() && this.isActive('video')">
           <video
@@ -22,7 +25,7 @@
             @play="managePlayState"
             class="w-full"
             style="max-height:50vh;height:100%;touch-action: pan-y !important;"
-            @load="changestate({ loading: false, error: false })"
+            @load="loading=false"
             @error="changestate({ loading: false, error: true })"
           />
         </div>
@@ -34,6 +37,7 @@
             @state="changestate"
           />
         </div>
+       <!-- </loader-view> -->
       </div>
       <div class="w-full h-auto flex justify-center" style="max-height:2%;">
         <div v-if="!this.isTextAvailable() && this.assets.length > 1" class="inline-flex w-auto h-full">
@@ -55,7 +59,7 @@ import LoaderView from '@/components/post_elements/LoaderView.vue'
 import AudioBox from '@/components/post_elements/AudioBox.vue'
 import PeripheralDot from '@/components/post_elements/PeripheralDot.vue'
 import TextBox from '@/components/post_elements/TextBox.vue'
-
+import InfinityLoading from "@/components/InfinityLoading.vue"
 export default {
   props: ['propAsset'],
   mounted() {
@@ -98,12 +102,14 @@ export default {
     LoaderView,
     AudioBox,
     PeripheralDot,
-    TextBox
+    TextBox,
+    InfinityLoading
   },
   data() {
     return {
       loading: false,
       intersecting:true,
+      infinite:false,
       error: false,
       data: {
         images: [],
@@ -114,7 +120,8 @@ export default {
       index: 0,
       hammer: undefined,
       playAudio: true,
-      playVideo: true
+      playVideo: true,
+      img: undefined
     }
   },
   updated(){
@@ -125,6 +132,9 @@ export default {
     },
     slideNext: function() {
       if (!this.isTextAvailable() && this.index < this.assets.length - 1) {
+        if(this.isActive('image')){
+          this.infinite = true;
+        }
         this.index += 1;
       }
     },
@@ -141,6 +151,10 @@ export default {
           el.onerror = reject
         }
       })
+    },
+
+    loadingComplete: function(event){
+      this.infinite = false;
     },
 
     isActive: function(type) {

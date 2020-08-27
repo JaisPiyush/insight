@@ -4,6 +4,9 @@ import {avatarDefault} from '~/static/js/assets';
 export const state = () => ({
   firstName: 'Welcome',
   avatar: avatarDefault,
+  links:{},
+  nextFetchIndex:[],
+  nextFetchedIndex:[],
   posts:[],
   onePost:{},
   loading:false,
@@ -13,11 +16,48 @@ export const state = () => ({
 export const mutations = {
   setAccountData: function(state, payload){
     state.firstName = payload.meta.first_name || 'Welcome';
-    state.posts = payload.posts;
     if(payload.meta.avatar != undefined && payload.meta.avatar.length > 0){
       state.avatar = payload.meta.avatar;
     }else{
       state.avatar = avatarDefault;
+    }
+  },
+  setPosts: function(state, payload){
+    if(payload.links != undefined ){
+      state.links.next = payload.links.next;
+      state.links.previous = payload.links.previous;
+
+      if(state.links.next != null){
+        // console.log('working at non-null');
+        if(state.links.previous === null){
+          // First Page reset all indexes
+          
+          state.nextFetchedIndex = [];
+          state.posts = payload.posts;
+          state.nextFetchIndex =[payload.batch - 1];
+        }
+
+        else{
+          if(!state.nextFetchIndex.includes(payload.batch + state.posts.length - 1)){
+            state.nextFetchIndex.push(payload.batch + state.posts.length - 1)
+          }
+          state.posts = state.posts.concat(payload.posts);}}
+      else if(state.links.next == null) {
+        // console.log('working');
+        state.posts = state.posts.concat(payload.posts);
+        }
+      }
+    else if(state.links.next === undefined){
+      state.nextFetchIndex =[];
+      state.nextFetchedIndex = [];
+      state.posts = payload.posts;}
+
+      // console.log(state);
+  },
+
+  updateFetchedIndex: function(state, index){
+    if(!state.nextFetchedIndex.includes(index)){
+      state.nextFetchedIndex.push(index);
     }
   },
   setPostData: function(state, payload){
@@ -86,25 +126,31 @@ export const mutations = {
 };
 
 export const actions = {
-  fetchFeed: function({state,commit}){
+  fetchFeed: async function({state,commit},index){
     commit('setLoadingState',true);
     commit('setErrorState',false);
     let storage = new FrozenStorage();
     let token = storage.get('token');
-    const url = `feed`
+    let url = 'feed';
+    if (state.links.next != null || state.links.next != undefined){
+      url = `${url}${state.links.next}`;
+    }
     if(token != null){
       this.$axios.setHeader('Authorization',token);
     }
     this.$axios.get(url).then(res=>{
       commit('setAccountData', res.data);
+      commit('setPosts', res.data);
+      if(index != undefined || index != null){
+        commit('updateFetchedIndex',index);
+      }
       storage.set('avatar',(res.data.meta.avatar != undefined && res.data.meta.avatar.length > 0)?res.data.meta.avatar : avatarDefault )
       commit('setLoadingState',false);
 
     }).catch(err => {
-      console.log(err);
+      // console.log(err);
       commit('setLoadingState',false);
       commit('setErrorState',true);
-      // this.$router.push('/auth/login');
     })
   },
 
@@ -119,13 +165,13 @@ export const actions = {
       this.$axios.setHeader('Authorization',token);
     }
     this.$axios.get(url).then(res=>{
-      console.log(res)
+      // console.log(res)
       commit('setPostData', res.data);
       commit('setLoadingState',false);
       payload.func();
 
     }).catch(err => {
-      console.log(err);
+      // console.log(err);
       commit('setLoadingState',false);
       commit('setErrorState',true);
     })

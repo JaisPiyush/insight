@@ -15,12 +15,14 @@
       </div>
       </div>
       <div class="body flex flex-col">
-        <div v-for="post in posts" :key="post.post_id">
+        <div v-for="post in posts" :key="posts.indexOf(post)">
             <post-box :propsAsset="post" :index="posts.indexOf(post)" :cindex="cindex" :commentActive="true" @current-index="updateIndex" @enable-comment="$router.push(`/post/${post.post_id}`)" />
         </div>
       </div>
+     
     </div>
   </loading-container>
+   <!-- <bottom-bar></bottom-bar> -->
   </div>
 </template>
 
@@ -31,16 +33,19 @@ import FrozenStorage from '@/static/js/local_storage';
 import {mapState, mapActions} from "vuex";
 import {avatarDefault} from '~/static/js/assets';
 import IsInViewport from "@/static/js/in-viewport.js";
+
 export default {
   components: {
     PostBox,
-    LoadingContainer
+    LoadingContainer,
   },
   mounted() {
     this.checkIntroViewed(this.fetchFeed);
     this.$nextTick().then(()=>{
-      let viewMonitor = new IsInViewport(this.$el);
-      viewMonitor.$init();
+      // let viewMonitor = new IsInViewport(this.$el);
+      // viewMonitor.$init(()=>{
+
+      // });
     })
   },
   data() {
