@@ -12,14 +12,14 @@
             <div class="px-4 pt-4">
                 <div @click="$router.push('/profile/self')" class="h-8 rounded-lg pt-1  font-roboto text-gray-800  mt-1 ">Edit Profile</div>
                 <!-- <div class="h-8 rounded-lg pt-1  font-roboto text-gray-800  mt-1 ">Change Password</div> -->
-                <div class="h-8 rounded-lg pt-1  font-roboto text-gray-800  mt-1 " @click.prevent="togglePage('about')">About</div>
+                <div v-if="false" class="h-8 rounded-lg pt-1  font-roboto text-gray-800  mt-1 " @click.prevent="togglePage('about')">About</div>
                 <div @click="logout" class="h-8 rounded-lg font-roboto text-blue-400 mt-1 ">Log out</div>
             </div>
         </div>
         <!-- setting page -->
 
         <!-- about page -->
-        <div class="about pannel" v-show="showAboutPage">
+        <div v-if="false" class="about pannel" v-show="showAboutPage">
             <div class="flex flex-column">
             <div class=" w-12 h-6 text-center mt-3 ml-3" @click.prevent="togglePage('setting')">
                 <ArrowBack />

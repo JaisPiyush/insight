@@ -14,7 +14,7 @@
         class="w-12 h-12 rounded-lg border"
       />
 
-      <div class="w-auto h-full flex flex-col  ml-4">
+      <div class="w-full h-full flex flex-col  ml-4">
         <p
           @click="$router.push(`/profile/${username}`)"
           class="block font-lato font-bold text-black text-base"
