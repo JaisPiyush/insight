@@ -166,7 +166,7 @@ import { mapActions, mapMutations, mapState } from 'vuex'
 import { avatarDefault } from '@/static/js/assets'
 import IsInViewport from '@/static/js/in-viewport.js'
 export default {
-  props: ['commentActive', 'propsAsset', 'index', 'cindex'],
+  props: ['commentActive', 'propsAsset', 'index', 'cindex','bind'],
   components: {
     AssetSlider
   },
@@ -300,18 +300,18 @@ export default {
       }
     },
     followClickListener: function() {
+      this.following = false;
       this.followUser({
         fid: this.account_id,
-        action: this.following ? 'follow' : 'un_follow',
+        action:'follow',
         func: () => {
-          // Need to introduce un-follow
           this.updateAssociation({
             aid: this.account_id,
-            action: this.following ? 'follow' : 'un_follow'
+            action:  'follow'
           })
         }
       })
-      this.following = true
+      
     },
     showFullCaption: function() {
       this.fullCaption = true
@@ -321,6 +321,9 @@ export default {
     },
 
     bindAction: function(type) {
+      if(this.bind === false){
+        return null;
+      }
       if (type === 'love') {
         this.microActionPost({
           action: this.actions.loved ? 'un_love' : 'love',

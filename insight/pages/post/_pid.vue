@@ -5,7 +5,7 @@
          keyboard_backspace
        </span>
      </div>
-      <post-box  @enable-comment="commentstate" :commentActive="!showComments" :propsAsset="post" />
+      <post-box  @enable-comment="commentstate" :bind="false" :commentActive="!showComments" :propsAsset="post" />
       <div v-if="post.footer != undefined && false">
         <comment-box :active="showComments" :comments="post.footer.comments"/>
       </div>
