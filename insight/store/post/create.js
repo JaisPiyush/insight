@@ -228,8 +228,35 @@ export const actions = {
       let storage = new StorageVaultBeta(state.assets);
       storage.bulk_upload({
         complete:(assets) => {
-          if(state.assets.images != undefined && state.assets.images.length === assets.images.length && 
-            typeof state.assets.video === typeof assets.video && typeof state.assets.audio === typeof assets.audio
+          let isImagesComplete = false;
+          let isVideoComplete = false;
+          let isAudioComplete = false;
+          
+          if(state.assets.images === undefined){
+            isImagesComplete = true;
+          }else if(state.assets.images.length === assets.images.length){
+            isImagesComplete = true;
+          }else{
+            isImagesComplete = false
+          }
+
+          if(state.assets.video === undefined){
+            isVideoComplete = true;
+          }else if(assets.video != undefined){
+            isVideoComplete = true;
+          }else{
+            isVideoComplete = false;
+          }
+
+          if(state.assets.audio === undefined){
+            isAudioComplete = true;
+          }else if(assets.audio != undefined){
+            isAudioComplete = true;
+          }else{
+            isAudioComplete = false;
+          }
+
+          if(isImagesComplete && isVideoComplete && isAudioComplete
             ){
               commit('setCompleted',assets);
               console.log(JSON.stringify(assets) === JSON.stringify(assets),assets,state.assets);
@@ -255,6 +282,7 @@ export const actions = {
  },
 
  createPost: function({state, commit, dispatch}){
+  //  console.log(state.assets)
    if (JSON.stringify(state.assets) != JSON.stringify({})){
      dispatch('uploadFilesToFirebase', () =>{
        dispatch('sendDataToServer');

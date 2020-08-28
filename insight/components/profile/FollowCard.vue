@@ -1,5 +1,5 @@
 <template>
-    <div @click="$router.push(`/profile/${account.account_id}`)" class="w-full h-16  py-2 flex bg-white my-2 px-2 rounded-lg shadow-md">
+    <div @click="$router.push(`/profile/${account.username}`)" class="w-full h-16  py-2 flex bg-white my-2 px-2 rounded-lg shadow-md">
         <img class="w-12 h-12 rounded-full" :src="defav" />
         <div class="w-auto h-full flex flex-col ml-4">
             <p class="text-base font-muli font-bold ">{{account.username}}</p>

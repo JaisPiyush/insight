@@ -41,15 +41,13 @@ export function StorageVaultBeta(data){
   }
 
   this.is_images_complete = function(){
-    if(self.assets.images != undefined){
-      if(self.uploadedAssets.images != undefined && self.assets.images.length === self.uploadedAssets.images.length){
-        return true
-      }else {
-        return false;
-      }
-    }else{
+    if(this.assets.images === undefined){
       return true;
     }
+    else if(self.uploadedAssets.images != undefined && self.assets.images.length === self.uploadedAssets.images.length){
+      return true;
+    }
+    return false;
   }
 
   this.is_video_complete = function(){
@@ -75,7 +73,8 @@ export function StorageVaultBeta(data){
   }
 
   this.is_completed = function(){
-    if(self.is_audio_complete && self.is_images_complete && self.is_video_complete){
+    console.log('chcecking for completion', this.uploadedAssets);
+    if(self.is_audio_complete() && self.is_images_complete() && self.is_video_complete()){
       return true;
     }
     return false;
@@ -83,41 +82,19 @@ export function StorageVaultBeta(data){
 
   this.insert_asset = function(url,type){
     if(type === "image"){
-      if(self.uploadedAssets.images === undefined){
-        self.uploadedAssets.images = [];
+      if(this.uploadedAssets.images === undefined){
+        this.uploadedAssets.images = [];
       }
-      self.uploadedAssets.images.push(url);
+      this.uploadedAssets.images.push(url);
     }else if(type === "video"){
-      self.uploadedAssets.video = url;
+      this.uploadedAssets.video = url;
     }else if(type === "audio"){
-      self.uploadedAssets.audio = url;
+      this.uploadedAssets.audio = url;
     }
+    console.log(this.uploadedAssets)
   }
 
 
-  this.upload = function(url,type){
-     return fetch(url)
-         .then(res => {
-           res.blob().then(blob => {
-             let name = self.generate_name(blob);
-             let metadata = { type: type, contentType: blob.type }
-             return firestore
-               .child(`assets/${name}`)
-               .put(blob, metadata).then((snapshot) => {
-
-                 snapshot.ref.getDownloadURL().then(durl => {
-                   URL.revokeObjectURL(url);
-                   self.insert_asset(durl,type);
-                   if(self.is_completed()){
-                     self.complete_listener(self.uploadedAssets)
-                   }
-                 })
-               })
-           });
-         }).catch(err => {
-           // reject(err)
-         });
-  }
 
 
   this.uploadPromise = function(assets){
@@ -142,9 +119,11 @@ export function StorageVaultBeta(data){
                },
               async () => {
                 let durl = await uploadTask.snapshot.ref.getDownloadURL();
+                console.log(durl)
                  URL.revokeObjectURL(asset.url);
                  self.insert_asset(durl,asset.type);
                  if(self.is_completed()){
+                     console.log('In complete')
                     self.complete_listener(self.uploadedAssets)
                   }
                  }
@@ -171,7 +150,7 @@ export function StorageVaultBeta(data){
         asset_list.push({url:value, type:"audio"});
       }
     }
-  // console.log(asset_list);
+   console.log(asset_list);
    Promise.all(self.uploadPromise(asset_list)).then(() => {
    });
   }
