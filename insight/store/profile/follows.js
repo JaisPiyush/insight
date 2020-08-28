@@ -26,7 +26,7 @@ export const actions = {
         commit('setLoading', true);
         let url;
         if(state.username != undefined){
-            url = `profile/third/follows/${req}?aid=${state.username}`;
+            url = `profile/third/follows/${req}?username=${state.username}`;
         }else{
             url = `profile/follows/${req}`;
             let storage = new FrozenStorage();
