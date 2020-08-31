@@ -1,7 +1,7 @@
 <template>
   <client-only>
     <div class="w-full body flex flex-col slider" style="touch-action: pan-y !important;">
-      <div class="w-full bg-gray-300" style="height:98%; max-height:100;">
+      <div class="w-full bg-white" style="height:98%; max-height:100;">
        <!-- <loader-view :loading="loading" > -->
         <div styles="width:100%;height:50vh;" v-if="this.isActive('text')">
           <text-box :data="getSrc()" :media="getTextMedia()" />

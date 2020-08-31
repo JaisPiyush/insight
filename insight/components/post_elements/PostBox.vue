@@ -1,7 +1,7 @@
 <template>
   <div
     class="w-full post-box bg-white my-4 overflow-hidden"
-    style="border-bottom-right-radius: 1.25rem;border-bottom-left-radius: 1.25rem;touch-action: pan-y !important;"
+    style="touch-action: pan-y !important;"
     @scroll="monitorAssets"
     @click="$emit('current-index', index)"
   >
@@ -17,7 +17,7 @@
       <div class="w-full h-full flex flex-col  ml-4">
         <p
           @click="$router.push(`/profile/${username}`)"
-          class="block font-lato font-bold text-black text-base"
+          class="block font-lato font-bold text-black text-base xs:text-sm"
         >
           {{ username }}
         </p>

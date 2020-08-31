@@ -2,10 +2,10 @@
   <div class="">
     <div v-if="!$device.isMobile" class="w-full h-screen flex flex-col justify-center">
       <div class="w-full h-auto px-4 py-4 flex justify-center">
-        <img src="https://firebasestorage.googleapis.com/v0/b/social-express-103904.appspot.com/o/assets%2Fundraw_access_denied_6w73.svg?alt=media&token=09a64622-38a6-4626-aefd-aa276f69683d" />
+        <img class="w-64" src="https://firebasestorage.googleapis.com/v0/b/social-express-103904.appspot.com/o/assets%2Fundraw_access_denied_6w73.svg?alt=media&token=09a64622-38a6-4626-aefd-aa276f69683d" />
       </div>
       <div class="w-full h-auto px-4 py-4 flex justify-center">
-        <p class="font-lato text-bold text-lg text-red-600">Server down due to heavy load.</p>
+        <p class="font-lato text-bold text-lg text-red-600">Currently we support only mobile devices.</p>
       </div>
     </div>
     <div v-else>

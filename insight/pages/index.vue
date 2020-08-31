@@ -14,7 +14,8 @@
         <button @click="$router.push('/settings')" class="mr-4 w-8 h-8 bg-gray-300 pt-1 rounded-full focus:outline-none" ><span class="material-icons">settings</span></button>
       </div>
       </div>
-      <div class="body flex flex-col">
+      
+      <div class="body flex flex-col bg-gray-200">
         <div v-for="post in posts" :key="posts.indexOf(post)">
             <post-box :propsAsset="post" :index="posts.indexOf(post)" :cindex="cindex" :commentActive="true" @current-index="updateIndex" @enable-comment="$router.push(`/post/${post.post_id}`)" />
         </div>
@@ -33,11 +34,13 @@ import FrozenStorage from '@/static/js/local_storage';
 import {mapState, mapActions} from "vuex";
 import {avatarDefault} from '~/static/js/assets';
 import IsInViewport from "@/static/js/in-viewport.js";
+import Header from "@/components/home/Header.vue";
 
 export default {
   components: {
     PostBox,
     LoadingContainer,
+    Header,
   },
   mounted() {
     this.checkIntroViewed(this.fetchFeed);
